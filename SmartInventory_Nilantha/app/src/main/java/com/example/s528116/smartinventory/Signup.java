@@ -1,5 +1,6 @@
 package com.example.s528116.smartinventory;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ public class Signup extends AppCompatActivity {
     private TextView continueTV;
     private TextView cancleTV;
 
+    public static Activity signup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,8 @@ public class Signup extends AppCompatActivity {
 
         continueTV = findViewById(R.id.continueTV);
         cancleTV = findViewById(R.id.cancleTV);
+
+        signup = this;
 
 
 

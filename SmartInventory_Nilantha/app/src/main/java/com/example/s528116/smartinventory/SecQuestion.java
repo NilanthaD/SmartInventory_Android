@@ -83,6 +83,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         cancleTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Signup.signup.finish();
                 finish();
             }
         });
@@ -97,13 +98,15 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
-//                                    user.sendEmailVerification();
-                                    if(user.sendEmailVerification().isSuccessful()){
-                                        Toast.makeText(SecQuestion.this, "User verification sent ", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else{
-                                        Toast.makeText(SecQuestion.this, "User verification send error", Toast.LENGTH_SHORT).show();
-                                    }
+                                    user.sendEmailVerification()
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(SecQuestion.this, "Veryfication email sent", Toast.LENGTH_SHORT).show();
+                                            Signup.signup.finish();
+                                            finish();
+                                        }
+                                    });
 
                                 }
                                 else {
@@ -111,6 +114,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                                 }
                             }
                         });
+//                finish();
 
             }
         });
