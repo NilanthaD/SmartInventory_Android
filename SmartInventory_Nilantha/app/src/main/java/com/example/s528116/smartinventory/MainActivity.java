@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(i);
                                         finish();
                                     } else {
-                                        Toast.makeText(MainActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(MainActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
                                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                         builder.setMessage("Please verify your email..").setCancelable(false)
                                                 .setPositiveButton("Send verification email", new DialogInterface.OnClickListener() {

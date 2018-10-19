@@ -1,7 +1,9 @@
 package com.example.s528116.smartinventory;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -45,7 +47,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         //Create an instance of firebase users
         mAuth = FirebaseAuth.getInstance();
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.secq1, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.secq1, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.secq2, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -102,9 +104,20 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(SecQuestion.this, "Veryfication email sent", Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(SecQuestion.this, "Veryfication email sent", Toast.LENGTH_SHORT).show();
                                             Signup.signup.finish();
-                                            finish();
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(SecQuestion.this);
+                                            builder.setMessage("Veryfication email is sent to your email. Please click on the link to verify your email").setCancelable(false)
+                                                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            finish();
+                                                        }
+                                                    });
+//                                            finish();
+                                            AlertDialog alert = builder.create();
+                                            alert.setTitle("Email verification sent");
+                                            alert.show();
                                         }
                                     });
 
