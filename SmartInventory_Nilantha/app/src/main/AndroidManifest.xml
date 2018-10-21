@@ -27,8 +27,10 @@
             android:name=".SecQuestion"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ItemList" />
-        <activity android:name=".PasswordRecover"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".PasswordRecover"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".AddItem"></activity>
     </application>
 
 </manifest>
