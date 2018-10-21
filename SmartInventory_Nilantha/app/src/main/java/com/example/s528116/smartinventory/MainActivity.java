@@ -1,5 +1,6 @@
 package com.example.s528116.smartinventory;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     EditText passwordET;
     Button loginBTN;
     TextView signupTV;
+    TextView forgotPWTV;
+
+    private ProgressDialog progress;
 
     private FirebaseAuth mAuth;
 
@@ -45,11 +49,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser cUser = mAuth.getCurrentUser();
         if(cUser != null){
             FirebaseAuth.getInstance().signOut();
-//            cUser = mAuth.getCurrentUser();
-//            Toast.makeText(this, "Current USer : "+cUser, Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(this, "No current user", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -62,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         userNameET = findViewById(R.id.userNameET);
         passwordET = findViewById(R.id.passwordET);
         loginBTN = findViewById(R.id.loginBTN);
+        forgotPWTV = findViewById(R.id.forgotPWTV);
+        progress = new ProgressDialog(this);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -79,11 +81,14 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Please enter the password", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                progress.setMessage("Login..");
+                progress.show();
 
                 mAuth.signInWithEmailAndPassword(userName,password)
                         .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                progress.cancel();
                                 if (task.isSuccessful()) {
                                     final FirebaseUser user = mAuth.getCurrentUser();
                                     passwordET.setText("");
@@ -127,6 +132,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, Signup.class);
+                startActivity(i);
+            }
+        });
+        forgotPWTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userName = userNameET.getText().toString();
+                Intent i = new Intent(MainActivity.this, PasswordRecover.class);
+                i.putExtra("userName", userName);
                 startActivity(i);
             }
         });
