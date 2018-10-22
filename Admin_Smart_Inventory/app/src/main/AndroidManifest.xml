@@ -23,9 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity" />
         <activity android:name=".item_list" />
-        <activity android:name=".ItemView"></activity>
+        <activity android:name=".ItemView" />
+        <activity android:name=".AdminView"></activity>
     </application>
 
 </manifest>

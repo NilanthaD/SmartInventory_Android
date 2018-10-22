@@ -1,13 +1,13 @@
 package edu.nwmissouri.s531494.admin_smart_inventory;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class SecondActivity extends AppCompatActivity {
+public class AdminView extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_admin_view);
     }
 }
