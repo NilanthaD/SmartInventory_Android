@@ -1,13 +1,73 @@
 package com.example.s528116.smartinventory;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class ItemList extends AppCompatActivity {
+
+    ListView itemListLV;
+    ArrayList<String> itemName = new ArrayList<>();
+    ArrayList<String> itemPrice = new ArrayList<>();
+    ArrayList<Integer> unitsNeeded = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        itemListLV = findViewById(R.id.itemListLV);
+        itemName.add("iPhone 6 16GB AT&T");
+        itemPrice.add("$115.50");
+        unitsNeeded.add(20);
+
+        itemListLV = findViewById(R.id.itemListLV);
+        itemName.add("Samsung Galaxy 6 16GB AT&T");
+        itemPrice.add("$107.50");
+        unitsNeeded.add(50);
+
+        itemListLV = findViewById(R.id.itemListLV);
+        itemName.add("Canon PowerShot SX620 HS 20.2MP Digital Camera - Black");
+        itemPrice.add("$160.50");
+        unitsNeeded.add(5);
+
+        itemListLV = findViewById(R.id.itemListLV);
+        itemName.add("iPhone 6 16GB AT&T");
+        itemPrice.add("$115.50");
+        unitsNeeded.add(20);
+
+        itemListLV = findViewById(R.id.itemListLV);
+        itemName.add("iPhone 6 16GB AT&T");
+        itemPrice.add("$115.50");
+        unitsNeeded.add(20);
+
+        ListAdapter itemList = new ArrayAdapter<String>(this, R.layout.item_row, R.id.itemNameTV, itemName){
+
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v= super.getView(position, convertView, parent);
+                ImageView imageIV = v.findViewById(R.id.itemIV);
+                TextView itemPriceTV = v.findViewById(R.id.priceTV);
+                TextView unitsNeededTV = v.findViewById(R.id.unitsTV);
+                imageIV.setImageResource(R.drawable.iphone6);
+                itemPriceTV.setText(itemPrice.get(position).toString());
+                unitsNeededTV.setText("Units needed: "+unitsNeeded.get(position).toString());
+
+                return v;
+            }
+
+        };
+        itemListLV.setAdapter(itemList);
     }
 }

@@ -123,7 +123,17 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
 
                                 }
                                 else {
-                                    Toast.makeText(SecQuestion.this, "Sorry..Couldn't create an account", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(SecQuestion.this, "Sorry..Couldn't create an account" + task.getException(), Toast.LENGTH_SHORT).show();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(SecQuestion.this);
+                                    builder.setMessage(task.getException().toString()).setCancelable(false)
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+                                    AlertDialog alert = builder.create();
+                                    alert.show();
                                 }
                             }
                         });

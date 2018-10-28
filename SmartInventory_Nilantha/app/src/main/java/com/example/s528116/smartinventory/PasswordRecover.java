@@ -38,7 +38,7 @@ public class PasswordRecover extends AppCompatActivity {
         sendReqBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = i.getStringExtra("userName").toString();
+                String email = userET.getText().toString().trim();
                 if(TextUtils.isEmpty(email)){
                     Toast.makeText(PasswordRecover.this, "Please enter your email address", Toast.LENGTH_SHORT).show();
                     return;

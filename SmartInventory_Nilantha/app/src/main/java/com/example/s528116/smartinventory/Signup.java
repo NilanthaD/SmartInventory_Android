@@ -41,7 +41,7 @@ public class Signup extends AppCompatActivity {
         continueTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName = emailET.getText().toString();
+                String userName = emailET .getText().toString();
                 String passWord = passwordET.getText().toString();
 
                 if(TextUtils.isEmpty(userName)){
