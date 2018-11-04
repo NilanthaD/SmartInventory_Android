@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (user.isEmailVerified()) {
                                         Intent i = new Intent(MainActivity.this, ItemList.class);
                                         startActivity(i);
-                                        finish();
+//                                        finish();
                                     } else {
 //                                        Toast.makeText(MainActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
                                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
