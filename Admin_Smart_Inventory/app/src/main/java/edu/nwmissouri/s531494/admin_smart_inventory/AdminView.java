@@ -10,4 +10,6 @@ public class AdminView extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_view);
     }
+
+    public void
 }

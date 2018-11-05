@@ -19,8 +19,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnItemSelectedListener */{
 
@@ -28,6 +32,10 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
     private Spinner secq2SP;
     private TextView cancleTV;
     private Button submitBTN;
+//    private DatabaseReference mRef;
+    private FirebaseFirestore db;
+    CollectionReference users;
+
 
     private FirebaseAuth mAuth;
     Intent userDetails = new Intent();
@@ -46,6 +54,8 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         submitBTN = findViewById(R.id.submitBTN);
         //Create an instance of firebase users
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        users = db.collection("users");
 
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.secq1, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.secq2, android.R.layout.simple_spinner_item);
@@ -94,11 +104,25 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         submitBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String email = userDetails.getStringExtra("email");
+                String fName = userDetails.getStringExtra("lName");
+                String lName = userDetails.getStringExtra("lName");
+                String pNumber = userDetails.getStringExtra("pNumber");
+
+
+                final Map<String, String> personalInfo = new HashMap<>();
+                personalInfo.put("phoneNum", pNumber);
+                personalInfo.put("firstName", fName);
+                personalInfo.put("lastName", lName);
+                personalInfo.put("email", email);
+
                 mAuth.createUserWithEmailAndPassword(userDetails.getStringExtra("email"), userDetails.getStringExtra("password"))
                         .addOnCompleteListener(SecQuestion.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
+                                    users.document(email).set(personalInfo);
+
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     user.sendEmailVerification()
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "382941470932",
+    "firebase_url": "https://smartinventoryadmin-89239.firebaseio.com",
+    "project_id": "smartinventoryadmin-89239",
+    "storage_bucket": "smartinventoryadmin-89239.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382941470932:android:ce4f016ff9a1aa4a",
+        "android_client_info": {
+          "package_name": "com.example.s531378.smartinventoryadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "382941470932-epviv4qh829vf3t5kvd5idujls5q3rgp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSdp9_fFmkuikwlE455L0D9k493P8-jUY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

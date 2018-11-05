@@ -16,6 +16,11 @@ public class Signup extends AppCompatActivity {
 
     private EditText emailET;
     private EditText passwordET;
+    private EditText fNameET;
+    private EditText lNameET;
+    private EditText phoneNumberET;
+    private EditText confirmPWET;
+
 
     private TextView continueTV;
     private TextView cancleTV;
@@ -30,7 +35,10 @@ public class Signup extends AppCompatActivity {
 
         emailET = findViewById(R.id.emailET);
         passwordET = findViewById(R.id.passwordET);
-
+        fNameET = findViewById(R.id.firstNameET);
+        lNameET = findViewById(R.id.lastNameET);
+        phoneNumberET = findViewById(R.id.phoneET);
+        confirmPWET = findViewById(R.id.confirmPasswordET);
         continueTV = findViewById(R.id.continueTV);
         cancleTV = findViewById(R.id.cancleTV);
 
@@ -43,6 +51,14 @@ public class Signup extends AppCompatActivity {
             public void onClick(View v) {
                 String userName = emailET .getText().toString();
                 String passWord = passwordET.getText().toString();
+                String fName = fNameET.getText().toString();
+                String lName = lNameET.getText().toString();
+                String pNumber = phoneNumberET.getText().toString();
+
+                if(!passWord.equals(confirmPWET.getText().toString())){
+                    setAlert("Password conformation failed. ");
+                    return;
+                }
 
                 if(TextUtils.isEmpty(userName)){
                     Toast.makeText(Signup.this, "Email cannot be empty", Toast.LENGTH_SHORT).show();
@@ -59,9 +75,17 @@ public class Signup extends AppCompatActivity {
                     setAlert("Password should be at least 6 characters");
                     return;
                 }
+                if(TextUtils.isEmpty(fName) || TextUtils.isEmpty(lName) || TextUtils.isEmpty(pNumber)){
+                    setAlert("All the fields need to be filed.");
+                    return;
+                }
+
                 Intent i = new Intent(Signup.this, SecQuestion.class);
                 i.putExtra("email", userName);
                 i.putExtra("password", passWord);
+                i.putExtra("fName", fName);
+                i.putExtra("lName", lName);
+                i.putExtra("pNumber", pNumber);
                 startActivity(i);
             }
         });
