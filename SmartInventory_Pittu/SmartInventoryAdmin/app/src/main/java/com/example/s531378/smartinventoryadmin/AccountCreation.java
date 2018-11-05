@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseAuth;
 
 public class AccountCreation extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class AccountCreation extends AppCompatActivity {
     private EditText passwordET;
     private TextView continueTV;
     private TextView cancelTV;
-    private FirebaseAuth mAuth;
+    //private FirebaseAuth mAuth;
 
     public static Activity signup;
 
@@ -40,7 +40,7 @@ public class AccountCreation extends AppCompatActivity {
 
         signup = this;
 
-        mAuth = FirebaseAuth.getInstance();
+     //   mAuth = FirebaseAuth.getInstance();
 
         continueTV.setOnClickListener(new View.OnClickListener() {
             @Override

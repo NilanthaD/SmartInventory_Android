@@ -16,7 +16,7 @@ public class AdminView extends Activity {
 
     public void AddItem(View v){
 
-        Intent init = new Intent(this,AddItem.class);
+        Intent init = new Intent(this,AddItems.class);
         startActivity(init);
     }
 

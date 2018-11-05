@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.s531378.smartinventoryadmin">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,10 +20,10 @@
         </activity>
         <activity android:name=".AccountCreation" />
         <activity android:name=".AdminView" />
-        <activity android:name=".AddItem" />
         <activity android:name=".EditItem" />
         <activity android:name=".SupplyListItems" />
-        <activity android:name=".AcceptNewUsers"></activity>
+        <activity android:name=".AcceptNewUsers" />
+        <activity android:name=".AddItems"></activity>
     </application>
 
 </manifest>
