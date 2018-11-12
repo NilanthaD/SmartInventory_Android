@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class AddItems extends Activity {
@@ -20,6 +21,16 @@ public class AddItems extends Activity {
             public void onClick(View v) {
                 Intent i = new Intent(AddItems.this, AdminView.class);
                 startActivity(i);
+            }
+        });
+
+        Button submitBT = findViewById(R.id.submitBT);
+        submitBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AddItems.this, SupplyListItems.class);
+                startActivity(i);
+
             }
         });
     }
