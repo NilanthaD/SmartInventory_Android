@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="41dp"
+        android:layout_height="37dp"
+        app:srcCompat="?attr/colorPrimary"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="57dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="145dp"
+        android:layout_height="21dp"
+        android:text="TextView"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="57dp"
+        tools:layout_editor_absoluteY="16dp"
+        tools:text="            Item List" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="255dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="ItemID:456 "
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="54dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="45dp"
+        android:layout_height="42dp"
+        app:srcCompat="?attr/colorPrimary"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="130dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="255dp"
+        android:layout_height="53dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="ItemID:457"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="130dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="46dp"
+        android:layout_height="43dp"
+        app:srcCompat="?attr/colorPrimary"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="209dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="259dp"
+        android:layout_height="59dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="ItemID:458"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="209dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="48dp"
+        android:layout_height="41dp"
+        app:srcCompat="?attr/colorPrimary"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="298dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editText5"
+        android:layout_width="256dp"
+        android:layout_height="53dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="ItemID:459"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="298dp"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="48dp"
+        android:layout_height="37dp"
+        app:srcCompat="?attr/colorPrimary"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="388dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/editText6"
+        android:layout_width="255dp"
+        android:layout_height="47dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="ItemID:460"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="378dp"
+        tools:ignore="MissingConstraints" />
+
+</android.support.constraint.ConstraintLayout>

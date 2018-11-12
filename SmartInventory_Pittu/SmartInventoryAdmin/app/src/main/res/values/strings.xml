@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SmartInventoryAdmin</string>
+    <string name="s1">Accept \n new users</string>
+    <string name="s2">Respond \n to supply\n List requests</string>
+    <string name="s3">ADD ITEMS Activity under construction</string>
+    <string name="s4">EDIT ITEMS Activity under construction</string>
+    <string name="s5">Respond to supply list requests Activity under construction</string>
+    <string name="s6">Accept new users Activity under construction</string>
+</resources>
