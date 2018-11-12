@@ -1,5 +1,6 @@
 package com.example.s528116.smartinventory;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -17,6 +19,10 @@ import java.util.ArrayList;
 public class ItemList extends AppCompatActivity {
 
     ListView itemListLV;
+
+    Button tempBTN;
+
+
     ArrayList<String> itemName = new ArrayList<>();
     ArrayList<String> itemPrice = new ArrayList<>();
     ArrayList<Integer> unitsNeeded = new ArrayList<>();
@@ -25,6 +31,8 @@ public class ItemList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+
+        tempBTN = findViewById(R.id.tempBTN);
 
         itemListLV = findViewById(R.id.itemListLV);
         itemName.add("iPhone 6 16GB AT&T");
@@ -58,7 +66,7 @@ public class ItemList extends AppCompatActivity {
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 View v= super.getView(position, convertView, parent);
                 ImageView imageIV = v.findViewById(R.id.itemIV);
-                TextView itemPriceTV = v.findViewById(R.id.priceTV);
+                TextView itemPriceTV = v.findViewById(R.id.itemPriceTV);
                 TextView unitsNeededTV = v.findViewById(R.id.unitsTV);
                 imageIV.setImageResource(R.drawable.iphone6);
                 itemPriceTV.setText(itemPrice.get(position).toString());
@@ -69,5 +77,14 @@ public class ItemList extends AppCompatActivity {
 
         };
         itemListLV.setAdapter(itemList);
+
+        tempBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent tempIntent = new Intent(ItemList.this, tempory.class);
+                startActivity(tempIntent);
+
+            }
+        });
     }
 }

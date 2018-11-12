@@ -41,7 +41,7 @@
         app:layout_constraintVertical_bias="0.237" />
 
     <EditText
-        android:id="@+id/answer1TV"
+        android:id="@+id/answer1ET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -75,7 +75,7 @@
         app:layout_constraintVertical_bias="0.436" />
 
     <EditText
-        android:id="@+id/answer2TV"
+        android:id="@+id/answer2ET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"

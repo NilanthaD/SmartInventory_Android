@@ -20,7 +20,7 @@
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/priceTV"
+        android:id="@+id/itemPriceTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/itemNameTV"
@@ -35,7 +35,7 @@
         android:id="@+id/unitsTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/priceTV"
+        android:layout_below="@+id/itemPriceTV"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="2dp"
         android:layout_marginRight="5dp"

@@ -6,10 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +32,11 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
 
     private Spinner secq1SP;
     private Spinner secq2SP;
+    private EditText answer1ET;
+    private EditText answer2ET;
     private TextView cancleTV;
     private Button submitBTN;
+    private String secQ1, secQ2;
 //    private DatabaseReference mRef;
     private FirebaseFirestore db;
     CollectionReference users;
@@ -50,6 +55,9 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
 
         secq1SP = findViewById(R.id.secq1SP);
         secq2SP = findViewById(R.id.secq2SP);
+        answer1ET = findViewById(R.id.answer1ET);
+        answer2ET = findViewById(R.id.answer2ET);
+
         cancleTV = findViewById(R.id.cancleTV);
         submitBTN = findViewById(R.id.submitBTN);
         //Create an instance of firebase users
@@ -66,7 +74,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         secq1SP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
           @Override
           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              String secQ1 = parent.getItemAtPosition(position).toString();
+                secQ1 = parent.getItemAtPosition(position).toString();
 //              Toast.makeText(SecQuestion.this, "Security Q1 : " + secQ1, Toast.LENGTH_SHORT).show();
 
           }
@@ -81,7 +89,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         secq2SP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String secQ2 = parent.getItemAtPosition(position).toString();
+                    secQ2 = parent.getItemAtPosition(position).toString();
 //                Toast.makeText(SecQuestion.this, "Security Q2 : " + secQ2, Toast.LENGTH_SHORT).show();
 
             }
@@ -108,6 +116,13 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                 String fName = userDetails.getStringExtra("lName");
                 String lName = userDetails.getStringExtra("lName");
                 String pNumber = userDetails.getStringExtra("pNumber");
+                String answer1 = answer1ET.getText().toString();
+                String answer2 = answer2ET.getText().toString();
+
+                if(TextUtils.isEmpty(answer1) || (TextUtils.isEmpty(answer2))){
+                    Toast.makeText(SecQuestion.this, "Please answer both security questions.", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
 
                 final Map<String, String> personalInfo = new HashMap<>();
@@ -115,6 +130,10 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                 personalInfo.put("firstName", fName);
                 personalInfo.put("lastName", lName);
                 personalInfo.put("email", email);
+                personalInfo.put("secQ1", secQ1);
+                personalInfo.put("secQ2", secQ2);
+                personalInfo.put("answer1", answer1);
+                personalInfo.put("answer2", answer2);
 
                 mAuth.createUserWithEmailAndPassword(userDetails.getStringExtra("email"), userDetails.getStringExtra("password"))
                         .addOnCompleteListener(SecQuestion.this, new OnCompleteListener<AuthResult>() {
