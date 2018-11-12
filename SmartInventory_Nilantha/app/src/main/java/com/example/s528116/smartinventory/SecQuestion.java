@@ -113,7 +113,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
             @Override
             public void onClick(View v) {
                 final String email = userDetails.getStringExtra("email");
-                String fName = userDetails.getStringExtra("lName");
+                String fName = userDetails.getStringExtra("fName");
                 String lName = userDetails.getStringExtra("lName");
                 String pNumber = userDetails.getStringExtra("pNumber");
                 String answer1 = answer1ET.getText().toString();
