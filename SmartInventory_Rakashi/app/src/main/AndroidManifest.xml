@@ -19,7 +19,8 @@
         <activity
             android:name=".AddItem"
             android:label="@string/title_activity_add_item"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Item_row"></activity>
     </application>
 
 </manifest>
