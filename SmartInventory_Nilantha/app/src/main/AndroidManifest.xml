@@ -31,8 +31,6 @@
             android:name=".PasswordRecover"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".AddItem" />
-        <activity android:name=".tempory" />
-        <activity android:name=".ItemListView"></activity>
     </application>
 
 </manifest>

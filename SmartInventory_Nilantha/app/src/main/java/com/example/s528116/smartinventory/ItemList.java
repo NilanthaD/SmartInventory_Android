@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,14 +16,13 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 public class ItemList extends AppCompatActivity {
 
     ListView itemListLV;
-
-    Button tempBTN;
-
 
     ArrayList<String> itemName = new ArrayList<>();
     ArrayList<String> itemPrice = new ArrayList<>();
@@ -32,7 +33,6 @@ public class ItemList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
-        tempBTN = findViewById(R.id.tempBTN);
 
         itemListLV = findViewById(R.id.itemListLV);
         itemName.add("iPhone 6 16GB AT&T");
@@ -77,14 +77,24 @@ public class ItemList extends AppCompatActivity {
 
         };
         itemListLV.setAdapter(itemList);
+    }
 
-        tempBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent tempIntent = new Intent(ItemList.this, tempory.class);
-                startActivity(tempIntent);
 
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.logout:
+
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                return (true);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

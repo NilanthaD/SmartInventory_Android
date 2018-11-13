@@ -150,7 +150,8 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
 //                                            Toast.makeText(SecQuestion.this, "Veryfication email sent", Toast.LENGTH_SHORT).show();
                                             Signup.signup.finish();
                                             AlertDialog.Builder builder = new AlertDialog.Builder(SecQuestion.this);
-                                            builder.setMessage("Veryfication email is sent to your email. Please click on the link to verify your email").setCancelable(false)
+                                            builder.setMessage("Veryfication email is sent to your email. Please click on the link to verify your email")
+                                                    .setCancelable(false)
                                                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
