@@ -28,7 +28,7 @@ public class AdminView extends Activity {
 
     public void SupplyList(View v){
 
-        Intent init = new Intent(this,SupplyListItems.class);
+        Intent init = new Intent(this,SupplyRequests.class);
         startActivity(init);
     }
 
