@@ -257,7 +257,8 @@
         android:inputType="textPersonName"
         android:text="Exipiry date"
         tools:layout_editor_absoluteX="132dp"
-        tools:layout_editor_absoluteY="397dp" />
+        tools:layout_editor_absoluteY="397dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button2"
@@ -274,7 +275,8 @@
         app:layout_constraintHorizontal_bias="0.828"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="OnClick" />
 
     <Button
         android:id="@+id/button3"
@@ -291,5 +293,6 @@
         app:layout_constraintHorizontal_bias="0.175"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="OnClick" />
 </android.support.constraint.ConstraintLayout>
