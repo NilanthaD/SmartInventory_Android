@@ -40,6 +40,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
 //    private DatabaseReference mRef;
     private FirebaseFirestore db;
     CollectionReference users;
+    CollectionReference secQuestions;
 
 
     private FirebaseAuth mAuth;
@@ -61,10 +62,13 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         cancleTV = findViewById(R.id.cancleTV);
         submitBTN = findViewById(R.id.submitBTN);
         //Create an instance of firebase users
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        users = db.collection("users");
+        mAuth = FirebaseAuth.getInstance(); // get an instance of firebase auth
+        db = FirebaseFirestore.getInstance(); // get an instance of firestore
+        users = db.collection("users"); // get the an instance of users collection
+        secQuestions = db.collection("SecQuestions");
 
+
+//      Create array adapters and populate sec question 1 and 2.
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.secq1, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.secq2, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
