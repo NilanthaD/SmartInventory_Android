@@ -37,8 +37,8 @@
         android:layout_width="318dp"
         android:layout_height="181dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="116dp" />
+        tools:layout_editor_absoluteX="33dp"
+        tools:layout_editor_absoluteY="111dp" />
 
     <TextView
         android:id="@+id/textView6"
