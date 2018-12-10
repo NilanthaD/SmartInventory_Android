@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progress.cancel();
                                 if (task.isSuccessful()) {
+                                    userNameET.setText("");
                                     final FirebaseUser user = mAuth.getCurrentUser();
                                     passwordET.setText("");
                                     if (user.isEmailVerified()) {

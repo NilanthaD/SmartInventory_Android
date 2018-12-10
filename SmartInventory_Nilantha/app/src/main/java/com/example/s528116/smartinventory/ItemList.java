@@ -79,12 +79,10 @@ public class ItemList extends AppCompatActivity {
         itemListLV.setAdapter(itemList);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.logout:
-
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 return (true);
