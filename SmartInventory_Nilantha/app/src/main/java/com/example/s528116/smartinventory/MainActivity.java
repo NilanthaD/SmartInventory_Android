@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
                                     final FirebaseUser user = mAuth.getCurrentUser();
                                     passwordET.setText("");
                                     if (user.isEmailVerified()) {
-                                        Intent i = new Intent(MainActivity.this, ItemList.class);
+//                                        Intent i = new Intent(MainActivity.this, ItemList.class);
+                                        Intent i = new Intent(MainActivity.this, ItemListRV.class);
                                         startActivity(i);
 //                                        finish();
                                     } else {
