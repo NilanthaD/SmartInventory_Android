@@ -30,7 +30,6 @@
         <activity
             android:name=".PasswordRecover"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".AddItem" />
     </application>
 
 </manifest>

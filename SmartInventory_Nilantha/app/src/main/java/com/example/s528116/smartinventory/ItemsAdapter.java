@@ -19,6 +19,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         public TextView itemName;
         public TextView unitPrice;
         public TextView quantityNeeded;
+        public TextView requiredBy;
 
         public ItemsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -28,6 +29,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
             itemName =itemView.findViewById(R.id.iNameTV);
             unitPrice = itemView.findViewById(R.id.priceTV);
             quantityNeeded = itemView.findViewById(R.id.qntyNeededTV);
+            requiredBy = itemView.findViewById(R.id.requiredByTV);
         }
     }
 
@@ -51,6 +53,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         itemsViewHolder.itemName.setText(currentItem.getItemName());
         itemsViewHolder.unitPrice.setText(currentItem.getUnitPrice());
         itemsViewHolder.quantityNeeded.setText(currentItem.getQntyNeeded());
+        itemsViewHolder.requiredBy.setText(currentItem.getRequiredBy());
 
 
     }

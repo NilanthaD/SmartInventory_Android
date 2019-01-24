@@ -1,13 +1,23 @@
 package com.example.s528116.smartinventory;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -16,23 +26,43 @@ public class ItemListRV extends AppCompatActivity {
     private RecyclerView.Adapter itemsAdapter;
     private RecyclerView.LayoutManager itemsLayoutManager;
 
+    private FirebaseFirestore db;
+    private FirebaseStorage storage;
+    private StorageReference pathReferance;
+    CollectionReference itemCollection;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list_rv);
 
-        ArrayList<ItemContainer> itemListArray = new ArrayList<>();
-        itemListArray.add(new ItemContainer(R.drawable.iphone6, "iphone123234", "iPhone6", "$100.00", "25"));
-        itemListArray.add(new ItemContainer(R.drawable.iphone6, "343234234", "camera", "25", "20"));
-        itemListArray.add(new ItemContainer(R.drawable.iphone6, "343234234", "camera", "25", "20"));
-        itemListArray.add(new ItemContainer(R.drawable.iphone6, "343234234", "camera", "25", "20"));
+        db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        pathReferance = storage.getReference().child("images/iphone6.jpg");
+        Toast.makeText(this, "Path: "+ pathReferance, Toast.LENGTH_SHORT).show();
 
-        itemsRV = findViewById(R.id.itemsRV);
-        itemsRV.setHasFixedSize(true);
-        itemsLayoutManager = new LinearLayoutManager(this);
-        itemsAdapter = new ItemsAdapter(itemListArray);
-        itemsRV.setLayoutManager(itemsLayoutManager);
-        itemsRV.setAdapter(itemsAdapter);
+        itemCollection = db.collection("items");
+
+        final ArrayList<ItemContainer> itemListArray = new ArrayList<>();
+        itemCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot doc: task.getResult()){
+                        itemListArray.add(new ItemContainer(R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"), doc.getString("untPrice"), doc.getString("unitRequired"), doc.getString("requiredBy")));
+                    }
+
+                    itemsRV = findViewById(R.id.itemsRV);
+                    itemsRV.setHasFixedSize(true);
+                    itemsLayoutManager = new LinearLayoutManager(ItemListRV.this);
+                    itemsAdapter = new ItemsAdapter(itemListArray);
+                    itemsRV.setLayoutManager(itemsLayoutManager);
+                    itemsRV.setAdapter(itemsAdapter);
+                }
+            }
+        });
     }
 
     @Override

@@ -6,13 +6,15 @@ public class ItemContainer {
     private String itemName;
     private String unitPrice;
     private String qntyNeeded;
+    private String requiredBy;
 
-    public ItemContainer(int image, String itemID, String itemName, String unitPrice, String qntyNeeded) {
+    public ItemContainer(int image, String itemID, String itemName, String unitPrice, String qntyNeeded, String requiredBy) {
         this.image = image;
         this.itemID = itemID;
         this.itemName = itemName;
         this.unitPrice = unitPrice;
         this.qntyNeeded = qntyNeeded;
+        this.requiredBy = requiredBy;
     }
 
     public int getImage() {
@@ -34,4 +36,6 @@ public class ItemContainer {
     public String getQntyNeeded() {
         return qntyNeeded;
     }
+
+    public String getRequiredBy() {return requiredBy;}
 }
