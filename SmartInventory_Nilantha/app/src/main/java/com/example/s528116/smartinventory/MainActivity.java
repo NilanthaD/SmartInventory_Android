@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Button loginBTN;
     TextView signupTV;
     TextView forgotPWTV;
+    private CheckBox rememberMeCB;
 
     private ProgressDialog progress;
 
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         passwordET = findViewById(R.id.passwordET);
         loginBTN = findViewById(R.id.loginBTN);
         forgotPWTV = findViewById(R.id.forgotPWTV);
+        rememberMeCB = findViewById(R.id.rememberMeCB);
         progress = new ProgressDialog(this);
 
 

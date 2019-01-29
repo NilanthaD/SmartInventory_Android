@@ -41,7 +41,7 @@ public class ItemListRV extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         pathReferance = storage.getReference().child("images/iphone6.jpg");
-        Toast.makeText(this, "Path: "+ pathReferance, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Path: "+ pathReferance, Toast.LENGTH_SHORT).show();
 
         itemCollection = db.collection("items");
 

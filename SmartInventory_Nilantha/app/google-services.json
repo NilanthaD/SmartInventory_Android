@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "749834639120",
-    "firebase_url": "https://smartinventory-623c4.firebaseio.com",
-    "project_id": "smartinventory-623c4",
-    "storage_bucket": "smartinventory-623c4.appspot.com"
+    "project_number": "247124865732",
+    "firebase_url": "https://smartinventory-ecd05.firebaseio.com",
+    "project_id": "smartinventory-ecd05",
+    "storage_bucket": "smartinventory-ecd05.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:749834639120:android:2f9fe5ebcf50b775",
+        "mobilesdk_app_id": "1:247124865732:android:2f9fe5ebcf50b775",
         "android_client_info": {
           "package_name": "com.example.s528116.smartinventory"
         }
       },
       "oauth_client": [
         {
-          "client_id": "749834639120-takpphutcm9lucpkdrpeg4cstoifd6vt.apps.googleusercontent.com",
+          "client_id": "247124865732-m7mh5hsrffafincppms7vfegnpnfcnvt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.s528116.smartinventory",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "749834639120-nkeq4l6i77p7n9pe95kcd9suqgjrhmea.apps.googleusercontent.com",
+          "client_id": "247124865732-oppcs1j1ramp3b3l7fage75i224v4rvt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBKr3EF_OfFYWmnipdUkP-fffLceT4xL_k"
+          "current_key": "AIzaSyCFikE6BxpBIMdo7LdT9R_Q1R5_ryOWhQI"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "749834639120-nkeq4l6i77p7n9pe95kcd9suqgjrhmea.apps.googleusercontent.com",
+              "client_id": "247124865732-oppcs1j1ramp3b3l7fage75i224v4rvt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
