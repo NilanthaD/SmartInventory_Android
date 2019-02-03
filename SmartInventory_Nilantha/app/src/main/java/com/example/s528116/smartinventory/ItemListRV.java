@@ -57,7 +57,7 @@ public class ItemListRV extends AppCompatActivity {
                     itemsRV = findViewById(R.id.itemsRV);
                     itemsRV.setHasFixedSize(true);
                     itemsLayoutManager = new LinearLayoutManager(ItemListRV.this);
-                    itemsAdapter = new ItemsAdapter(itemListArray);
+                    itemsAdapter = new ItemsAdapter(itemListArray, ItemListRV.this);
                     itemsRV.setLayoutManager(itemsLayoutManager);
                     itemsRV.setAdapter(itemsAdapter);
                 }
