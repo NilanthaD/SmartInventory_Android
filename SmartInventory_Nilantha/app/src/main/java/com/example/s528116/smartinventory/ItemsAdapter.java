@@ -76,6 +76,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Item_Detail.class);
+                intent.putExtra("itemName", currentItem.getItemName());
                 context.startActivity(intent);
             }
         });
