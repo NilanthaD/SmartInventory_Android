@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class Item_Detail extends AppCompatActivity {
 
@@ -25,7 +27,7 @@ public class Item_Detail extends AppCompatActivity {
     private TextView cancleRequestTV;
     private Button submitRequestBTN;
 
-
+    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +44,14 @@ public class Item_Detail extends AppCompatActivity {
         cancleRequestTV = findViewById(R.id.cancleRequestTV);
         submitRequestBTN = findViewById(R.id.submitRequestBTN);
 
+
+
         Intent i = getIntent();
+        imageIV.setImageResource(R.drawable.iphone6);
         itemNameTV.setText(i.getStringExtra("itemName"));
+        priceTV.setText("Buying price :"+i.getStringExtra("unitPrice"));
+        quntityNeededTV.setText("Quntity Needed : " + i.getStringExtra("qntyRequired"));
+        requiredByTV.setText("Required By :" + i.getStringExtra("requiredBy"));
     }
 
     @Override

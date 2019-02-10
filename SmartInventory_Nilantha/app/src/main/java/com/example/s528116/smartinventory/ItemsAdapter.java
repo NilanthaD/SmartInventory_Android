@@ -68,15 +68,20 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         itemsViewHolder.itemImage.setImageResource(currentItem.getImage());
         itemsViewHolder.itemID.setText(currentItem.getItemID());
         itemsViewHolder.itemName.setText(currentItem.getItemName());
-        itemsViewHolder.unitPrice.setText(currentItem.getUnitPrice());
-        itemsViewHolder.quantityNeeded.setText(currentItem.getQntyNeeded());
-        itemsViewHolder.requiredBy.setText(currentItem.getRequiredBy());
+        itemsViewHolder.unitPrice.setText("Buying price :" +currentItem.getUnitPrice());
+        itemsViewHolder.quantityNeeded.setText("Quentity needed :"+currentItem.getQntyNeeded());
+        itemsViewHolder.requiredBy.setText("Required by :"+currentItem.getRequiredBy());
 
         itemsViewHolder.linearLayout2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Item_Detail.class);
+                intent.putExtra("documentId", currentItem.getDocumentId());
+                intent.putExtra("itemId", currentItem.getItemID());
                 intent.putExtra("itemName", currentItem.getItemName());
+                intent.putExtra("unitPrice", currentItem.getUnitPrice());
+                intent.putExtra("qntyRequired", currentItem.getQntyNeeded());
+                intent.putExtra("requiredBy", currentItem.getRequiredBy());
                 context.startActivity(intent);
             }
         });
