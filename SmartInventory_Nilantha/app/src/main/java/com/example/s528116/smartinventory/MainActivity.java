@@ -105,28 +105,11 @@ public class MainActivity extends AppCompatActivity {
                                         final FirebaseUser user = mAuth.getCurrentUser();
                                         passwordET.setText("");
                                         if (user.isEmailVerified()) {
-//                                        Intent i = new Intent(MainActivity.this, ItemList.class);
-//                                            mdb = FirebaseFirestore.getInstance();
-//                                            userRef = mdb.collection("users").document(userName);
-//                                            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                                                @Override
-//                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                                    userGrop = documentSnapshot.get("userGroup").toString();
-//                                                }
-//                                            });
-//                                            if (userGrop == "user") {
-
                                             Intent i = new Intent(MainActivity.this, ItemListRV.class);
                                             i.putExtra("userId", userName);
                                             startActivity(i);
-//                                            }
-//                                    else {
-//                                        Toast.makeText(MainActivity.this, "User Group :" + userGrop, Toast.LENGTH_LONG).show();
-//
-//                                    }
-//                                        finish();
-                                        } else {
-//                                        Toast.makeText(MainActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
                                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                             builder.setMessage("Please verify your email..").setCancelable(false)
                                                     .setPositiveButton("Send verification email", new DialogInterface.OnClickListener() {
@@ -146,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
                                             alert.setTitle("Email Verification");
                                             alert.show();
                                         }
-
-//
                                 }
                                 else {
                                     passwordET.setText("");
