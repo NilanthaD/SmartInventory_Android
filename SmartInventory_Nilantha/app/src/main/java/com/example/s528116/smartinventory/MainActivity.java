@@ -16,10 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
@@ -32,11 +36,14 @@ public class MainActivity extends AppCompatActivity {
     Button loginBTN;
     TextView signupTV;
     TextView forgotPWTV;
+    private  String userGrop;
     private CheckBox rememberMeCB;
 
     private ProgressDialog progress;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore mdb;
+    private DocumentReference userRef;
 
 
     @Override
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         loginBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName = userNameET.getText().toString();
+                final String userName = userNameET.getText().toString();
                 final String password = passwordET.getText().toString();
 
                 if(TextUtils.isEmpty(userName)){
@@ -91,44 +98,64 @@ public class MainActivity extends AppCompatActivity {
                         .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                progress.cancel();
-                                if (task.isSuccessful()) {
-                                    userNameET.setText("");
-                                    final FirebaseUser user = mAuth.getCurrentUser();
-                                    passwordET.setText("");
-                                    if (user.isEmailVerified()) {
-//                                        Intent i = new Intent(MainActivity.this, ItemList.class);
-                                        Intent i = new Intent(MainActivity.this, ItemListRV.class);
-                                        startActivity(i);
-//                                        finish();
-                                    } else {
-//                                        Toast.makeText(MainActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                        builder.setMessage("Please verify your email..").setCancelable(false)
-                                                .setPositiveButton("Send verification email", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        user.sendEmailVerification();
-                                                        dialog.cancel();
-                                                    }
-                                                })
-                                                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.cancel();
-                                                    }
-                                                });
-                                        AlertDialog alert = builder.create();
-                                        alert.setTitle("Email Verification");
-                                        alert.show();
-                                    }
 
-                                } else {
+                                if (task.isSuccessful()) {
+                                    progress.cancel();
+                                    userNameET.setText("");
+                                        final FirebaseUser user = mAuth.getCurrentUser();
+                                        passwordET.setText("");
+                                        if (user.isEmailVerified()) {
+//                                        Intent i = new Intent(MainActivity.this, ItemList.class);
+//                                            mdb = FirebaseFirestore.getInstance();
+//                                            userRef = mdb.collection("users").document(userName);
+//                                            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+//                                                @Override
+//                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+//                                                    userGrop = documentSnapshot.get("userGroup").toString();
+//                                                }
+//                                            });
+//                                            if (userGrop == "user") {
+
+                                            Intent i = new Intent(MainActivity.this, ItemListRV.class);
+                                            i.putExtra("userId", userName);
+                                            startActivity(i);
+//                                            }
+//                                    else {
+//                                        Toast.makeText(MainActivity.this, "User Group :" + userGrop, Toast.LENGTH_LONG).show();
+//
+//                                    }
+//                                        finish();
+                                        } else {
+//                                        Toast.makeText(MainActivity.this, "Please verify your email", Toast.LENGTH_SHORT).show();
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                            builder.setMessage("Please verify your email..").setCancelable(false)
+                                                    .setPositiveButton("Send verification email", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            user.sendEmailVerification();
+                                                            dialog.cancel();
+                                                        }
+                                                    })
+                                                    .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.cancel();
+                                                        }
+                                                    });
+                                            AlertDialog alert = builder.create();
+                                            alert.setTitle("Email Verification");
+                                            alert.show();
+                                        }
+
+//
+                                }
+                                else {
                                     passwordET.setText("");
                                     Toast.makeText(MainActivity.this, "Login failed, Please check your email and password", Toast.LENGTH_SHORT).show();
 
                                 }
                             }
+
                         });
             }
         });

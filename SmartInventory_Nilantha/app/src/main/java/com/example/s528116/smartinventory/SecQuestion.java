@@ -138,6 +138,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                 personalInfo.put("secQ2", secQ2);
                 personalInfo.put("answer1", answer1);
                 personalInfo.put("answer2", answer2);
+                personalInfo.put("userGroup", "user");
 
                 mAuth.createUserWithEmailAndPassword(userDetails.getStringExtra("email"), userDetails.getStringExtra("password"))
                         .addOnCompleteListener(SecQuestion.this, new OnCompleteListener<AuthResult>() {

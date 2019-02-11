@@ -1,5 +1,6 @@
 package com.example.s528116.smartinventory;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class ItemListRV extends AppCompatActivity {
     private StorageReference pathReferance;
     CollectionReference itemCollection;
 
-
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +46,16 @@ public class ItemListRV extends AppCompatActivity {
 
         itemCollection = db.collection("items");
 
+        Intent i = getIntent();
+        userEmail = i.getStringExtra("userId");
+
         final ArrayList<ItemContainer> itemListArray = new ArrayList<>();
         itemCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot doc: task.getResult()){
-                        itemListArray.add(new ItemContainer(doc.getId(),R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"), doc.getString("untPrice"), doc.getString("unitRequired"), doc.getString("requiredBy")));
+                        itemListArray.add(new ItemContainer(userEmail, doc.getId(),R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"), doc.getString("untPrice"), doc.getString("unitRequired"), doc.getString("requiredBy")));
                     }
 
                     itemsRV = findViewById(R.id.itemsRV);

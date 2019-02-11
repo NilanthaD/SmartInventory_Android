@@ -108,7 +108,8 @@
                         android:id="@+id/supplyAmountET"
                         android:layout_width="75dp"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/back" />
+                        android:background="@drawable/back"
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <TextView

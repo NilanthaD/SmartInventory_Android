@@ -8,8 +8,10 @@ public class ItemContainer {
     private String qntyNeeded;
     private String requiredBy;
     private String documentId;
+    private String userEmail;
 
-    public ItemContainer(String documentId,int image, String itemID, String itemName, String unitPrice, String qntyNeeded, String requiredBy) {
+    public ItemContainer(String userEmail, String documentId,int image, String itemID, String itemName, String unitPrice, String qntyNeeded, String requiredBy) {
+        this.userEmail = userEmail;
         this.documentId = documentId;
         this.image = image;
         this.itemID = itemID;
@@ -18,6 +20,8 @@ public class ItemContainer {
         this.qntyNeeded = qntyNeeded;
         this.requiredBy = requiredBy;
     }
+
+    public String getUserEmail() {return userEmail;}
 
     public String getDocumentId() {return documentId; }
 
