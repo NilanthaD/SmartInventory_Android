@@ -1,5 +1,6 @@
 package com.example.s528116.smartinventory;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -97,23 +98,34 @@ public class Item_Detail extends AppCompatActivity {
                 supplyAmt = Integer.parseInt(supplyAmount);
                 totalValue = unitPrice*supplyAmt*1.0;
                 if(supplyAmt>0) {
-                    final Map<String, String> supplyRequest = new HashMap<>();
-                    supplyRequest.put("itemDocId", docId);
-                    supplyRequest.put("itemId", itemId);
-                    supplyRequest.put("message", message);
-                    supplyRequest.put("supplyAmount", supplyAmount);
-                    supplyRequest.put("paymentStatus", "notSet");
-                    supplyRequest.put("status", "pending");
-                    supplyRequest.put("totalValue", Double.toString(totalValue));
-                    userRef = db.collection("users").document(userEmail);
-                    userRef.collection("supplyList").document().set(supplyRequest);
 
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(Item_Detail.this);
-//                    builder.setTitle("Item supply conformation..").
-//                    setMessage("You are ").setPositiveButton("Conform");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Item_Detail.this);
+                    builder.setTitle("Conformation..").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            final Map<String, String> supplyRequest = new HashMap<>();
+                            supplyRequest.put("itemDocId", docId);
+                            supplyRequest.put("itemId", itemId);
+                            supplyRequest.put("message", message);
+                            supplyRequest.put("supplyAmount", supplyAmount);
+                            supplyRequest.put("paymentStatus", "notSet");
+                            supplyRequest.put("status", "pending");
+                            supplyRequest.put("totalValue", Double.toString(totalValue));
+                            userRef = db.collection("users").document(userEmail);
+                            userRef.collection("supplyList").document().set(supplyRequest);
+                            Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
+                            startActivity(intent);
+                        }
+                    }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+//                            finish();
+                        }
+                    });
+                    AlertDialog alert =builder.create();
+                    alert.show();
 
-                    Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
-                    startActivity(intent);
+
 
                 }
                 else {
@@ -139,10 +151,16 @@ public class Item_Detail extends AppCompatActivity {
             case R.id.logout:
 
                 FirebaseAuth.getInstance().signOut();
-                Intent i = new Intent(Item_Detail.this, MainActivity.class);
+                Intent i = new Intent(this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 Item_Detail.this.finish();
+                break;
+
+            case R.id.SupplyHistory:
+                Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
+                startActivity(supplyHistoryIntent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -42,8 +42,6 @@ public class ItemListRV extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         pathReferance = storage.getReference().child("images/iphone6.jpg");
-//        Toast.makeText(this, "Path: "+ pathReferance, Toast.LENGTH_SHORT).show();
-
         itemCollection = db.collection("items");
 
         Intent i = getIntent();
@@ -77,6 +75,11 @@ public class ItemListRV extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 return (true);
+
+            case R.id.SupplyHistory:
+                Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
+                startActivity(supplyHistoryIntent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
