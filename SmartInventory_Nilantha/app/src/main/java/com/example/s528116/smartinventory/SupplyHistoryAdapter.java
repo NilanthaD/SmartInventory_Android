@@ -61,7 +61,7 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
         supplyHistoryViewHoder.itemNameTV.setText(currentSupplyItem.getImage());
         supplyHistoryViewHoder.unitPriceTV.setText(currentSupplyItem.getUnitPrice());
         supplyHistoryViewHoder.numberOfUnitsTV.setText(currentSupplyItem.getNumberOfUnits());
-        supplyHistoryViewHoder.dateTV.setText(currentSupplyItem.getRequestCreatedDate());
+        supplyHistoryViewHoder.dateTV.setText(currentSupplyItem.getRequestCreatedDate().toString());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.s528116.smartinventory;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,11 +25,11 @@ public class SupplyHistoryRV extends AppCompatActivity {
     private RecyclerView.Adapter supplyHistoryAdapter;
     private RecyclerView.LayoutManager supplyHistryLayoutManager;
 
-    private String userId = "dkanilantha@yahoo.com";
-
+    private Intent supplyHistoryIntent = new Intent();
+    private String userEmail;
     private FirebaseFirestore db;
 //    private FirebaseStorage storage;
-    private StorageReference pathReferance;
+//    private StorageReference pathReferance;
     CollectionReference supplyItemsCollection;
 
     @Override
@@ -36,8 +37,9 @@ public class SupplyHistoryRV extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supply_history_rv);
         db = FirebaseFirestore.getInstance();
-//        storage = FirebaseStorage.getInstance();
-        supplyItemsCollection = db.collection("users").document("dkanilantha@yahoo.com").collection("supplyList");
+        supplyHistoryIntent = getIntent();
+        userEmail = supplyHistoryIntent.getStringExtra("userEmail");
+        supplyItemsCollection = db.collection("users").document(userEmail).collection("supplyList");
 
         final ArrayList<SupplyHistory> supplyListAL = new ArrayList<>();
         supplyItemsCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -46,7 +48,7 @@ public class SupplyHistoryRV extends AppCompatActivity {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot doc: task.getResult()){
                         supplyListAL.add(new SupplyHistory(R.drawable.iphone6,doc.getString("status"), doc.getString("itemId"), doc.getString("totalValue"),
-                                doc.getString("supplyAmount"), doc.getString("status")));
+                                doc.getString("supplyAmount"), doc.getDate("createdDate")));
                     }
                     supplyHistoryRV = findViewById(R.id.supplyHistoryRV);
                     supplyHistoryRV.setHasFixedSize(true);

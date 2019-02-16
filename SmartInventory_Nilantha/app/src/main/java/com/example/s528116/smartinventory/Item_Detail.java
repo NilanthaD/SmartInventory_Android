@@ -15,13 +15,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ServerTimestamp;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +45,8 @@ public class Item_Detail extends AppCompatActivity {
     private String userEmail; // User Email
     private String docId; //Document Id in Firestore
     private String itemId;
+    private int unitsRequired;
+    private String createdDate;
 
     private String supplyAmount;
     private String message;
@@ -72,8 +78,10 @@ public class Item_Detail extends AppCompatActivity {
 //      Get data from the Intent
         Intent i = getIntent();
         userEmail = i.getStringExtra("userEmail");
+        Toast.makeText(this, "User Email :"+userEmail, Toast.LENGTH_SHORT).show();
         itemId = i.getStringExtra("itemId");
         unitPrice = Double.parseDouble(i.getStringExtra("unitPrice"));
+        unitsRequired = Integer.parseInt(i.getStringExtra("qntyRequired"));
         docId = i.getStringExtra("documentId");
         imageIV.setImageResource(R.drawable.iphone6);
         itemNameTV.setText(i.getStringExtra("itemName"));
@@ -103,7 +111,7 @@ public class Item_Detail extends AppCompatActivity {
                     builder.setTitle("Conformation..").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            final Map<String, String> supplyRequest = new HashMap<>();
+                            final Map<String, Object> supplyRequest = new HashMap<>();
                             supplyRequest.put("itemDocId", docId);
                             supplyRequest.put("itemId", itemId);
                             supplyRequest.put("message", message);
@@ -111,8 +119,15 @@ public class Item_Detail extends AppCompatActivity {
                             supplyRequest.put("paymentStatus", "notSet");
                             supplyRequest.put("status", "pending");
                             supplyRequest.put("totalValue", Double.toString(totalValue));
+                            supplyRequest.put("createdDate", new Timestamp(new Date()));
                             userRef = db.collection("users").document(userEmail);
                             userRef.collection("supplyList").document().set(supplyRequest);
+
+                            int newQuntyRequired = unitsRequired - supplyAmt;
+
+
+                            itemRef.update("unitRequired", Integer.toString(newQuntyRequired));  // Adjust the number of required units.
+
                             Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
                             startActivity(intent);
                         }
@@ -159,6 +174,7 @@ public class Item_Detail extends AppCompatActivity {
 
             case R.id.SupplyHistory:
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
+                supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
                 break;
         }

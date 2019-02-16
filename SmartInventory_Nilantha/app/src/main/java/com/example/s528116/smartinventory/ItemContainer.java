@@ -1,16 +1,18 @@
 package com.example.s528116.smartinventory;
 
+import java.util.Date;
+
 public class ItemContainer {
     private int image;
     private String itemID;
     private String itemName;
     private String unitPrice;
     private String qntyNeeded;
-    private String requiredBy;
+    private Date requiredBy;
     private String documentId;
     private String userEmail;
 
-    public ItemContainer(String userEmail, String documentId,int image, String itemID, String itemName, String unitPrice, String qntyNeeded, String requiredBy) {
+    public ItemContainer(String userEmail, String documentId,int image, String itemID, String itemName, String unitPrice, String qntyNeeded, Date requiredBy) {
         this.userEmail = userEmail;
         this.documentId = documentId;
         this.image = image;
@@ -45,5 +47,5 @@ public class ItemContainer {
         return qntyNeeded;
     }
 
-    public String getRequiredBy() {return requiredBy;}
+    public Date getRequiredBy() {return requiredBy;}
 }

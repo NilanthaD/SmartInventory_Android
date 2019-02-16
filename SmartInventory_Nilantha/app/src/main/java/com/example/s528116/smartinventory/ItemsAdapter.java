@@ -76,7 +76,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
                 intent.putExtra("itemName", currentItem.getItemName());
                 intent.putExtra("unitPrice", currentItem.getUnitPrice());
                 intent.putExtra("qntyRequired", currentItem.getQntyNeeded());
-                intent.putExtra("requiredBy", currentItem.getRequiredBy());
+                intent.putExtra("requiredBy", currentItem.getRequiredBy().toString());
                 context.startActivity(intent);
             }
         });

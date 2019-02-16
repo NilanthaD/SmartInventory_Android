@@ -1,5 +1,7 @@
 package com.example.s528116.smartinventory;
 
+import java.util.Date;
+
 public class SupplyHistory {
 
     private int image;
@@ -7,9 +9,9 @@ public class SupplyHistory {
     private String itemName;
     private String unitPrice;
     private String numberOfUnits;
-    private String requestCreatedDate;
+    private Date requestCreatedDate;
 
-    public SupplyHistory(int image, String status, String itemName, String unitPrice, String numberOfUnits, String requestCreatedDate) {
+    public SupplyHistory(int image, String status, String itemName, String unitPrice, String numberOfUnits, Date requestCreatedDate) {
         this.image = image;
         this.status = status;
         this.itemName = itemName;
@@ -38,7 +40,7 @@ public class SupplyHistory {
         return numberOfUnits;
     }
 
-    public String getRequestCreatedDate() {
+    public Date getRequestCreatedDate() {
         return requestCreatedDate;
     }
 }

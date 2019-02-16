@@ -53,7 +53,7 @@ public class ItemListRV extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot doc: task.getResult()){
-                        itemListArray.add(new ItemContainer(userEmail, doc.getId(),R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"), doc.getString("untPrice"), doc.getString("unitRequired"), doc.getString("requiredBy")));
+                        itemListArray.add(new ItemContainer(userEmail, doc.getId(),R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"), doc.getString("untPrice"), doc.getString("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
                     }
 
                     itemsRV = findViewById(R.id.itemsRV);
@@ -78,6 +78,7 @@ public class ItemListRV extends AppCompatActivity {
 
             case R.id.SupplyHistory:
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
+                supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
                 break;
         }
