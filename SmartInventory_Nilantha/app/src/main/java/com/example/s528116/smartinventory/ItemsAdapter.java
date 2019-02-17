@@ -34,8 +34,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         public TextView quantityNeeded;
         public TextView requiredBy;
         public LinearLayout linearLayout2;
-//        private Context context;
-//        private List<LauncherActivity.ListItem> listItemList;
 
         public ItemsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -49,10 +47,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
             linearLayout2 = itemView.findViewById(R.id.linearLayout2);
         }
     }
-
-//    public ItemsAdapter(ArrayList<ItemContainer> itemListArray) {
-//        this.itemListArray = itemListArray;
-//    }
 
     @NonNull
     @Override
@@ -76,12 +70,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Item_Detail.class);
+                intent.putExtra("userEmail", currentItem.getUserEmail());
                 intent.putExtra("documentId", currentItem.getDocumentId());
                 intent.putExtra("itemId", currentItem.getItemID());
                 intent.putExtra("itemName", currentItem.getItemName());
                 intent.putExtra("unitPrice", currentItem.getUnitPrice());
                 intent.putExtra("qntyRequired", currentItem.getQntyNeeded());
-                intent.putExtra("requiredBy", currentItem.getRequiredBy());
+                intent.putExtra("requiredBy", currentItem.getRequiredBy().toString());
                 context.startActivity(intent);
             }
         });

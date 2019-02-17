@@ -10,6 +10,11 @@
         android:id="@+id/about" android:icon="@android:drawable/ic_dialog_info" app:showAsAction="never" android:title="about">
     </item>
     <item
+        android:id="@+id/SupplyHistory" app:showAsAction="never" android:title="Supply Histroy">
+    </item>
+    <item
         android:id="@+id/logout"  app:showAsAction="never" android:title="logout">
     </item>
+
+
 </menu>
