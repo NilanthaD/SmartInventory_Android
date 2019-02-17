@@ -63,8 +63,11 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             Toast.makeText(MainActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
+                           // Intent init = new Intent(MainActivity.this, AdminView.class);
+                            //startActivity(init);
                         } else {
                             Toast.makeText(MainActivity.this, "login failed", Toast.LENGTH_SHORT).show();
+
                         }
 
 
