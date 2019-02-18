@@ -1,6 +1,8 @@
 package com.example.adminsmartinventory;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,7 +51,7 @@ public class SignupActivity extends AppCompatActivity {
                 String lName = lNameET.getText().toString();
 
 
-                if(!passWord.equals(confirmPWET.getText().toString())){
+                if(!passWord.equals(conformPWET.getText().toString())){
                     setAlert("Password conformation failed. ");
                     return;
                 }
@@ -69,10 +71,35 @@ public class SignupActivity extends AppCompatActivity {
                     setAlert("Password should be at least 6 characters");
                     return;
                 }
-                if(TextUtils.isEmpty(fName) || TextUtils.isEmpty(lName) || TextUtils.isEmpty(pNumber)){
+                if(TextUtils.isEmpty(fName) || TextUtils.isEmpty(lName)){
                     setAlert("All the fields need to be filed.");
                     return;
                 }
+                Intent i = new Intent(Signup.this,secQuestion.class);
+                i.putExtra("email", userName);
+                i.putExtra("password", passWord);
+                i.putExtra("fName", fName);
+                i.putExtra("lName", lName);
+
+                startActivity(i);
+            }
+        });
+
+
+    }
+
+    void setAlert(String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message).setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.setTitle("Warning..!");
+        alert.show();
 
 
 
