@@ -1,12 +1,14 @@
 package com.example.s528116.smartinventory;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
         public TextView unitPriceTV;
         public TextView numberOfUnitsTV;
         public TextView dateTV;
+        public LinearLayout supplyHistoryContainer;
 
         public SupplyHistoryViewHoder(@NonNull View supplyHistoryView) {
             super(supplyHistoryView);
@@ -38,6 +41,7 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
             unitPriceTV = supplyHistoryView.findViewById(R.id.unitPriceTV);
             numberOfUnitsTV = supplyHistoryView.findViewById(R.id.numberOfUnitsTV);
             dateTV = supplyHistoryView.findViewById(R.id.dateTV);
+            supplyHistoryContainer = supplyHistoryView.findViewById(R.id.supplyHistoryContainer);
 
         }
     }
@@ -62,6 +66,15 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
         supplyHistoryViewHoder.unitPriceTV.setText(currentSupplyItem.getUnitPrice());
         supplyHistoryViewHoder.numberOfUnitsTV.setText(currentSupplyItem.getNumberOfUnits());
         supplyHistoryViewHoder.dateTV.setText(currentSupplyItem.getRequestCreatedDate().toString());
+
+
+        supplyHistoryViewHoder.supplyHistoryContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent supplyItemDetailIntent = new Intent(context, SupplyItemDetail.class);
+                context.startActivity(supplyItemDetailIntent);
+            }
+        });
     }
 
     @Override
