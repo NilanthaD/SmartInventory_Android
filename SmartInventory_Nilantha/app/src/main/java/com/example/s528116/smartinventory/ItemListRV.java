@@ -81,6 +81,7 @@ public class ItemListRV extends AppCompatActivity {
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
                 break;
+                
         }
         return super.onOptionsItemSelected(item);
     }
