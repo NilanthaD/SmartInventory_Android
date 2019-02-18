@@ -45,7 +45,8 @@ public class ItemListRV extends AppCompatActivity {
         itemCollection = db.collection("items");
 
         Intent i = getIntent();
-        userEmail = i.getStringExtra("userId");
+        userEmail = i.getStringExtra("userEmail");
+        Toast.makeText(this, "user Email: "+userEmail, Toast.LENGTH_SHORT).show();
 
         final ArrayList<ItemContainer> itemListArray = new ArrayList<>();
         itemCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
