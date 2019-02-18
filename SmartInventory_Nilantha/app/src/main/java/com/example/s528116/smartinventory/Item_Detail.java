@@ -129,6 +129,7 @@ public class Item_Detail extends AppCompatActivity {
                             itemRef.update("unitRequired", Integer.toString(newQuntyRequired));  // Adjust the number of required units.
 
                             Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
+                            intent.putExtra("userEmail", userEmail);
                             startActivity(intent);
                         }
                     }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
@@ -158,7 +159,13 @@ public class Item_Detail extends AppCompatActivity {
         });
     }
 
-
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        Intent a = getIntent();
+//        userEmail = a.getStringExtra("userEmail");
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                                         passwordET.setText("");
                                         if (user.isEmailVerified()) {
                                             Intent i = new Intent(MainActivity.this, ItemListRV.class);
-                                            i.putExtra("userId", userName);
+                                            i.putExtra("userEmail", userName);
                                             startActivity(i);
                                     }
                                     else {
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                 }
                                 else {
+                                    progress.cancel();
                                     passwordET.setText("");
                                     Toast.makeText(MainActivity.this, "Login failed, Please check your email and password", Toast.LENGTH_SHORT).show();
 
