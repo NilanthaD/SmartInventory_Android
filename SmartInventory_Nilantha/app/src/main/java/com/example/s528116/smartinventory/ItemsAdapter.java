@@ -59,12 +59,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
     @Override
     public void onBindViewHolder(@NonNull final ItemsViewHolder itemsViewHolder, final int i) {
         final ItemContainer currentItem = itemListArray.get(i);
+        final String requiredBy = FormatDate.getDate(currentItem.getRequiredBy());
         itemsViewHolder.itemImage.setImageResource(currentItem.getImage());
         itemsViewHolder.itemID.setText(currentItem.getItemID());
         itemsViewHolder.itemName.setText(currentItem.getItemName());
-        itemsViewHolder.unitPrice.setText("Buying price :" +currentItem.getUnitPrice());
+        itemsViewHolder.unitPrice.setText("Buying price :$" +currentItem.getUnitPrice());
         itemsViewHolder.quantityNeeded.setText("Quentity needed :"+currentItem.getQntyNeeded());
-        itemsViewHolder.requiredBy.setText("Required by :"+currentItem.getRequiredBy());
+        itemsViewHolder.requiredBy.setText("Required by :"+requiredBy);
 
         itemsViewHolder.linearLayout2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +77,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
                 intent.putExtra("itemName", currentItem.getItemName());
                 intent.putExtra("unitPrice", currentItem.getUnitPrice());
                 intent.putExtra("qntyRequired", currentItem.getQntyNeeded());
-                intent.putExtra("requiredBy", currentItem.getRequiredBy().toString());
+                intent.putExtra("requiredBy", requiredBy);
                 context.startActivity(intent);
             }
         });

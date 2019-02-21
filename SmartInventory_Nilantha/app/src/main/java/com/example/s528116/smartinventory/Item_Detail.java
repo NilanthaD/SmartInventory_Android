@@ -78,14 +78,14 @@ public class Item_Detail extends AppCompatActivity {
 //      Get data from the Intent
         Intent i = getIntent();
         userEmail = i.getStringExtra("userEmail");
-        Toast.makeText(this, "User Email :"+userEmail, Toast.LENGTH_SHORT).show();
+
         itemId = i.getStringExtra("itemId");
         unitPrice = Double.parseDouble(i.getStringExtra("unitPrice"));
         unitsRequired = Integer.parseInt(i.getStringExtra("qntyRequired"));
         docId = i.getStringExtra("documentId");
         imageIV.setImageResource(R.drawable.iphone6);
         itemNameTV.setText(i.getStringExtra("itemName"));
-        priceTV.setText("Buying price :"+i.getStringExtra("unitPrice"));
+        priceTV.setText("Buying price :$"+i.getStringExtra("unitPrice"));
         quntityNeededTV.setText("Quntity Needed : " + i.getStringExtra("qntyRequired"));
         requiredByTV.setText("Required By :" + i.getStringExtra("requiredBy"));
 //        Get an instance of the items
@@ -118,6 +118,7 @@ public class Item_Detail extends AppCompatActivity {
                             supplyRequest.put("supplyAmount", supplyAmount);
                             supplyRequest.put("paymentStatus", "notSet");
                             supplyRequest.put("status", "pending");
+                            supplyRequest.put("unitPrice", Double.toString(unitPrice));
                             supplyRequest.put("totalValue", Double.toString(totalValue));
                             supplyRequest.put("createdDate", new Timestamp(new Date()));
                             userRef = db.collection("users").document(userEmail);
@@ -183,6 +184,9 @@ public class Item_Detail extends AppCompatActivity {
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
+                break;
+            case R.id.back:
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

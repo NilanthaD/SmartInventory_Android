@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdapter.SupplyHistoryViewHoder> {
@@ -32,6 +34,7 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
         public TextView numberOfUnitsTV;
         public TextView dateTV;
         public LinearLayout supplyHistoryContainer;
+
 
         public SupplyHistoryViewHoder(@NonNull View supplyHistoryView) {
             super(supplyHistoryView);
@@ -59,19 +62,36 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
     @Override
     public void onBindViewHolder(@NonNull final SupplyHistoryViewHoder supplyHistoryViewHoder, final int i) {
         final SupplyHistory currentSupplyItem = supplyListAL.get(i);
+//        Date createdDate = new Date();
+//        createdDate = currentSupplyItem.getRequestCreatedDate();
+//        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
+//        String dateCreated = sdf.format(createdDate);
+        final String dateCreated = FormatDate.getDate(currentSupplyItem.getRequestCreatedDate());
+
 
         supplyHistoryViewHoder.itemImageIV.setImageResource(currentSupplyItem.getImage());
-        supplyHistoryViewHoder.statusTV.setText(currentSupplyItem.getStatus());
-        supplyHistoryViewHoder.itemNameTV.setText(currentSupplyItem.getImage());
-        supplyHistoryViewHoder.unitPriceTV.setText(currentSupplyItem.getUnitPrice());
-        supplyHistoryViewHoder.numberOfUnitsTV.setText(currentSupplyItem.getNumberOfUnits());
-        supplyHistoryViewHoder.dateTV.setText(currentSupplyItem.getRequestCreatedDate().toString());
+        supplyHistoryViewHoder.statusTV.setText("Status :" + currentSupplyItem.getStatus());
+        supplyHistoryViewHoder.itemNameTV.setText("Item :" + currentSupplyItem.getItemName());
+        supplyHistoryViewHoder.unitPriceTV.setText("Unit Price :$" + currentSupplyItem.getUnitPrice());
+        supplyHistoryViewHoder.numberOfUnitsTV.setText("Number of Units : " +currentSupplyItem.getNumberOfUnits());
+
+        supplyHistoryViewHoder.dateTV.setText("Created :" + dateCreated);
 
 
         supplyHistoryViewHoder.supplyHistoryContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent supplyItemDetailIntent = new Intent(context, SupplyItemDetail.class);
+                supplyItemDetailIntent.putExtra("userEmail", currentSupplyItem.getUserEmail() );
+                supplyItemDetailIntent.putExtra("itemId", currentSupplyItem.getItemName());
+                supplyItemDetailIntent.putExtra("status", currentSupplyItem.getStatus());
+                supplyItemDetailIntent.putExtra("unitPrice", currentSupplyItem.getUnitPrice());
+                supplyItemDetailIntent.putExtra("numberOfUnits", currentSupplyItem.getNumberOfUnits());
+                supplyItemDetailIntent.putExtra("message", currentSupplyItem.getMessage());
+                supplyItemDetailIntent.putExtra("totalValue", currentSupplyItem.getTotalValue());
+                supplyItemDetailIntent.putExtra("paymentStatus", currentSupplyItem.getPaymentStatus());
+                supplyItemDetailIntent.putExtra("itemDocId", currentSupplyItem.getItemDocId());
+                supplyItemDetailIntent.putExtra("date", dateCreated);
                 context.startActivity(supplyItemDetailIntent);
             }
         });
