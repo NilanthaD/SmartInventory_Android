@@ -11,10 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdapter.SupplyHistoryViewHoder> {
 
@@ -73,7 +70,7 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
         supplyHistoryViewHoder.statusTV.setText("Status :" + currentSupplyItem.getStatus());
         supplyHistoryViewHoder.itemNameTV.setText("Item :" + currentSupplyItem.getItemName());
         supplyHistoryViewHoder.unitPriceTV.setText("Unit Price :$" + currentSupplyItem.getUnitPrice());
-        supplyHistoryViewHoder.numberOfUnitsTV.setText("Number of Units : " +currentSupplyItem.getNumberOfUnits());
+        supplyHistoryViewHoder.numberOfUnitsTV.setText("Number of Units : " + currentSupplyItem.getNumberOfUnits());
 
         supplyHistoryViewHoder.dateTV.setText("Created :" + dateCreated);
 
@@ -82,7 +79,7 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
             @Override
             public void onClick(View v) {
                 Intent supplyItemDetailIntent = new Intent(context, SupplyItemDetail.class);
-                supplyItemDetailIntent.putExtra("userEmail", currentSupplyItem.getUserEmail() );
+                supplyItemDetailIntent.putExtra("userEmail", currentSupplyItem.getUserEmail());
                 supplyItemDetailIntent.putExtra("itemId", currentSupplyItem.getItemName());
                 supplyItemDetailIntent.putExtra("status", currentSupplyItem.getStatus());
                 supplyItemDetailIntent.putExtra("unitPrice", currentSupplyItem.getUnitPrice());

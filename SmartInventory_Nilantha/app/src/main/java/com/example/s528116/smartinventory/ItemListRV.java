@@ -21,6 +21,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ItemListRV extends AppCompatActivity {
     private RecyclerView itemsRV;
@@ -43,6 +44,7 @@ public class ItemListRV extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         pathReferance = storage.getReference().child("images/iphone6.jpg");
         itemCollection = db.collection("items");
+        final Date today = new Date();
 
         Intent i = getIntent();
         userEmail = i.getStringExtra("userEmail");
@@ -54,8 +56,10 @@ public class ItemListRV extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot doc: task.getResult()){
-                        itemListArray.add(new ItemContainer(userEmail, doc.getId(),R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"),
-                                doc.getString("untPrice"), doc.getString("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
+                        if(today.before(doc.getTimestamp("requiredBefore").toDate())) {
+                            itemListArray.add(new ItemContainer(userEmail, doc.getId(), R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"),
+                                    doc.getString("untPrice"), doc.getString("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
+                        }
                     }
 
                     itemsRV = findViewById(R.id.itemsRV);

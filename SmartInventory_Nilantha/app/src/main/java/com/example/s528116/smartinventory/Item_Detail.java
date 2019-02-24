@@ -2,9 +2,9 @@ package com.example.s528116.smartinventory;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +17,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ServerTimestamp;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -55,7 +51,7 @@ public class Item_Detail extends AppCompatActivity {
     private double totalValue;
 
     private FirebaseFirestore db;
-    private DocumentReference itemRef,userRef;
+    private DocumentReference itemRef, userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +81,7 @@ public class Item_Detail extends AppCompatActivity {
         docId = i.getStringExtra("documentId");
         imageIV.setImageResource(R.drawable.iphone6);
         itemNameTV.setText(i.getStringExtra("itemName"));
-        priceTV.setText("Buying price :$"+i.getStringExtra("unitPrice"));
+        priceTV.setText("Buying price :$" + i.getStringExtra("unitPrice"));
         quntityNeededTV.setText("Quntity Needed : " + i.getStringExtra("qntyRequired"));
         requiredByTV.setText("Required By :" + i.getStringExtra("requiredBy"));
 //        Get an instance of the items
@@ -104,8 +100,8 @@ public class Item_Detail extends AppCompatActivity {
                 supplyAmount = supplyAmountET.getText().toString();
                 message = messageET.getText().toString();
                 supplyAmt = Integer.parseInt(supplyAmount);
-                totalValue = unitPrice*supplyAmt*1.0;
-                if(supplyAmt>0) {
+                totalValue = unitPrice * supplyAmt * 1.0;
+                if (supplyAmt > 0) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(Item_Detail.this);
                     builder.setTitle("Conformation..").setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -139,13 +135,11 @@ public class Item_Detail extends AppCompatActivity {
 //                            finish();
                         }
                     });
-                    AlertDialog alert =builder.create();
+                    AlertDialog alert = builder.create();
                     alert.show();
 
 
-
-                }
-                else {
+                } else {
                     Toast.makeText(Item_Detail.this, "Number of Items must be more than 0", Toast.LENGTH_LONG).show();
                 }
             }
@@ -170,7 +164,7 @@ public class Item_Detail extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.logout:
 
                 FirebaseAuth.getInstance().signOut();

@@ -5,12 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SupplyItemDetail extends AppCompatActivity {
 
@@ -21,9 +20,13 @@ public class SupplyItemDetail extends AppCompatActivity {
     private TextView numberOfUnitsTV;
     private TextView createdDateTV;
     private TextView totalValueTV;
+    private Button editRequestBTN;
+    private Button changeRequestBTN;
+    private Button shippingLableBTN;
 
     Intent supplyItemIntent = new Intent();
     private  String userEmail;
+    private String status;
 
 //    private FirebaseFirestore mDb;
 //    CollectionReference supplyItemCollection;
@@ -40,9 +43,21 @@ public class SupplyItemDetail extends AppCompatActivity {
         numberOfUnitsTV = findViewById(R.id.numberOfUnitsTV);
         totalValueTV = findViewById(R.id.totalValueTV);
         createdDateTV = findViewById(R.id.createdDateTV);
+        editRequestBTN = findViewById(R.id.editRequestBTN);
+        changeRequestBTN = findViewById(R.id.changeRequestBTN);
+        shippingLableBTN = findViewById(R.id.shippingLabelBTN);
 
         supplyItemIntent = getIntent();
         userEmail = supplyItemIntent.getStringExtra("userEmail");
+        status = supplyItemIntent.getStringExtra("status");
+
+        if(status == "pending"){
+            editRequestBTN.setEnabled(false);
+        }
+        if(status != "pending"){
+            changeRequestBTN.setEnabled(false);
+            shippingLableBTN.setEnabled(false);
+        }
 
 //        mDb = FirebaseFirestore.getInstance();
 //        supplyItemCollection = mDb.collection("users").document(userEmail).collection("supplyList");
@@ -55,10 +70,9 @@ public class SupplyItemDetail extends AppCompatActivity {
         numberOfUnitsTV.setText("Number of Units :"+ supplyItemIntent.getStringExtra("numberOfUnits"));
         totalValueTV.setText("Total Value :$" + supplyItemIntent.getStringExtra("totalValue"));
 
-
-
-
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
