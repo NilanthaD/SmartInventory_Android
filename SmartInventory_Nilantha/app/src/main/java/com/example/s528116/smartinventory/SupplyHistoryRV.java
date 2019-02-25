@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -47,8 +50,9 @@ public class SupplyHistoryRV extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot doc: task.getResult()){
-                        supplyListAL.add(new SupplyHistory(R.drawable.iphone6,doc.getString("status"), doc.getString("itemId"), doc.getString("totalValue"),
-                                doc.getString("supplyAmount"), doc.getDate("createdDate")));
+                        supplyListAL.add(new SupplyHistory(userEmail,R.drawable.iphone6,doc.getString("status"), doc.getString("itemId"), doc.getString("unitPrice"),
+                                doc.getString("supplyAmount"), doc.getDate("createdDate"),doc.getString("message"), doc.getString("totalValue"),
+                                doc.getString("paymentStatus"), doc.getString("itemDocId")));
                     }
                     supplyHistoryRV = findViewById(R.id.supplyHistoryRV);
                     supplyHistoryRV.setHasFixedSize(true);
@@ -59,5 +63,32 @@ public class SupplyHistoryRV extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.logout:
+
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                return (true);
+
+//            case R.id.SupplyHistory:
+//                Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
+//                supplyHistoryIntent.putExtra("userEmail", userEmail);
+//                startActivity(supplyHistoryIntent);
+//                break;
+            case R.id.back:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

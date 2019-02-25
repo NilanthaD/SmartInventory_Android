@@ -2,9 +2,9 @@ package com.example.s528116.smartinventory;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +17,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ServerTimestamp;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -55,7 +51,7 @@ public class Item_Detail extends AppCompatActivity {
     private double totalValue;
 
     private FirebaseFirestore db;
-    private DocumentReference itemRef,userRef;
+    private DocumentReference itemRef, userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +74,14 @@ public class Item_Detail extends AppCompatActivity {
 //      Get data from the Intent
         Intent i = getIntent();
         userEmail = i.getStringExtra("userEmail");
-        Toast.makeText(this, "User Email :"+userEmail, Toast.LENGTH_SHORT).show();
+
         itemId = i.getStringExtra("itemId");
         unitPrice = Double.parseDouble(i.getStringExtra("unitPrice"));
         unitsRequired = Integer.parseInt(i.getStringExtra("qntyRequired"));
         docId = i.getStringExtra("documentId");
         imageIV.setImageResource(R.drawable.iphone6);
         itemNameTV.setText(i.getStringExtra("itemName"));
-        priceTV.setText("Buying price :"+i.getStringExtra("unitPrice"));
+        priceTV.setText("Buying price :$" + i.getStringExtra("unitPrice"));
         quntityNeededTV.setText("Quntity Needed : " + i.getStringExtra("qntyRequired"));
         requiredByTV.setText("Required By :" + i.getStringExtra("requiredBy"));
 //        Get an instance of the items
@@ -104,8 +100,8 @@ public class Item_Detail extends AppCompatActivity {
                 supplyAmount = supplyAmountET.getText().toString();
                 message = messageET.getText().toString();
                 supplyAmt = Integer.parseInt(supplyAmount);
-                totalValue = unitPrice*supplyAmt*1.0;
-                if(supplyAmt>0) {
+                totalValue = unitPrice * supplyAmt * 1.0;
+                if (supplyAmt > 0) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(Item_Detail.this);
                     builder.setTitle("Conformation..").setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -118,6 +114,7 @@ public class Item_Detail extends AppCompatActivity {
                             supplyRequest.put("supplyAmount", supplyAmount);
                             supplyRequest.put("paymentStatus", "notSet");
                             supplyRequest.put("status", "pending");
+                            supplyRequest.put("unitPrice", Double.toString(unitPrice));
                             supplyRequest.put("totalValue", Double.toString(totalValue));
                             supplyRequest.put("createdDate", new Timestamp(new Date()));
                             userRef = db.collection("users").document(userEmail);
@@ -129,6 +126,7 @@ public class Item_Detail extends AppCompatActivity {
                             itemRef.update("unitRequired", Integer.toString(newQuntyRequired));  // Adjust the number of required units.
 
                             Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
+                            intent.putExtra("userEmail", userEmail);
                             startActivity(intent);
                         }
                     }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
@@ -137,13 +135,11 @@ public class Item_Detail extends AppCompatActivity {
 //                            finish();
                         }
                     });
-                    AlertDialog alert =builder.create();
+                    AlertDialog alert = builder.create();
                     alert.show();
 
 
-
-                }
-                else {
+                } else {
                     Toast.makeText(Item_Detail.this, "Number of Items must be more than 0", Toast.LENGTH_LONG).show();
                 }
             }
@@ -158,11 +154,17 @@ public class Item_Detail extends AppCompatActivity {
         });
     }
 
-
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        Intent a = getIntent();
+//        userEmail = a.getStringExtra("userEmail");
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.logout:
 
                 FirebaseAuth.getInstance().signOut();
@@ -176,6 +178,9 @@ public class Item_Detail extends AppCompatActivity {
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
+                break;
+            case R.id.back:
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

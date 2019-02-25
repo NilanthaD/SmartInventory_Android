@@ -1,11 +1,11 @@
-package com.example.s528116.smartinventory;
+package com.example.adminsmartinventory;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,10 +24,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
+import java.security.Security;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnItemSelectedListener */ {
+public class SecurityQues extends AppCompatActivity {
 
     private Spinner secq1SP;
     private Spinner secq2SP;
@@ -36,21 +38,19 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
     private TextView cancleTV;
     private Button submitBTN;
     private String secQ1, secQ2;
-    //    private DatabaseReference mRef;
     private FirebaseFirestore db;
-    CollectionReference users;
+    CollectionReference admin;
     CollectionReference secQuestions;
 
 
-    private FirebaseAuth mAuth;
-    Intent userDetails = new Intent();
+   private FirebaseAuth mAuth;
 
+    Intent userDetails = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sec_question);
-        // get the intent data passed by the signup page
+        setContentView(R.layout.activity_security_ques);
         userDetails = getIntent();
 
         secq1SP = findViewById(R.id.secq1SP);
@@ -61,15 +61,15 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         cancleTV = findViewById(R.id.cancleTV);
         submitBTN = findViewById(R.id.submitBTN);
         //Create an instance of firebase users
-        mAuth = FirebaseAuth.getInstance(); // get an instance of firebase auth
+      mAuth = FirebaseAuth.getInstance(); // get an instance of firebase auth
         db = FirebaseFirestore.getInstance(); // get an instance of firestore
-        users = db.collection("users"); // get the an instance of users collection
-        secQuestions = db.collection("SecQuestions");
+       admin = db.collection("admin"); // get the an instance of users collection
+        //secQuestions = db.collection("SecQuestions");
 
 
 //      Create array adapters and populate sec question 1 and 2.
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.secq1, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.secq2, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.secq2, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         secq1SP.setAdapter(adapter);
@@ -106,7 +106,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         cancleTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Signup.signup.finish();
+                SignupActivity.signup.finish();
                 finish();
             }
         });
@@ -122,8 +122,8 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                 String answer1 = answer1ET.getText().toString();
                 String answer2 = answer2ET.getText().toString();
 
-                if (TextUtils.isEmpty(answer1) || (TextUtils.isEmpty(answer2))) {
-                    Toast.makeText(SecQuestion.this, "Please answer both security questions.", Toast.LENGTH_LONG).show();
+                if(TextUtils.isEmpty(answer1) || (TextUtils.isEmpty(answer2))){
+                    Toast.makeText(SecurityQues.this, "Please answer both security questions.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -137,14 +137,14 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                 personalInfo.put("secQ2", secQ2);
                 personalInfo.put("answer1", answer1);
                 personalInfo.put("answer2", answer2);
-                personalInfo.put("userGroup", "user");
+                personalInfo.put("userGroup", "admin");
 
                 mAuth.createUserWithEmailAndPassword(userDetails.getStringExtra("email"), userDetails.getStringExtra("password"))
-                        .addOnCompleteListener(SecQuestion.this, new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(SecurityQues.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    users.document(email).set(personalInfo);
+                                if(task.isSuccessful()) {
+//                                    users.document(email).set(personalInfo);
 
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     user.sendEmailVerification()
@@ -152,8 +152,7 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 //                                            Toast.makeText(SecQuestion.this, "Veryfication email sent", Toast.LENGTH_SHORT).show();
-                                                    Signup.signup.finish();
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(SecQuestion.this);
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(SecurityQues.this);
                                                     builder.setMessage("Veryfication email is sent to your email. Please click on the link to verify your email")
                                                             .setCancelable(false)
                                                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -169,9 +168,10 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
                                                 }
                                             });
 
-                                } else {
+                                }
+                                else {
 //                                    Toast.makeText(SecQuestion.this, "Sorry..Couldn't create an account" + task.getException(), Toast.LENGTH_SHORT).show();
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(SecQuestion.this);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(SecurityQues.this);
                                     builder.setMessage(task.getException().toString()).setCancelable(false)
                                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                                 @Override
@@ -196,3 +196,4 @@ public class SecQuestion extends AppCompatActivity /*implements AdapterView.OnIt
         FirebaseAuth.getInstance().signOut();
     }
 }
+
