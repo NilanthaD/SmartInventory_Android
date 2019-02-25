@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -20,7 +22,10 @@ public class SupplyItemDetail extends AppCompatActivity {
     private TextView numberOfUnitsTV;
     private TextView createdDateTV;
     private TextView totalValueTV;
-    private Button editRequestBTN;
+    private EditText newAmountET;
+    private Button submitNewAmountBTN;
+    private Button deleteRequestBTN;
+
     private Button changeRequestBTN;
     private Button shippingLableBTN;
 
@@ -43,20 +48,21 @@ public class SupplyItemDetail extends AppCompatActivity {
         numberOfUnitsTV = findViewById(R.id.numberOfUnitsTV);
         totalValueTV = findViewById(R.id.totalValueTV);
         createdDateTV = findViewById(R.id.createdDateTV);
-        editRequestBTN = findViewById(R.id.editRequestBTN);
+        newAmountET = findViewById(R.id.newAmountET);
+        submitNewAmountBTN = findViewById(R.id.submitNewAmountBTN);
+        deleteRequestBTN = findViewById(R.id.deleteRequestBTN);
+
         changeRequestBTN = findViewById(R.id.changeRequestBTN);
         shippingLableBTN = findViewById(R.id.shippingLabelBTN);
 
         supplyItemIntent = getIntent();
         userEmail = supplyItemIntent.getStringExtra("userEmail");
         status = supplyItemIntent.getStringExtra("status");
-
-        if(status == "pending"){
-            editRequestBTN.setEnabled(false);
-        }
-        if(status != "pending"){
-            changeRequestBTN.setEnabled(false);
-            shippingLableBTN.setEnabled(false);
+        Toast.makeText(this, "status "+status, Toast.LENGTH_SHORT).show();
+        if(status != "pending") {
+            newAmountET.setEnabled(false);
+            submitNewAmountBTN.setEnabled(false);
+            deleteRequestBTN.setEnabled(false);
         }
 
 //        mDb = FirebaseFirestore.getInstance();

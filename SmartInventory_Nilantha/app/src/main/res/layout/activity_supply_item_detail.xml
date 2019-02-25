@@ -80,13 +80,42 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="If your request status is pending and if you want to make a change in your request, you can do it by clicking on EDIT YOUR REQUEST button"/>
+                    android:text="If your request status is pending and if you want to make a change in your request, you can do it here"/>
 
-                <Button
-                    android:id="@+id/editRequestBTN"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Edit your request" />
+                    android:layout_margin="10dp"
+                    android:text="Enter the new amount of items you want to supply"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/newAmountET"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:outlineSpotShadowColor="#000"
+                        android:layout_margin="10dp"
+                        android:hint="Amount"/>
+                    <Button
+                        android:id="@+id/submitNewAmountBTN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="Submit"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OR"/>
+                    <Button
+                        android:id="@+id/deleteRequestBTN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delete Request"/>
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_width="match_parent"
