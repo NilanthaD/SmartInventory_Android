@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.221"
-        app:srcCompat="@drawable/envelope_xhIpyjp0mQ" />
+        app:srcCompat="@drawable/envelop" />
 
     <ImageButton
         android:id="@+id/imageButton3"
@@ -39,5 +39,5 @@
         app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/displaying-14-images-for-customer-service-icon-png-23" />
+        app:srcCompat="@drawable/display" />
 </android.support.constraint.ConstraintLayout>
