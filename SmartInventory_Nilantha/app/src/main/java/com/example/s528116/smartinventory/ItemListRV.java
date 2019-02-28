@@ -48,7 +48,6 @@ public class ItemListRV extends AppCompatActivity {
 
         Intent i = getIntent();
         userEmail = i.getStringExtra("userEmail");
-//        Toast.makeText(this, "user Email: "+userEmail, Toast.LENGTH_SHORT).show();
 
         final ArrayList<ItemContainer> itemListArray = new ArrayList<>();
         itemCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -58,7 +57,7 @@ public class ItemListRV extends AppCompatActivity {
                     for(QueryDocumentSnapshot doc: task.getResult()){
                         if(today.before(doc.getTimestamp("requiredBefore").toDate())) {
                             itemListArray.add(new ItemContainer(userEmail, doc.getId(), R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"),
-                                    doc.getString("untPrice"), doc.getString("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
+                                    doc.getLong("untPrice"), doc.getLong("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
                         }
                     }
 

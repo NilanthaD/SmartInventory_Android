@@ -59,19 +59,13 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
     @Override
     public void onBindViewHolder(@NonNull final SupplyHistoryViewHoder supplyHistoryViewHoder, final int i) {
         final SupplyHistory currentSupplyItem = supplyListAL.get(i);
-//        Date createdDate = new Date();
-//        createdDate = currentSupplyItem.getRequestCreatedDate();
-//        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
-//        String dateCreated = sdf.format(createdDate);
         final String dateCreated = FormatDate.getDate(currentSupplyItem.getRequestCreatedDate());
-
 
         supplyHistoryViewHoder.itemImageIV.setImageResource(currentSupplyItem.getImage());
         supplyHistoryViewHoder.statusTV.setText("Status :" + currentSupplyItem.getStatus());
         supplyHistoryViewHoder.itemNameTV.setText("Item :" + currentSupplyItem.getItemName());
         supplyHistoryViewHoder.unitPriceTV.setText("Unit Price :$" + currentSupplyItem.getUnitPrice());
         supplyHistoryViewHoder.numberOfUnitsTV.setText("Number of Units : " + currentSupplyItem.getNumberOfUnits());
-
         supplyHistoryViewHoder.dateTV.setText("Created :" + dateCreated);
 
 
@@ -89,6 +83,7 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
                 supplyItemDetailIntent.putExtra("paymentStatus", currentSupplyItem.getPaymentStatus());
                 supplyItemDetailIntent.putExtra("itemDocId", currentSupplyItem.getItemDocId());
                 supplyItemDetailIntent.putExtra("date", dateCreated);
+                supplyItemDetailIntent.putExtra("supplyDocId", currentSupplyItem.getSupplyDocId());
                 context.startActivity(supplyItemDetailIntent);
             }
         });

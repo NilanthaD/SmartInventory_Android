@@ -6,13 +6,13 @@ public class ItemContainer {
     private int image;
     private String itemID;
     private String itemName;
-    private String unitPrice;
-    private String qntyNeeded;
+    private long unitPrice;
+    private long qntyNeeded;
     private Date requiredBy;
     private String documentId;
     private String userEmail;
 
-    public ItemContainer(String userEmail, String documentId,int image, String itemID, String itemName, String unitPrice, String qntyNeeded, Date requiredBy) {
+    public ItemContainer(String userEmail, String documentId,int image, String itemID, String itemName, Long unitPrice, long qntyNeeded, Date requiredBy) {
         this.userEmail = userEmail;
         this.documentId = documentId;
         this.image = image;
@@ -39,11 +39,11 @@ public class ItemContainer {
         return itemName;
     }
 
-    public String getUnitPrice() {
+    public long getUnitPrice() {
         return unitPrice;
     }
 
-    public String getQntyNeeded() {
+    public long getQntyNeeded() {
         return qntyNeeded;
     }
 

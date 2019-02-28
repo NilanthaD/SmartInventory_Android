@@ -42,11 +42,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.221"
         app:srcCompat="@drawable/envelop" />
-=======
-        app:layout_constraintVertical_bias="0.575" />
+
 
     <EditText
         android:id="@+id/editText3"
@@ -60,7 +58,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.662" />
->>>>>>> 6bc63200f2fa95d1e32dd77d25be82781db0ffe6
 
     <ImageButton
         android:id="@+id/imageButton5"
@@ -71,12 +68,6 @@
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
         app:srcCompat="@drawable/display" />
-=======
-        app:layout_constraintVertical_bias="0.14"
-        app:srcCompat="@drawable/mail" />
 
-
->>>>>>> 6bc63200f2fa95d1e32dd77d25be82781db0ffe6
 </android.support.constraint.ConstraintLayout>

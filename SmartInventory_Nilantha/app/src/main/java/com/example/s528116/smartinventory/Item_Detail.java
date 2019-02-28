@@ -41,14 +41,14 @@ public class Item_Detail extends AppCompatActivity {
     private String userEmail; // User Email
     private String docId; //Document Id in Firestore
     private String itemId;
-    private int unitsRequired;
+    private long unitsRequired;
     private String createdDate;
 
     private String supplyAmount;
     private String message;
-    private double unitPrice;
-    private int supplyAmt;
-    private double totalValue;
+    private long unitPrice;
+    private long supplyAmt;
+    private long totalValue;
 
     private FirebaseFirestore db;
     private DocumentReference itemRef, userRef;
@@ -76,13 +76,13 @@ public class Item_Detail extends AppCompatActivity {
         userEmail = i.getStringExtra("userEmail");
 
         itemId = i.getStringExtra("itemId");
-        unitPrice = Double.parseDouble(i.getStringExtra("unitPrice"));
-        unitsRequired = Integer.parseInt(i.getStringExtra("qntyRequired"));
+        unitPrice = i.getLongExtra("unitPrice",0);
+        unitsRequired = i.getLongExtra("qntyRequired",0);
         docId = i.getStringExtra("documentId");
         imageIV.setImageResource(R.drawable.iphone6);
         itemNameTV.setText(i.getStringExtra("itemName"));
-        priceTV.setText("Buying price :$" + i.getStringExtra("unitPrice"));
-        quntityNeededTV.setText("Quntity Needed : " + i.getStringExtra("qntyRequired"));
+        priceTV.setText("Buying price :$" + i.getLongExtra("unitPrice",0));
+        quntityNeededTV.setText("Quntity Needed : " + i.getLongExtra("qntyRequired",0));
         requiredByTV.setText("Required By :" + i.getStringExtra("requiredBy"));
 //        Get an instance of the items
         itemRef = db.collection("items").document(docId);
@@ -100,7 +100,7 @@ public class Item_Detail extends AppCompatActivity {
                 supplyAmount = supplyAmountET.getText().toString();
                 message = messageET.getText().toString();
                 supplyAmt = Integer.parseInt(supplyAmount);
-                totalValue = unitPrice * supplyAmt * 1.0;
+                totalValue = unitPrice * supplyAmt;
                 if (supplyAmt > 0) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(Item_Detail.this);
@@ -111,19 +111,19 @@ public class Item_Detail extends AppCompatActivity {
                             supplyRequest.put("itemDocId", docId);
                             supplyRequest.put("itemId", itemId);
                             supplyRequest.put("message", message);
-                            supplyRequest.put("supplyAmount", supplyAmount);
+                            supplyRequest.put("supplyAmount", supplyAmt);
                             supplyRequest.put("paymentStatus", "notSet");
                             supplyRequest.put("status", "pending");
-                            supplyRequest.put("unitPrice", Double.toString(unitPrice));
-                            supplyRequest.put("totalValue", Double.toString(totalValue));
+                            supplyRequest.put("unitPrice", unitPrice);
+                            supplyRequest.put("totalValue", totalValue);
                             supplyRequest.put("createdDate", new Timestamp(new Date()));
                             userRef = db.collection("users").document(userEmail);
                             userRef.collection("supplyList").document().set(supplyRequest);
 
-                            int newQuntyRequired = unitsRequired - supplyAmt;
+                            long newQuntyRequired = unitsRequired - supplyAmt;
 
 
-                            itemRef.update("unitRequired", Integer.toString(newQuntyRequired));  // Adjust the number of required units.
+                            itemRef.update("unitRequired", newQuntyRequired);  // Adjust the number of required units.
 
                             Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
                             intent.putExtra("userEmail", userEmail);
