@@ -30,7 +30,7 @@ public class ItemListRV extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private FirebaseStorage storage;
-    private StorageReference pathReferance;
+    private StorageReference mStorageRef;
     CollectionReference itemCollection;
 
     private String userEmail;
@@ -41,8 +41,8 @@ public class ItemListRV extends AppCompatActivity {
         setContentView(R.layout.activity_item_list_rv);
 
         db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
-        pathReferance = storage.getReference().child("images/iphone6.jpg");
+//        storage = FirebaseStorage.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         itemCollection = db.collection("items");
         final Date today = new Date();
 
