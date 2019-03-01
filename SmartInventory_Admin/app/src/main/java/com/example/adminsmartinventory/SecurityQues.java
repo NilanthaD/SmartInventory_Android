@@ -39,19 +39,19 @@ public class SecurityQues extends AppCompatActivity {
     private Button submitBTN;
     private String secQ1, secQ2;
     private FirebaseFirestore db;
-    CollectionReference admin;
+    CollectionReference admins;
     CollectionReference secQuestions;
 
 
    private FirebaseAuth mAuth;
 
-    Intent userDetails = new Intent();
+    Intent adminDetails = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security_ques);
-        userDetails = getIntent();
+        adminDetails = getIntent();
 
         secq1SP = findViewById(R.id.secq1SP);
         secq2SP = findViewById(R.id.secq2SP);
@@ -63,8 +63,8 @@ public class SecurityQues extends AppCompatActivity {
         //Create an instance of firebase users
       mAuth = FirebaseAuth.getInstance(); // get an instance of firebase auth
         db = FirebaseFirestore.getInstance(); // get an instance of firestore
-       admin = db.collection("admin"); // get the an instance of users collection
-        //secQuestions = db.collection("SecQuestions");
+       admins = db.collection("admins"); // get the an instance of users collection
+        secQuestions = db.collection("SecQuestions");
 
 
 //      Create array adapters and populate sec question 1 and 2.
@@ -115,10 +115,10 @@ public class SecurityQues extends AppCompatActivity {
         submitBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = userDetails.getStringExtra("email");
-                String fName = userDetails.getStringExtra("fName");
-                String lName = userDetails.getStringExtra("lName");
-                String pNumber = userDetails.getStringExtra("pNumber");
+                final String email = adminDetails.getStringExtra("email");
+                String fName = adminDetails.getStringExtra("fName");
+                String lName = adminDetails.getStringExtra("lName");
+                String pNumber = adminDetails.getStringExtra("pNumber");
                 String answer1 = answer1ET.getText().toString();
                 String answer2 = answer2ET.getText().toString();
 
@@ -139,12 +139,12 @@ public class SecurityQues extends AppCompatActivity {
                 personalInfo.put("answer2", answer2);
                 personalInfo.put("userGroup", "admin");
 
-                mAuth.createUserWithEmailAndPassword(userDetails.getStringExtra("email"), userDetails.getStringExtra("password"))
+                mAuth.createUserWithEmailAndPassword(adminDetails.getStringExtra("email"), adminDetails.getStringExtra("password"))
                         .addOnCompleteListener(SecurityQues.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
-//                                    users.document(email).set(personalInfo);
+                                   admins.document(email).set(personalInfo);
 
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     user.sendEmailVerification()
