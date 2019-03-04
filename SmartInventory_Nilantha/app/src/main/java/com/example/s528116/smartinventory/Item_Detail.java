@@ -79,7 +79,7 @@ public class Item_Detail extends AppCompatActivity {
         unitPrice = i.getLongExtra("unitPrice",0);
         unitsRequired = i.getLongExtra("qntyRequired",0);
         docId = i.getStringExtra("documentId");
-        imageIV.setImageResource(R.drawable.iphone6);
+        imageIV.setImageResource(i.getIntExtra("image",0));
         itemNameTV.setText(i.getStringExtra("itemName"));
         priceTV.setText("Buying price :$" + i.getLongExtra("unitPrice",0));
         quntityNeededTV.setText("Quntity Needed : " + i.getLongExtra("qntyRequired",0));
@@ -129,7 +129,7 @@ public class Item_Detail extends AppCompatActivity {
                             intent.putExtra("userEmail", userEmail);
                             startActivity(intent);
                         }
-                    }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 //                            finish();

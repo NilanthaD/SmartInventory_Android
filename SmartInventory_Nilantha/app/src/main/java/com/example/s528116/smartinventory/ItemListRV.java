@@ -27,11 +27,13 @@ public class ItemListRV extends AppCompatActivity {
     private RecyclerView itemsRV;
     private RecyclerView.Adapter itemsAdapter;
     private RecyclerView.LayoutManager itemsLayoutManager;
+    private ArrayList<Integer> imageList;
 
     private FirebaseFirestore db;
     private FirebaseStorage storage;
     private StorageReference mStorageRef;
     CollectionReference itemCollection;
+
 
     private String userEmail;
 
@@ -44,6 +46,14 @@ public class ItemListRV extends AppCompatActivity {
 //        storage = FirebaseStorage.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         itemCollection = db.collection("items");
+        /*____________________________________________________________________
+        * Array for keeping the images, need to be changed once the admin module implemented*/
+        imageList = new ArrayList<>();
+        imageList.add(R.drawable.iphone6);
+        imageList.add(R.drawable.cmera);
+        imageList.add(R.drawable.iphone6);
+        imageList.add(R.drawable.galaxy);
+        /*____________________________________________________________________*/
         final Date today = new Date();
 
         Intent i = getIntent();
@@ -54,10 +64,13 @@ public class ItemListRV extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
+                    int i=0;
                     for(QueryDocumentSnapshot doc: task.getResult()){
                         if(today.before(doc.getTimestamp("requiredBefore").toDate())) {
-                            itemListArray.add(new ItemContainer(userEmail, doc.getId(), R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"),
+
+                            itemListArray.add(new ItemContainer(userEmail, doc.getId(), imageList.get(i), doc.getString("itemId"), doc.getString("itemName"),
                                     doc.getLong("untPrice"), doc.getLong("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
+                            i++;
                         }
                     }
 
