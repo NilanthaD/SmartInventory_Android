@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,8 +32,7 @@ public class SupplyHistoryRV extends AppCompatActivity {
     private Intent supplyHistoryIntent = new Intent();
     private String userEmail;
     private FirebaseFirestore db;
-//    private FirebaseStorage storage;
-//    private StorageReference pathReferance;
+    private DocumentReference supplyItemDocRef;
     CollectionReference supplyItemsCollection;
 
     @Override
@@ -43,6 +43,7 @@ public class SupplyHistoryRV extends AppCompatActivity {
         supplyHistoryIntent = getIntent();
         userEmail = supplyHistoryIntent.getStringExtra("userEmail");
         supplyItemsCollection = db.collection("users").document(userEmail).collection("supplyList");
+//        supplyItemDocRef = db.collection("users").document(userEmail).collection("supplyList").document(supplyDocId);
 
         final ArrayList<SupplyHistory> supplyListAL = new ArrayList<>();
         supplyItemsCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -83,7 +84,11 @@ public class SupplyHistoryRV extends AppCompatActivity {
 //                startActivity(supplyHistoryIntent);
 //                break;
             case R.id.back:
-                finish();
+                Intent j = new Intent(this, ItemListRV.class);
+                j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                j.putExtra("userEmail", userEmail);
+                startActivity(j);
+                SupplyHistoryRV.this.finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

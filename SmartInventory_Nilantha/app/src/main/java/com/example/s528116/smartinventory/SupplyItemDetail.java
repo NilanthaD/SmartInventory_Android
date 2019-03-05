@@ -1,10 +1,11 @@
 package com.example.s528116.smartinventory;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,14 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.time.temporal.TemporalAmount;
 import java.util.Date;
 
 public class SupplyItemDetail extends AppCompatActivity {
@@ -46,9 +47,7 @@ public class SupplyItemDetail extends AppCompatActivity {
     private Date createdDate;
 
     private FirebaseFirestore mDb;
-//    private CollectionReference supplyItemCollection, itemsCollection;
     private DocumentReference supplyItemDocRef, itemsDocRef;
-
 
 
     @Override
@@ -73,7 +72,6 @@ public class SupplyItemDetail extends AppCompatActivity {
         userEmail = supplyItemIntent.getStringExtra("userEmail");
         status = supplyItemIntent.getStringExtra("status").trim();
         supplyDocId = supplyItemIntent.getStringExtra("supplyDocId");
-//        Toast.makeText(this, "Supply Doc Id :" + supplyDocId, Toast.LENGTH_SHORT).show();
 
         mDb = FirebaseFirestore.getInstance();
         supplyItemDocRef = mDb.collection("users").document(userEmail).collection("supplyList").document(supplyDocId);
@@ -82,7 +80,7 @@ public class SupplyItemDetail extends AppCompatActivity {
         supplyItemDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     DocumentSnapshot supplyDoc = task.getResult();
 
@@ -104,8 +102,7 @@ public class SupplyItemDetail extends AppCompatActivity {
                     unitPriceTV.setText("Unit Price :$" + unitPrice);
                     numberOfUnitsTV.setText("Number of Units :" + supplyAmount);
                     totalValueTV.setText("Total Value :$" + totalValue);
-                }
-                else
+                } else
                     Toast.makeText(SupplyItemDetail.this, "Task Failed", Toast.LENGTH_SHORT).show();
             }
 
@@ -128,31 +125,87 @@ public class SupplyItemDetail extends AppCompatActivity {
                 itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             unitRequired = document.getLong("unitRequired");
-                            newUnitRequired = unitRequired + newSupplyAmount - supplyAmount;
-                            totalValue = unitPrice*newSupplyAmount;
+                            newUnitRequired = unitRequired - newSupplyAmount + supplyAmount;
+                            totalValue = unitPrice * newSupplyAmount;
 
-                            supplyItemDocRef.update("supplyAmount", newSupplyAmount);
-                            supplyItemDocRef.update("totalValue", totalValue);
-                            itemsDocRef.update("unitRequired", newUnitRequired);
-                            numberOfUnitsTV.setText("Number of Units :" + newSupplyAmount);
-                            totalValueTV.setText("Total Value :$" + totalValue);
-
-
-                        }
-                        else{
+                            AlertDialog.Builder builder = new AlertDialog.Builder(SupplyItemDetail.this);
+                            builder.setMessage("Are you sure you want to change the supply ammount to be " + newSupplyAmount)
+                                    .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    supplyItemDocRef.update("supplyAmount", newSupplyAmount);
+                                    supplyItemDocRef.update("totalValue", totalValue);
+                                    itemsDocRef.update("unitRequired", newUnitRequired);
+                                    numberOfUnitsTV.setText("Number of Units :" + newSupplyAmount);
+                                    totalValueTV.setText("Total Value :$" + totalValue);
+                                    newAmountET.setText("");
+                                }
+                            }).setNegativeButton("canclel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        } else {
                             Toast.makeText(SupplyItemDetail.this, "Could not update the number of Required items", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
 
-//                supplyItemDocRef.update("supplyAmount", newAmount);
-//                Toast.makeText(SupplyItemDetail.this, "New Unit Required :"+ newUnitRequired, Toast.LENGTH_SHORT).show();
-//                Log.d("oldAmount", Long.toString(olddAmount));
-//                itemsDocRef.update("unitRequired", newUnitRequired);
-//                finish();
+
+            }
+        });
+
+        deleteRequestBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SupplyItemDetail.this);
+                builder.setMessage("Are you sure you want to delete this Item Supply Request").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    unitRequired = document.getLong("unitRequired");
+
+                                    supplyItemDocRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            itemsDocRef.update("unitRequired", unitRequired + supplyAmount);
+                                            Toast.makeText(SupplyItemDetail.this, "Item Deleted", Toast.LENGTH_SHORT).show();
+                                            Intent supplyHistoryIntent = new Intent(SupplyItemDetail.this, SupplyHistoryRV.class);
+                                            supplyHistoryIntent.putExtra("userEmail", userEmail);
+                                            supplyHistoryIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(supplyHistoryIntent);
+                                            SupplyItemDetail.this.finish();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(SupplyItemDetail.this, "Error deleting Document" + e, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SupplyItemDetail.this.finish();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
             }
         });
 
@@ -171,12 +224,12 @@ public class SupplyItemDetail extends AppCompatActivity {
                 break;
 
             case R.id.SupplyHistory:
+            case R.id.back:
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
+                supplyHistoryIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(supplyHistoryIntent);
-                break;
-            case R.id.back:
-                finish();
+                SupplyItemDetail.this.finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
