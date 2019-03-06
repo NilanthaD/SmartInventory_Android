@@ -173,7 +173,11 @@ public class Item_Detail extends AppCompatActivity {
                 startActivity(i);
                 Item_Detail.this.finish();
                 break;
-
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, Aboutus.class);
+                aboutIntent.putExtra("userName", userEmail);
+                startActivity(aboutIntent);
+                break;
             case R.id.SupplyHistory:
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
                 supplyHistoryIntent.putExtra("userEmail", userEmail);

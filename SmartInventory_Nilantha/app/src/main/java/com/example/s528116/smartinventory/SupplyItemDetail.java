@@ -222,7 +222,11 @@ public class SupplyItemDetail extends AppCompatActivity {
                 startActivity(i);
                 SupplyItemDetail.this.finish();
                 break;
-
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, Aboutus.class);
+                aboutIntent.putExtra("userName", userEmail);
+                startActivity(aboutIntent);
+                break;
             case R.id.SupplyHistory:
             case R.id.back:
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);

@@ -50,7 +50,7 @@ public class ItemListRV extends AppCompatActivity {
         * Array for keeping the images, need to be changed once the admin module implemented*/
         imageList = new ArrayList<>();
         imageList.add(R.drawable.iphone6);
-        imageList.add(R.drawable.cmera);
+        imageList.add(R.drawable.camera);
         imageList.add(R.drawable.iphone6);
         imageList.add(R.drawable.galaxy);
         /*____________________________________________________________________*/
@@ -99,9 +99,11 @@ public class ItemListRV extends AppCompatActivity {
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
                 break;
-//            case R.id.back:
-//                finish();
-//                break;
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, Aboutus.class);
+                aboutIntent.putExtra("userName", userEmail);
+                startActivity(aboutIntent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
