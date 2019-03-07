@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -49,10 +50,10 @@ public class ItemListRV extends AppCompatActivity {
         /*____________________________________________________________________
         * Array for keeping the images, need to be changed once the admin module implemented*/
         imageList = new ArrayList<>();
-        imageList.add(R.drawable.iphone6);
         imageList.add(R.drawable.camera);
         imageList.add(R.drawable.iphone6);
         imageList.add(R.drawable.galaxy);
+        imageList.add(R.drawable.iphone6);
         /*____________________________________________________________________*/
         final Date today = new Date();
 
@@ -60,7 +61,7 @@ public class ItemListRV extends AppCompatActivity {
         userEmail = i.getStringExtra("userEmail");
 
         final ArrayList<ItemContainer> itemListArray = new ArrayList<>();
-        itemCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        itemCollection.orderBy("itemPostedDate", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){

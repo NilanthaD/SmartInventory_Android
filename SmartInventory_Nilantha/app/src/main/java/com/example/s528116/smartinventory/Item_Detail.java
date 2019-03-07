@@ -93,8 +93,7 @@ public class Item_Detail extends AppCompatActivity {
             }
         });
 
-
-//        if usr click "Submit Request", it will read the number of items and the message and save the data under user --> SupplyList
+//      if usr click "Submit Request", it will read the number of items and the message and save the data under user --> SupplyList
         submitRequestBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,19 +121,13 @@ public class Item_Detail extends AppCompatActivity {
                             userRef.collection("supplyList").document().set(supplyRequest);
 
                             long newQuntyRequired = unitsRequired - supplyAmt;
-
-
                             itemRef.update("unitRequired", newQuntyRequired);  // Adjust the number of required units.
-
+//                          Close the Item_Detail activity
                             Intent j = new Intent(Item_Detail.this, ItemListRV.class);
                             j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             j.putExtra("userEmail", userEmail);
                             startActivity(j);
                             Item_Detail.this.finish();
-
-//                            Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
-//                            intent.putExtra("userEmail", userEmail);
-//                            startActivity(intent);
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
@@ -144,15 +137,11 @@ public class Item_Detail extends AppCompatActivity {
                     });
                     AlertDialog alert = builder.create();
                     alert.show();
-
-
                 } else {
                     Toast.makeText(Item_Detail.this, "Not a valid amount of units", Toast.LENGTH_LONG).show();
                 }
             }
         });
-
-
         cancleRequestTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,20 +149,11 @@ public class Item_Detail extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        Intent a = getIntent();
-//        userEmail = a.getStringExtra("userEmail");
-//    }
-
+    // Menu and menu items
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -196,7 +176,6 @@ public class Item_Detail extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

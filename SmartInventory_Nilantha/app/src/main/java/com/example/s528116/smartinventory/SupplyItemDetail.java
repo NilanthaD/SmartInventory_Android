@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,19 +30,15 @@ import java.util.Date;
 public class SupplyItemDetail extends AppCompatActivity {
 
     private ImageView supplyItemImageIV;
-    private TextView statusTV;
-    private TextView itemIDTV;
-    private TextView unitPriceTV;
-    private TextView numberOfUnitsTV;
-    private TextView createdDateTV;
-    private TextView totalValueTV;
+    private TextView statusTV, itemIDTV, unitPriceTV, numberOfUnitsTV, createdDateTV, totalValueTV;
     private EditText newAmountET;
-    private Button submitNewAmountBTN;
-    private Button deleteRequestBTN;
-    private Button changeRequestBTN;
-    private Button shippingLableBTN;
+    private Button submitNewAmountBTN, deleteRequestBTN, shippingLableBTN;
+    private LinearLayout pendingLL, newRequestLL;
+    //items for send change request
+    private EditText messageET, changeSupplyAmountET;
+    private Button changeRequestBTN, cancelSupplyRequestBTN;
 
-    Intent supplyItemIntent = new Intent();
+    private Intent supplyItemIntent = new Intent();
     private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated;
     private long supplyAmount, totalValue, unitPrice, unitRequired, newSupplyAmount, newUnitRequired;
     private Date createdDate;
@@ -66,7 +63,12 @@ public class SupplyItemDetail extends AppCompatActivity {
         submitNewAmountBTN = findViewById(R.id.submitNewAmountBTN);
         deleteRequestBTN = findViewById(R.id.deleteRequestBTN);
         changeRequestBTN = findViewById(R.id.changeRequestBTN);
+        messageET = findViewById(R.id.messageET);
+        changeSupplyAmountET = findViewById(R.id.changeRequestAmountET);
+        cancelSupplyRequestBTN = findViewById(R.id.cancleSupplyRequestBTN);
         shippingLableBTN = findViewById(R.id.shippingLabelBTN);
+        pendingLL = findViewById(R.id.pendingLL);
+        newRequestLL= findViewById(R.id.newRequestLL);
 
         supplyItemIntent = getIntent();
         userEmail = supplyItemIntent.getStringExtra("userEmail");
@@ -109,11 +111,16 @@ public class SupplyItemDetail extends AppCompatActivity {
         });
 
         if (!status.equals("pending")) {
+            pendingLL.setVisibility(View.GONE);
             newAmountET.setEnabled(false);
             submitNewAmountBTN.setEnabled(false);
             deleteRequestBTN.setEnabled(false);
-        } else {
+        } else if(!status.equals("approved"))
+            {
+            newRequestLL.setVisibility(View.GONE);
             changeRequestBTN.setEnabled(false);
+            messageET.setEnabled(false);
+            cancelSupplyRequestBTN.setEnabled(false);
             shippingLableBTN.setEnabled(false);
         }
 

@@ -14,7 +14,6 @@
         <activity android:name=".ContactUs"></activity>
         <activity android:name=".SupplyItemDetail" />
         <activity android:name=".SupplyHistoryRV" />
-        <activity android:name=".SupplyRequestSubmitted" />
         <activity android:name=".Item_Detail" />
         <activity android:name=".ItemListRV" />
         <activity

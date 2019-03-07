@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -43,10 +44,10 @@ public class SupplyHistoryRV extends AppCompatActivity {
         supplyHistoryIntent = getIntent();
         userEmail = supplyHistoryIntent.getStringExtra("userEmail");
         supplyItemsCollection = db.collection("users").document(userEmail).collection("supplyList");
-//        supplyItemDocRef = db.collection("users").document(userEmail).collection("supplyList").document(supplyDocId);
 
+//      Read the user supplyList from the database and populate the view
         final ArrayList<SupplyHistory> supplyListAL = new ArrayList<>();
-        supplyItemsCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        supplyItemsCollection.orderBy("createdDate", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){

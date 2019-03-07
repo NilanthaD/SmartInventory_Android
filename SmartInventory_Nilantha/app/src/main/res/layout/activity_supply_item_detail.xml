@@ -72,6 +72,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/pendingLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -80,66 +81,141 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="If your request status is pending and if you want to make a change in your request, you can do it here"/>
+                    android:text="If your request status is pending and if you want to make a change in your request, you can do it here" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="Enter the new amount of items you want to supply"/>
+                    android:text="Enter the new amount of items you want to supply" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <EditText
                         android:id="@+id/newAmountET"
                         android:layout_width="75dp"
                         android:layout_height="wrap_content"
-                        android:outlineSpotShadowColor="#000"
                         android:layout_margin="10dp"
-                        android:hint="Amount"/>
+                        android:hint="Amount"
+                        android:outlineSpotShadowColor="#000" />
+
                     <Button
                         android:id="@+id/submitNewAmountBTN"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:text="Submit"/>
+                        android:text="Submit" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="OR"/>
+                        android:text="OR" />
+
                     <Button
                         android:id="@+id/deleteRequestBTN"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Delete Request"/>
+                        android:text="Delete Request" />
                 </LinearLayout>
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/newRequestLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="If you request status is approved or denied and if you want to make a change in your request, please make a request of change by clicking on SEND CHANGE REQUEST button"/>
+                    android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/changeRequestBTN"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Send change request" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="Download the most recent shipping label for your supply request. Please ship your items within 5 business days of approval" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Download the most recent shipping label for your supply request. Please ship your items within 5 business days of approval"/>
+                    <Button
+                        android:id="@+id/shippingLabelBTN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Download sipping label" />
 
-                <Button
-                    android:id="@+id/shippingLabelBTN"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Download sipping label" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="If you request status is approved and if you want to make a change in your request, please make a request of change by clicking on SEND CHANGE REQUEST button" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginRight="7dp"
+                        android:text="Message (Optional)" />
+
+                    <EditText
+                        android:id="@+id/messageET"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginRight="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/back"
+                        android:hint="Message" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="New requesting amount :" />
+
+                        <EditText
+                            android:id="@+id/changeRequestAmountET"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:hint="Amount" />
+
+                        <Button
+                            android:id="@+id/changeRequestBTN"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Send change\nrequest" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+
+                            android:text="OR Cancel supply Request" />
+
+                        <Button
+                            android:id="@+id/cancleSupplyRequestBTN"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cancel supply\nrequest" />
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
