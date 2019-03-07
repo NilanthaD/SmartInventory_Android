@@ -44,10 +44,10 @@ public class Item_Detail extends AppCompatActivity {
     private long unitsRequired;
     private String createdDate;
 
-    private String supplyAmount;
+    private String supplyAmount; // new supply amount
     private String message;
     private long unitPrice;
-    private long supplyAmt;
+    private long supplyAmt; // new supply amount in int
     private long totalValue;
 
     private FirebaseFirestore db;
@@ -77,7 +77,6 @@ public class Item_Detail extends AppCompatActivity {
 
         itemId = i.getStringExtra("itemId");
         unitPrice = i.getLongExtra("unitPrice",0);
-        unitsRequired = i.getLongExtra("qntyRequired",0);
         docId = i.getStringExtra("documentId");
         imageIV.setImageResource(i.getIntExtra("image",0));
         itemNameTV.setText(i.getStringExtra("itemName"));
@@ -90,8 +89,10 @@ public class Item_Detail extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 detailsTV.setText(documentSnapshot.get("itemDetails").toString());
+                unitsRequired = documentSnapshot.getLong("unitRequired");
             }
         });
+
 
 //        if usr click "Submit Request", it will read the number of items and the message and save the data under user --> SupplyList
         submitRequestBTN.setOnClickListener(new View.OnClickListener() {
@@ -101,10 +102,10 @@ public class Item_Detail extends AppCompatActivity {
                 message = messageET.getText().toString();
                 supplyAmt = Integer.parseInt(supplyAmount);
                 totalValue = unitPrice * supplyAmt;
-                if (supplyAmt > 0) {
-
+                if (supplyAmt > 0 && supplyAmt<= unitsRequired) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Item_Detail.this);
-                    builder.setTitle("Conformation..").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    builder.setTitle("Conformation..")
+                            .setMessage("Make a request to supply "+supplyAmount+" items.\n\nAdmin will response to this request within one business day").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             final Map<String, Object> supplyRequest = new HashMap<>();
@@ -125,9 +126,15 @@ public class Item_Detail extends AppCompatActivity {
 
                             itemRef.update("unitRequired", newQuntyRequired);  // Adjust the number of required units.
 
-                            Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
-                            intent.putExtra("userEmail", userEmail);
-                            startActivity(intent);
+                            Intent j = new Intent(Item_Detail.this, ItemListRV.class);
+                            j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            j.putExtra("userEmail", userEmail);
+                            startActivity(j);
+                            Item_Detail.this.finish();
+
+//                            Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
+//                            intent.putExtra("userEmail", userEmail);
+//                            startActivity(intent);
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
@@ -140,7 +147,7 @@ public class Item_Detail extends AppCompatActivity {
 
 
                 } else {
-                    Toast.makeText(Item_Detail.this, "Number of Items must be more than 0", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Item_Detail.this, "Not a valid amount of units", Toast.LENGTH_LONG).show();
                 }
             }
         });
