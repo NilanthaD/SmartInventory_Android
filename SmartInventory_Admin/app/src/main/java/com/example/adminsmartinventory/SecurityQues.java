@@ -31,6 +31,7 @@ import java.util.Map;
 
 public class SecurityQues extends AppCompatActivity {
 
+
     private Spinner secq1SP;
     private Spinner secq2SP;
     private EditText answer1ET;
@@ -38,20 +39,20 @@ public class SecurityQues extends AppCompatActivity {
     private TextView cancleTV;
     private Button submitBTN;
     private String secQ1, secQ2;
+    //    private DatabaseReference mRef;
     private FirebaseFirestore db;
-    CollectionReference admins;
+    CollectionReference users;
     CollectionReference secQuestions;
 
 
-   private FirebaseAuth mAuth;
-
-    Intent adminDetails = new Intent();
+    private FirebaseAuth mAuth;
+    Intent userDetails = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security_ques);
-        adminDetails = getIntent();
+        userDetails = getIntent();
 
         secq1SP = findViewById(R.id.secq1SP);
         secq2SP = findViewById(R.id.secq2SP);
@@ -61,15 +62,15 @@ public class SecurityQues extends AppCompatActivity {
         cancleTV = findViewById(R.id.cancleTV);
         submitBTN = findViewById(R.id.submitBTN);
         //Create an instance of firebase users
-      mAuth = FirebaseAuth.getInstance(); // get an instance of firebase auth
+        mAuth = FirebaseAuth.getInstance(); // get an instance of firebase auth
         db = FirebaseFirestore.getInstance(); // get an instance of firestore
-       admins = db.collection("admins"); // get the an instance of users collection
+        users = db.collection("users"); // get the an instance of users collection
         secQuestions = db.collection("SecQuestions");
 
 
 //      Create array adapters and populate sec question 1 and 2.
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.secq1, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,R.array.secq2, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.secq2, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         secq1SP.setAdapter(adapter);
@@ -115,14 +116,14 @@ public class SecurityQues extends AppCompatActivity {
         submitBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = adminDetails.getStringExtra("email");
-                String fName = adminDetails.getStringExtra("fName");
-                String lName = adminDetails.getStringExtra("lName");
-                String pNumber = adminDetails.getStringExtra("pNumber");
+                final String email = userDetails.getStringExtra("email");
+                String fName = userDetails.getStringExtra("fName");
+                String lName = userDetails.getStringExtra("lName");
+                String pNumber = userDetails.getStringExtra("pNumber");
                 String answer1 = answer1ET.getText().toString();
                 String answer2 = answer2ET.getText().toString();
 
-                if(TextUtils.isEmpty(answer1) || (TextUtils.isEmpty(answer2))){
+                if (TextUtils.isEmpty(answer1) || (TextUtils.isEmpty(answer2))) {
                     Toast.makeText(SecurityQues.this, "Please answer both security questions.", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -139,12 +140,12 @@ public class SecurityQues extends AppCompatActivity {
                 personalInfo.put("answer2", answer2);
                 personalInfo.put("userGroup", "admin");
 
-                mAuth.createUserWithEmailAndPassword(adminDetails.getStringExtra("email"), adminDetails.getStringExtra("password"))
+                mAuth.createUserWithEmailAndPassword(userDetails.getStringExtra("email"), userDetails.getStringExtra("password"))
                         .addOnCompleteListener(SecurityQues.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()) {
-                                   admins.document(email).set(personalInfo);
+                                if (task.isSuccessful()) {
+                                    users.document(email).set(personalInfo);
 
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     user.sendEmailVerification()
@@ -152,6 +153,7 @@ public class SecurityQues extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 //                                            Toast.makeText(SecQuestion.this, "Veryfication email sent", Toast.LENGTH_SHORT).show();
+                                                    SignupActivity.signup.finish();
                                                     AlertDialog.Builder builder = new AlertDialog.Builder(SecurityQues.this);
                                                     builder.setMessage("Veryfication email is sent to your email. Please click on the link to verify your email")
                                                             .setCancelable(false)
@@ -168,8 +170,7 @@ public class SecurityQues extends AppCompatActivity {
                                                 }
                                             });
 
-                                }
-                                else {
+                                } else {
 //                                    Toast.makeText(SecQuestion.this, "Sorry..Couldn't create an account" + task.getException(), Toast.LENGTH_SHORT).show();
                                     AlertDialog.Builder builder = new AlertDialog.Builder(SecurityQues.this);
                                     builder.setMessage(task.getException().toString()).setCancelable(false)
@@ -196,4 +197,3 @@ public class SecurityQues extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
     }
 }
-
