@@ -68,7 +68,7 @@ public class SupplyItemDetail extends AppCompatActivity {
         cancelSupplyRequestBTN = findViewById(R.id.cancleSupplyRequestBTN);
         shippingLableBTN = findViewById(R.id.shippingLabelBTN);
         pendingLL = findViewById(R.id.pendingLL);
-        newRequestLL= findViewById(R.id.newRequestLL);
+        newRequestLL = findViewById(R.id.newRequestLL);
 
         supplyItemIntent = getIntent();
         userEmail = supplyItemIntent.getStringExtra("userEmail");
@@ -115,8 +115,7 @@ public class SupplyItemDetail extends AppCompatActivity {
             newAmountET.setEnabled(false);
             submitNewAmountBTN.setEnabled(false);
             deleteRequestBTN.setEnabled(false);
-        } else if(!status.equals("approved"))
-            {
+        } else if (!status.equals("approved")) {
             newRequestLL.setVisibility(View.GONE);
             changeRequestBTN.setEnabled(false);
             messageET.setEnabled(false);
@@ -124,50 +123,55 @@ public class SupplyItemDetail extends AppCompatActivity {
             shippingLableBTN.setEnabled(false);
         }
 
+        itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    unitRequired = document.getLong("unitRequired");
+                }
+            }
+        });
+
         submitNewAmountBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 newSupplyAmount = Long.parseLong(newAmountET.getText().toString());
-
-                itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            unitRequired = document.getLong("unitRequired");
-                            newUnitRequired = unitRequired - newSupplyAmount + supplyAmount;
-                            totalValue = unitPrice * newSupplyAmount;
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(SupplyItemDetail.this);
-                            builder.setMessage("Are you sure you want to change the supply ammount to be " + newSupplyAmount)
-                                    .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    supplyItemDocRef.update("supplyAmount", newSupplyAmount);
-                                    supplyItemDocRef.update("totalValue", totalValue);
-                                    itemsDocRef.update("unitRequired", newUnitRequired);
-                                    numberOfUnitsTV.setText("Number of Units :" + newSupplyAmount);
-                                    totalValueTV.setText("Total Value :$" + totalValue);
-                                    newAmountET.setText("");
-                                }
-                            }).setNegativeButton("canclel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                            AlertDialog alert = builder.create();
-                            alert.show();
-                        } else {
-                            Toast.makeText(SupplyItemDetail.this, "Could not update the number of Required items", Toast.LENGTH_SHORT).show();
+                if (newSupplyAmount > 0 && newSupplyAmount < unitRequired) {
+                    newUnitRequired = unitRequired - newSupplyAmount + supplyAmount;
+                    totalValue = unitPrice * newSupplyAmount;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SupplyItemDetail.this);
+                    builder.setMessage("Are you sure you want to change the supply ammount to be " + newSupplyAmount)
+                            .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            supplyItemDocRef.update("supplyAmount", newSupplyAmount);
+                            supplyItemDocRef.update("totalValue", totalValue);
+                            itemsDocRef.update("unitRequired", newUnitRequired);
+                            numberOfUnitsTV.setText("Number of Units :" + newSupplyAmount);
+                            totalValueTV.setText("Total Value :$" + totalValue);
+                            newAmountET.setText("");
                         }
-                    }
-                });
-
-
+                    }).setNegativeButton("canclel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                } else {
+                    Toast.makeText(SupplyItemDetail.this, "new amount must be greater than 0 and less than units required.", Toast.LENGTH_LONG).show();
+                }
+//                      }
+//                             else {
+//                            Toast.makeText(SupplyItemDetail.this, "Could not update the number of Required items", Toast.LENGTH_SHORT).show();
+//                        }
             }
         });
 
+
+//      If the request is pending and user click the delete request buttion, it will delete the record from db
         deleteRequestBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,34 +179,30 @@ public class SupplyItemDetail extends AppCompatActivity {
                 builder.setMessage("Are you sure you want to delete this Item Supply Request").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    unitRequired = document.getLong("unitRequired");
+//                        itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                if (task.isSuccessful()) {
+//                                    DocumentSnapshot document = task.getResult();
+//                                    unitRequired = document.getLong("unitRequired");
 
-                                    supplyItemDocRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            itemsDocRef.update("unitRequired", unitRequired + supplyAmount);
-                                            Toast.makeText(SupplyItemDetail.this, "Item Deleted", Toast.LENGTH_SHORT).show();
-                                            Intent supplyHistoryIntent = new Intent(SupplyItemDetail.this, SupplyHistoryRV.class);
-                                            supplyHistoryIntent.putExtra("userEmail", userEmail);
-                                            supplyHistoryIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            startActivity(supplyHistoryIntent);
-                                            SupplyItemDetail.this.finish();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(SupplyItemDetail.this, "Error deleting Document" + e, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
+                        supplyItemDocRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                itemsDocRef.update("unitRequired", unitRequired + supplyAmount);
+                                Toast.makeText(SupplyItemDetail.this, "Item Deleted", Toast.LENGTH_SHORT).show();
+                                Intent supplyHistoryIntent = new Intent(SupplyItemDetail.this, SupplyHistoryRV.class);
+                                supplyHistoryIntent.putExtra("userEmail", userEmail);
+                                supplyHistoryIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(supplyHistoryIntent);
+                                SupplyItemDetail.this.finish();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(SupplyItemDetail.this, "Error deleting Document" + e, Toast.LENGTH_SHORT).show();
                             }
                         });
-
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -216,7 +216,22 @@ public class SupplyItemDetail extends AppCompatActivity {
             }
         });
 
+//        changeRequestBTN.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                newSupplyAmount = Long.parseLong(newAmountET.getText().toString());
+//                message = messageET.getText().toString();
+//                if(newSupplyAmount>0 && newSupplyAmount<unitRequired){
+//                    // store data in the database
+//                    supplyItemDocRef.update("changeRequestMessage", message,"newSupplyAmount",newSupplyAmount);
+//                    Toast.makeText(SupplyItemDetail.this, "Sent Request", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
     }
+
+
+//      if the status is approved and user want to make a change to the existing request.
 
 
     @Override
