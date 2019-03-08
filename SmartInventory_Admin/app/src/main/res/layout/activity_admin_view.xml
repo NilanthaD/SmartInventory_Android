@@ -16,27 +16,27 @@
         android:orientation="vertical"
         android:layout_gravity="center_vertical"
         android:layout_margin="10dp">
+        <Button
+            android:id="@+id/ViewItemBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View/Edit/Delete Items" />
+
+        <Button
+            android:id="@+id/addItemBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Items" />
+
 
     <Button
-        android:id="@+id/BT1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Supply Requests"
-        />
-
-    <Button
-        android:id="@+id/BT2"
+        android:id="@+id/messageBTN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Messages"
          />
 
-    <Button
-        android:id="@+id/BT3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add/Edit/Delete Items"
-         />
+
     </LinearLayout>
 
     </ScrollView>
