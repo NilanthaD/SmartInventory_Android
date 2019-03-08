@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,11 +28,13 @@ public class ItemListRV extends AppCompatActivity {
     private RecyclerView itemsRV;
     private RecyclerView.Adapter itemsAdapter;
     private RecyclerView.LayoutManager itemsLayoutManager;
+    private ArrayList<Integer> imageList;
 
     private FirebaseFirestore db;
     private FirebaseStorage storage;
     private StorageReference mStorageRef;
     CollectionReference itemCollection;
+
 
     private String userEmail;
 
@@ -44,20 +47,31 @@ public class ItemListRV extends AppCompatActivity {
 //        storage = FirebaseStorage.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         itemCollection = db.collection("items");
+        /*____________________________________________________________________
+        * Array for keeping the images, need to be changed once the admin module implemented*/
+        imageList = new ArrayList<>();
+        imageList.add(R.drawable.camera);
+        imageList.add(R.drawable.iphone6);
+        imageList.add(R.drawable.galaxy);
+        imageList.add(R.drawable.iphone6);
+        /*____________________________________________________________________*/
         final Date today = new Date();
 
         Intent i = getIntent();
         userEmail = i.getStringExtra("userEmail");
 
         final ArrayList<ItemContainer> itemListArray = new ArrayList<>();
-        itemCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        itemCollection.orderBy("itemPostedDate", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
+                    int i=0;
                     for(QueryDocumentSnapshot doc: task.getResult()){
                         if(today.before(doc.getTimestamp("requiredBefore").toDate())) {
-                            itemListArray.add(new ItemContainer(userEmail, doc.getId(), R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"),
+
+                            itemListArray.add(new ItemContainer(userEmail, doc.getId(), imageList.get(i), doc.getString("itemId"), doc.getString("itemName"),
                                     doc.getLong("untPrice"), doc.getLong("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
+                            i++;
                         }
                     }
 
@@ -86,9 +100,11 @@ public class ItemListRV extends AppCompatActivity {
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
                 break;
-//            case R.id.back:
-//                finish();
-//                break;
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, Aboutus.class);
+                aboutIntent.putExtra("userName", userEmail);
+                startActivity(aboutIntent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

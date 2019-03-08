@@ -14,7 +14,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,8 +33,7 @@ public class SupplyHistoryRV extends AppCompatActivity {
     private Intent supplyHistoryIntent = new Intent();
     private String userEmail;
     private FirebaseFirestore db;
-//    private FirebaseStorage storage;
-//    private StorageReference pathReferance;
+    private DocumentReference supplyItemDocRef;
     CollectionReference supplyItemsCollection;
 
     @Override
@@ -44,8 +45,9 @@ public class SupplyHistoryRV extends AppCompatActivity {
         userEmail = supplyHistoryIntent.getStringExtra("userEmail");
         supplyItemsCollection = db.collection("users").document(userEmail).collection("supplyList");
 
+//      Read the user supplyList from the database and populate the view
         final ArrayList<SupplyHistory> supplyListAL = new ArrayList<>();
-        supplyItemsCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        supplyItemsCollection.orderBy("createdDate", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
@@ -76,14 +78,18 @@ public class SupplyHistoryRV extends AppCompatActivity {
                 startActivity(i);
                 SupplyHistoryRV.this.finish();
                 break;
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, Aboutus.class);
+                aboutIntent.putExtra("userName", userEmail);
+                startActivity(aboutIntent);
+                break;
 
-//            case R.id.SupplyHistory:
-//                Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
-//                supplyHistoryIntent.putExtra("userEmail", userEmail);
-//                startActivity(supplyHistoryIntent);
-//                break;
             case R.id.back:
-                finish();
+                Intent j = new Intent(this, ItemListRV.class);
+                j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                j.putExtra("userEmail", userEmail);
+                startActivity(j);
+                SupplyHistoryRV.this.finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

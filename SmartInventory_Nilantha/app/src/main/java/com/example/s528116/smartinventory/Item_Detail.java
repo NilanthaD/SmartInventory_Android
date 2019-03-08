@@ -44,10 +44,10 @@ public class Item_Detail extends AppCompatActivity {
     private long unitsRequired;
     private String createdDate;
 
-    private String supplyAmount;
+    private String supplyAmount; // new supply amount
     private String message;
     private long unitPrice;
-    private long supplyAmt;
+    private long supplyAmt; // new supply amount in int
     private long totalValue;
 
     private FirebaseFirestore db;
@@ -77,9 +77,8 @@ public class Item_Detail extends AppCompatActivity {
 
         itemId = i.getStringExtra("itemId");
         unitPrice = i.getLongExtra("unitPrice",0);
-        unitsRequired = i.getLongExtra("qntyRequired",0);
         docId = i.getStringExtra("documentId");
-        imageIV.setImageResource(R.drawable.iphone6);
+        imageIV.setImageResource(i.getIntExtra("image",0));
         itemNameTV.setText(i.getStringExtra("itemName"));
         priceTV.setText("Buying price :$" + i.getLongExtra("unitPrice",0));
         quntityNeededTV.setText("Quntity Needed : " + i.getLongExtra("qntyRequired",0));
@@ -90,10 +89,11 @@ public class Item_Detail extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 detailsTV.setText(documentSnapshot.get("itemDetails").toString());
+                unitsRequired = documentSnapshot.getLong("unitRequired");
             }
         });
 
-//        if usr click "Submit Request", it will read the number of items and the message and save the data under user --> SupplyList
+//      if usr click "Submit Request", it will read the number of items and the message and save the data under user --> SupplyList
         submitRequestBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,10 +101,10 @@ public class Item_Detail extends AppCompatActivity {
                 message = messageET.getText().toString();
                 supplyAmt = Integer.parseInt(supplyAmount);
                 totalValue = unitPrice * supplyAmt;
-                if (supplyAmt > 0) {
-
+                if (supplyAmt > 0 && supplyAmt<= unitsRequired) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Item_Detail.this);
-                    builder.setTitle("Conformation..").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    builder.setTitle("Conformation..")
+                            .setMessage("Make a request to supply "+supplyAmount+" items.\n\nAdmin will response to this request within one business day").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             final Map<String, Object> supplyRequest = new HashMap<>();
@@ -121,15 +121,15 @@ public class Item_Detail extends AppCompatActivity {
                             userRef.collection("supplyList").document().set(supplyRequest);
 
                             long newQuntyRequired = unitsRequired - supplyAmt;
-
-
                             itemRef.update("unitRequired", newQuntyRequired);  // Adjust the number of required units.
-
-                            Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
-                            intent.putExtra("userEmail", userEmail);
-                            startActivity(intent);
+//                          Close the Item_Detail activity
+                            Intent j = new Intent(Item_Detail.this, ItemListRV.class);
+                            j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            j.putExtra("userEmail", userEmail);
+                            startActivity(j);
+                            Item_Detail.this.finish();
                         }
-                    }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 //                            finish();
@@ -137,15 +137,11 @@ public class Item_Detail extends AppCompatActivity {
                     });
                     AlertDialog alert = builder.create();
                     alert.show();
-
-
                 } else {
-                    Toast.makeText(Item_Detail.this, "Number of Items must be more than 0", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Item_Detail.this, "Not a valid amount of units", Toast.LENGTH_LONG).show();
                 }
             }
         });
-
-
         cancleRequestTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,27 +149,22 @@ public class Item_Detail extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        Intent a = getIntent();
-//        userEmail = a.getStringExtra("userEmail");
-//    }
-
+    // Menu and menu items
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 Item_Detail.this.finish();
                 break;
-
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, Aboutus.class);
+                aboutIntent.putExtra("userName", userEmail);
+                startActivity(aboutIntent);
+                break;
             case R.id.SupplyHistory:
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
@@ -185,7 +176,6 @@ public class Item_Detail extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
