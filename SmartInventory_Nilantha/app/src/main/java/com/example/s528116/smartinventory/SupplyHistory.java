@@ -7,17 +7,18 @@ public class SupplyHistory {
     private int image;
     private String status;
     private String itemName;
-    private String unitPrice;
-    private String numberOfUnits;
+    private long unitPrice;
+    private long numberOfUnits;
     private Date requestCreatedDate;
     private String userEmail;
     private String message;
-    private String totalValue;
+    private long totalValue;
     private String paymentStatus;
     private String itemDocId;
+    private String supplyDocId;
 
-    public SupplyHistory(String userEmail, int image, String status, String itemName, String unitPrice, String numberOfUnits, Date requestCreatedDate
-    , String message, String totalValue, String paymentStatus, String itemDocId) {
+    public SupplyHistory(String userEmail, int image, String status, String itemName, long unitPrice, long numberOfUnits, Date requestCreatedDate
+            , String message, long totalValue, String paymentStatus, String itemDocId, String supplyDocId) {
         this.image = image;
         this.status = status;
         this.itemName = itemName;
@@ -29,9 +30,12 @@ public class SupplyHistory {
         this.totalValue = totalValue;
         this.paymentStatus = paymentStatus;
         this.itemDocId = itemDocId;
+        this.supplyDocId = supplyDocId;
     }
 
-    public String getUserEmail(){return userEmail;}
+    public String getUserEmail() {
+        return userEmail;
+    }
 
     public int getImage() {
         return image;
@@ -45,11 +49,11 @@ public class SupplyHistory {
         return itemName;
     }
 
-    public String getUnitPrice() {
+    public long getUnitPrice() {
         return unitPrice;
     }
 
-    public String getNumberOfUnits() {
+    public long getNumberOfUnits() {
         return numberOfUnits;
     }
 
@@ -61,7 +65,7 @@ public class SupplyHistory {
         return message;
     }
 
-    public String getTotalValue() {
+    public long getTotalValue() {
         return totalValue;
     }
 
@@ -72,6 +76,8 @@ public class SupplyHistory {
     public String getItemDocId() {
         return itemDocId;
     }
+
+    public String getSupplyDocId() { return supplyDocId; }
 }
 
 

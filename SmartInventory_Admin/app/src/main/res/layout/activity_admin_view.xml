@@ -6,39 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".AdminView">
 
-    <Button
-        android:id="@+id/BT1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Supply Requests"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.234" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="10dp">
+        <Button
+            android:id="@+id/ViewItemBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View/Edit/Delete Items" />
+
+        <Button
+            android:id="@+id/addItemBTN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Items" />
+
 
     <Button
-        android:id="@+id/BT2"
-        android:layout_width="wrap_content"
+        android:id="@+id/messageBTN"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Messages"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.393" />
+         />
 
-    <Button
-        android:id="@+id/BT3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add/Edit/Delete Items"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.549" />
+
+    </LinearLayout>
+
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
