@@ -36,7 +36,7 @@ public class SupplyItemDetail extends AppCompatActivity {
     private LinearLayout pendingLL, newRequestLL;
     //items for send change request
     private EditText messageET, changeSupplyAmountET;
-    private Button changeRequestBTN, cancelSupplyRequestBTN;
+    private Button changeRequestBTN, cancelSupplyRequestBTN, shippedBTN;
 
     private Intent supplyItemIntent = new Intent();
     private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated;
@@ -67,6 +67,7 @@ public class SupplyItemDetail extends AppCompatActivity {
         changeSupplyAmountET = findViewById(R.id.changeRequestAmountET);
         cancelSupplyRequestBTN = findViewById(R.id.cancleSupplyRequestBTN);
         shippingLableBTN = findViewById(R.id.shippingLabelBTN);
+        shippedBTN = findViewById(R.id.shippedBTN);
         pendingLL = findViewById(R.id.pendingLL);
         newRequestLL = findViewById(R.id.newRequestLL);
 
@@ -215,23 +216,31 @@ public class SupplyItemDetail extends AppCompatActivity {
 
             }
         });
+//      if the status is approved and user want to make a change to the existing request.
+        changeRequestBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newSupplyAmount = Integer.parseInt(changeSupplyAmountET.getText().toString());
+                message = messageET.getText().toString();
+                if(newSupplyAmount>0 && newSupplyAmount<unitRequired){
+                    // store data in the database
+                    supplyItemDocRef.update("changeRequestMessage", message,"newSupplyAmount",newSupplyAmount);
+                    Toast.makeText(SupplyItemDetail.this, "Sent Request", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-//        changeRequestBTN.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                newSupplyAmount = Long.parseLong(newAmountET.getText().toString());
-//                message = messageET.getText().toString();
-//                if(newSupplyAmount>0 && newSupplyAmount<unitRequired){
-//                    // store data in the database
-//                    supplyItemDocRef.update("changeRequestMessage", message,"newSupplyAmount",newSupplyAmount);
-//                    Toast.makeText(SupplyItemDetail.this, "Sent Request", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+        shippedBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supplyItemDocRef.update("status", "Shipped.");
+                statusTV.setText("Status :Shipped.");
+            }
+        });
     }
 
 
-//      if the status is approved and user want to make a change to the existing request.
+
 
 
     @Override

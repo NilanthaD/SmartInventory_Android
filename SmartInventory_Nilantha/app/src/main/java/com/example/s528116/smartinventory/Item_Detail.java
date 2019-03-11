@@ -171,7 +171,11 @@ public class Item_Detail extends AppCompatActivity {
                 startActivity(supplyHistoryIntent);
                 break;
             case R.id.back:
-                finish();
+                Intent j = new Intent(this, ItemListRV.class);
+                j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                j.putExtra("userEmail", userEmail);
+                startActivity(j);
+                Item_Detail.this.finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

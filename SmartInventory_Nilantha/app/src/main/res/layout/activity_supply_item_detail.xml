@@ -100,26 +100,40 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:hint="Amount"
+                        android:background="@drawable/back"
                         android:outlineSpotShadowColor="#000" />
 
                     <Button
                         android:id="@+id/submitNewAmountBTN"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="right"
                         android:text="Submit" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="OR" />
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="OR" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="If you want to cancel the request click delete request" />
 
                     <Button
                         android:id="@+id/deleteRequestBTN"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Delete Request" />
-                </LinearLayout>
+                        android:gravity="center"
+                        android:background="#F00"
+                        android:textColor="#FFF"
+                        android:layout_margin="10dp"
+                        android:text="Delete Request"
+                        android:padding="4dp"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -149,7 +163,48 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:text="If you request status is approved and if you want to make a change in your request, please make a request of change by clicking on SEND CHANGE REQUEST button" />
+                        android:text="Once you shipped the items, please click the button below" />
+
+                    <Button
+                        android:id="@+id/shippedBTN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#080"
+                        android:textColor="#FFF"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Mark as items shipped" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textColor="#FA3A3A"
+                        android:text="If your request status is approved and if you want to make a change in your request, please make a CHANGE REQUEST bellow" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="New requesting amount :" />
+
+                        <EditText
+                            android:id="@+id/changeRequestAmountET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:hint="Amount"
+                            android:background="@drawable/back"
+                            android:inputType="number" />
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -168,54 +223,28 @@
                         android:layout_marginBottom="7dp"
                         android:background="@drawable/back"
                         android:hint="Message" />
-
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/changeRequestBTN"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:text="Send change request" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:text="New requesting amount :" />
-
-                        <EditText
-                            android:id="@+id/changeRequestAmountET"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:hint="Amount"
-                            android:inputType="number" />
-
-                        <Button
-                            android:id="@+id/changeRequestBTN"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Send change\nrequest" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="right"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-
-                            android:text="OR Cancel supply Request" />
+                            android:textColor="#FA3A3A"
+                            android:text="OR \nIf you want to cancel supply Request, click below" />
 
                         <Button
                             android:id="@+id/cancleSupplyRequestBTN"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Cancel supply\nrequest" />
-                    </LinearLayout>
+                            android:background="#F00"
+                            android:textColor="#FFF"
+                            android:layout_margin="10dp"
+                            android:text="Cancel supply request" />
+
                 </LinearLayout>
 
             </LinearLayout>
