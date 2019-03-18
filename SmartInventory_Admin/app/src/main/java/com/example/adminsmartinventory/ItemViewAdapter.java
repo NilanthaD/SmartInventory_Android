@@ -1,7 +1,6 @@
-package com.example.s528116.smartinventory;
+package com.example.adminsmartinventory;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,18 +12,17 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder> {
-    private ArrayList<ItemContainer> itemListArray;
+public class ItemViewAdapter extends RecyclerView.Adapter<ItemViewAdapter.ItemsViewHolder> {
+    private ArrayList<ItemViewContainer> itemListArray;
+    private Context context;
 
-    public ItemsAdapter(ArrayList<ItemContainer> itemListArray, Context context) {
+    public ItemViewAdapter(ArrayList<ItemViewContainer> itemListArray, Context context) {
         this.itemListArray = itemListArray;
         this.context = context;
     }
 
-    private Context context;
 
-
-    public static class ItemsViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemsViewHolder extends RecyclerView.ViewHolder{
         public ImageView itemImage;
         public TextView itemID;
         public TextView itemName;
@@ -33,9 +31,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         public TextView requiredBy;
         public LinearLayout linearLayout2;
 
-        public ItemsViewHolder(@NonNull View itemView) {
+        public ItemsViewHolder(@NonNull View itemView){
             super(itemView);
-
             itemImage = itemView.findViewById(R.id.imageIV);
             itemID = itemView.findViewById(R.id.itemIdTV);
             itemName = itemView.findViewById(R.id.iNameTV);
@@ -45,19 +42,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
             linearLayout2 = itemView.findViewById(R.id.linearLayout2);
         }
     }
-
     @NonNull
     @Override
     public ItemsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_container, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.itemviewcontainer, viewGroup, false);
         ItemsViewHolder itemsVH = new ItemsViewHolder(v);
         return itemsVH;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ItemsViewHolder itemsViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull ItemsViewHolder itemsViewHolder, int i) {
 
-        final ItemContainer currentItem = itemListArray.get(i);
+
+        final ItemViewContainer currentItem = itemListArray.get(i);
         final String requiredBy = FormatDate.getDate(currentItem.getRequiredBy());
 
         itemsViewHolder.itemImage.setImageResource(currentItem.getImage());
@@ -67,27 +64,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         itemsViewHolder.quantityNeeded.setText("Quentity needed :" + currentItem.getQntyNeeded());
         itemsViewHolder.requiredBy.setText("Required by :" + requiredBy);
 
-        itemsViewHolder.linearLayout2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, Item_Detail.class);
-                intent.putExtra("image", currentItem.getImage());
-                intent.putExtra("userEmail", currentItem.getUserEmail());
-                intent.putExtra("documentId", currentItem.getDocumentId());
-                intent.putExtra("itemId", currentItem.getItemID());
-                intent.putExtra("itemName", currentItem.getItemName());
-                intent.putExtra("unitPrice", currentItem.getUnitPrice());
-                intent.putExtra("qntyRequired", currentItem.getQntyNeeded());
-                intent.putExtra("requiredBy", requiredBy);
-                context.startActivity(intent);
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
         return itemListArray.size();
     }
-
-
 }

@@ -16,7 +16,4 @@
     <item
         android:id="@+id/logout"  app:showAsAction="never" android:title="logout">
     </item>
-
-
-
 </menu>

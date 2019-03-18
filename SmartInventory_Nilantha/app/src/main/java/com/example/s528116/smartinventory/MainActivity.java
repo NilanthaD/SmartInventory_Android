@@ -1,8 +1,10 @@
 package com.example.s528116.smartinventory;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore mdb;
     private DocumentReference userRef;
 
+    private SharedPreferences rememberMe;
+
 
     @Override
     protected void onStop() {
@@ -73,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
         forgotPWTV = findViewById(R.id.forgotPWTV);
         rememberMeCB = findViewById(R.id.rememberMeCB);
         progress = new ProgressDialog(this);
+
+        rememberMe = MainActivity.this.getPreferences(MODE_PRIVATE);
+
+//      Get the saved username and password from shared preferences
+
+        userNameET.setText(rememberMe.getString("userName",""));
+        passwordET.setText(rememberMe.getString("password", ""));
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -104,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
                                     userNameET.setText("");
                                         final FirebaseUser user = mAuth.getCurrentUser();
                                         passwordET.setText("");
+//                                      if rememberME is checked, Save the username and password on shared preferences.
+                                        if(rememberMeCB.isChecked()){
+
+                                            SharedPreferences.Editor  editor = rememberMe.edit();
+                                            editor.putString("userName", userName);
+                                            editor.putString("password", password);
+                                            editor.commit();
+                                        }
+
                                         if (user.isEmailVerified()) {
                                             Intent i = new Intent(MainActivity.this, ItemListRV.class);
                                             i.putExtra("userEmail", userName);

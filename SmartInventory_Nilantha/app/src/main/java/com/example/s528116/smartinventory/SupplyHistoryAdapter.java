@@ -55,40 +55,28 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
 
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull final SupplyHistoryViewHoder supplyHistoryViewHoder, final int i) {
         final SupplyHistory currentSupplyItem = supplyListAL.get(i);
-//        Date createdDate = new Date();
-//        createdDate = currentSupplyItem.getRequestCreatedDate();
-//        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
-//        String dateCreated = sdf.format(createdDate);
         final String dateCreated = FormatDate.getDate(currentSupplyItem.getRequestCreatedDate());
 
-
+// Populate the container with data
         supplyHistoryViewHoder.itemImageIV.setImageResource(currentSupplyItem.getImage());
         supplyHistoryViewHoder.statusTV.setText("Status :" + currentSupplyItem.getStatus());
         supplyHistoryViewHoder.itemNameTV.setText("Item :" + currentSupplyItem.getItemName());
         supplyHistoryViewHoder.unitPriceTV.setText("Unit Price :$" + currentSupplyItem.getUnitPrice());
         supplyHistoryViewHoder.numberOfUnitsTV.setText("Number of Units : " + currentSupplyItem.getNumberOfUnits());
-
         supplyHistoryViewHoder.dateTV.setText("Created :" + dateCreated);
 
-
+// When click on the item container, it will directed to the supply item detail view
         supplyHistoryViewHoder.supplyHistoryContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent supplyItemDetailIntent = new Intent(context, SupplyItemDetail.class);
                 supplyItemDetailIntent.putExtra("userEmail", currentSupplyItem.getUserEmail());
-                supplyItemDetailIntent.putExtra("itemId", currentSupplyItem.getItemName());
                 supplyItemDetailIntent.putExtra("status", currentSupplyItem.getStatus());
-                supplyItemDetailIntent.putExtra("unitPrice", currentSupplyItem.getUnitPrice());
-                supplyItemDetailIntent.putExtra("numberOfUnits", currentSupplyItem.getNumberOfUnits());
-                supplyItemDetailIntent.putExtra("message", currentSupplyItem.getMessage());
-                supplyItemDetailIntent.putExtra("totalValue", currentSupplyItem.getTotalValue());
-                supplyItemDetailIntent.putExtra("paymentStatus", currentSupplyItem.getPaymentStatus());
                 supplyItemDetailIntent.putExtra("itemDocId", currentSupplyItem.getItemDocId());
-                supplyItemDetailIntent.putExtra("date", dateCreated);
+                supplyItemDetailIntent.putExtra("supplyDocId", currentSupplyItem.getSupplyDocId());
                 context.startActivity(supplyItemDetailIntent);
             }
         });

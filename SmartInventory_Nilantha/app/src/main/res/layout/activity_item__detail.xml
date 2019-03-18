@@ -89,8 +89,7 @@
                     android:id="@+id/detailsTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="7dp"
-                    android:text="Fully tested and restored to factory settings by our in house technicians. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+                    android:padding="7dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

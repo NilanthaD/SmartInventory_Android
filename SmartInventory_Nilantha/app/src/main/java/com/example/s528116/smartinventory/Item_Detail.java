@@ -41,14 +41,14 @@ public class Item_Detail extends AppCompatActivity {
     private String userEmail; // User Email
     private String docId; //Document Id in Firestore
     private String itemId;
-    private int unitsRequired;
+    private long unitsRequired;
     private String createdDate;
 
-    private String supplyAmount;
+    private String supplyAmount; // new supply amount
     private String message;
-    private double unitPrice;
-    private int supplyAmt;
-    private double totalValue;
+    private long unitPrice;
+    private long supplyAmt; // new supply amount in int
+    private long totalValue;
 
     private FirebaseFirestore db;
     private DocumentReference itemRef, userRef;
@@ -76,13 +76,12 @@ public class Item_Detail extends AppCompatActivity {
         userEmail = i.getStringExtra("userEmail");
 
         itemId = i.getStringExtra("itemId");
-        unitPrice = Double.parseDouble(i.getStringExtra("unitPrice"));
-        unitsRequired = Integer.parseInt(i.getStringExtra("qntyRequired"));
+        unitPrice = i.getLongExtra("unitPrice",0);
         docId = i.getStringExtra("documentId");
-        imageIV.setImageResource(R.drawable.iphone6);
+        imageIV.setImageResource(i.getIntExtra("image",0));
         itemNameTV.setText(i.getStringExtra("itemName"));
-        priceTV.setText("Buying price :$" + i.getStringExtra("unitPrice"));
-        quntityNeededTV.setText("Quntity Needed : " + i.getStringExtra("qntyRequired"));
+        priceTV.setText("Buying price :$" + i.getLongExtra("unitPrice",0));
+        quntityNeededTV.setText("Quntity Needed : " + i.getLongExtra("qntyRequired",0));
         requiredByTV.setText("Required By :" + i.getStringExtra("requiredBy"));
 //        Get an instance of the items
         itemRef = db.collection("items").document(docId);
@@ -90,46 +89,47 @@ public class Item_Detail extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 detailsTV.setText(documentSnapshot.get("itemDetails").toString());
+                unitsRequired = documentSnapshot.getLong("unitRequired");
             }
         });
 
-//        if usr click "Submit Request", it will read the number of items and the message and save the data under user --> SupplyList
+//      if usr click "Submit Request", it will read the number of items and the message and save the data under user --> SupplyList
         submitRequestBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 supplyAmount = supplyAmountET.getText().toString();
                 message = messageET.getText().toString();
                 supplyAmt = Integer.parseInt(supplyAmount);
-                totalValue = unitPrice * supplyAmt * 1.0;
-                if (supplyAmt > 0) {
-
+                totalValue = unitPrice * supplyAmt;
+                if (supplyAmt > 0 && supplyAmt<= unitsRequired) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Item_Detail.this);
-                    builder.setTitle("Conformation..").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    builder.setTitle("Conformation..")
+                            .setMessage("Make a request to supply "+supplyAmount+" items.\n\nAdmin will response to this request within one business day").setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             final Map<String, Object> supplyRequest = new HashMap<>();
                             supplyRequest.put("itemDocId", docId);
                             supplyRequest.put("itemId", itemId);
                             supplyRequest.put("message", message);
-                            supplyRequest.put("supplyAmount", supplyAmount);
+                            supplyRequest.put("supplyAmount", supplyAmt);
                             supplyRequest.put("paymentStatus", "notSet");
                             supplyRequest.put("status", "pending");
-                            supplyRequest.put("unitPrice", Double.toString(unitPrice));
-                            supplyRequest.put("totalValue", Double.toString(totalValue));
+                            supplyRequest.put("unitPrice", unitPrice);
+                            supplyRequest.put("totalValue", totalValue);
                             supplyRequest.put("createdDate", new Timestamp(new Date()));
                             userRef = db.collection("users").document(userEmail);
                             userRef.collection("supplyList").document().set(supplyRequest);
 
-                            int newQuntyRequired = unitsRequired - supplyAmt;
-
-
-                            itemRef.update("unitRequired", Integer.toString(newQuntyRequired));  // Adjust the number of required units.
-
-                            Intent intent = new Intent(Item_Detail.this, SupplyRequestSubmitted.class);
-                            intent.putExtra("userEmail", userEmail);
-                            startActivity(intent);
+                            long newQuntyRequired = unitsRequired - supplyAmt;
+                            itemRef.update("unitRequired", newQuntyRequired);  // Adjust the number of required units.
+//                          Close the Item_Detail activity
+                            Intent j = new Intent(Item_Detail.this, ItemListRV.class);
+                            j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            j.putExtra("userEmail", userEmail);
+                            startActivity(j);
+                            Item_Detail.this.finish();
                         }
-                    }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 //                            finish();
@@ -137,15 +137,11 @@ public class Item_Detail extends AppCompatActivity {
                     });
                     AlertDialog alert = builder.create();
                     alert.show();
-
-
                 } else {
-                    Toast.makeText(Item_Detail.this, "Number of Items must be more than 0", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Item_Detail.this, "Not a valid amount of units", Toast.LENGTH_LONG).show();
                 }
             }
         });
-
-
         cancleRequestTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,39 +149,37 @@ public class Item_Detail extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        Intent a = getIntent();
-//        userEmail = a.getStringExtra("userEmail");
-//    }
-
+    // Menu and menu items
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 Item_Detail.this.finish();
                 break;
-
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, Aboutus.class);
+                aboutIntent.putExtra("userName", userEmail);
+                startActivity(aboutIntent);
+                break;
             case R.id.SupplyHistory:
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
                 break;
             case R.id.back:
-                finish();
+                Intent j = new Intent(this, ItemListRV.class);
+                j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                j.putExtra("userEmail", userEmail);
+                startActivity(j);
+                Item_Detail.this.finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
