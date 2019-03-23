@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -28,30 +30,14 @@ import java.util.Map;
 public class Item_Detail extends AppCompatActivity {
 
     private ImageView imageIV;
-    private TextView itemNameTV;
-    private TextView priceTV;
-    private TextView quntityNeededTV;
-    private TextView requiredByTV;
-    private TextView detailsTV;
-    private EditText supplyAmountET;
-    private EditText messageET;
-    private TextView cancleRequestTV;
+    private TextView itemNameTV, priceTV, quntityNeededTV, requiredByTV, detailsTV, cancleRequestTV;
+    private EditText supplyAmountET, messageET;
     private Button submitRequestBTN;
-
-    private String userEmail; // User Email
-    private String docId; //Document Id in Firestore
-    private String itemId;
-    private long unitsRequired;
-    private String createdDate;
-
-    private String supplyAmount; // new supply amount
-    private String message;
-    private long unitPrice;
-    private long supplyAmt; // new supply amount in int
-    private long totalValue;
-
+    private String userEmail, docId, itemId, supplyAmount, message;
+    private long unitsRequired, unitPrice, supplyAmt, totalValue;
     private FirebaseFirestore db;
     private DocumentReference itemRef, userRef;
+    private StorageReference imageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +64,8 @@ public class Item_Detail extends AppCompatActivity {
         itemId = i.getStringExtra("itemId");
         unitPrice = i.getLongExtra("unitPrice",0);
         docId = i.getStringExtra("documentId");
-        imageIV.setImageResource(i.getIntExtra("image",0));
+        //imageIV.setImageResource(i.getIntExtra("image",0));
+        Picasso.get().load(i.getStringExtra("imageURL")).into(imageIV);
         itemNameTV.setText(i.getStringExtra("itemName"));
         priceTV.setText("Buying price :$" + i.getLongExtra("unitPrice",0));
         quntityNeededTV.setText("Quntity Needed : " + i.getLongExtra("qntyRequired",0));

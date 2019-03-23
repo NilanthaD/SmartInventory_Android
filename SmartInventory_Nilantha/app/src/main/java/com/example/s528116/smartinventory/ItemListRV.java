@@ -28,12 +28,10 @@ public class ItemListRV extends AppCompatActivity {
     private RecyclerView itemsRV;
     private RecyclerView.Adapter itemsAdapter;
     private RecyclerView.LayoutManager itemsLayoutManager;
-    private ArrayList<Integer> imageList;
 
     private FirebaseFirestore db;
-    private FirebaseStorage storage;
     private StorageReference mStorageRef;
-    CollectionReference itemCollection;
+    private CollectionReference itemCollection;
 
 
     private String userEmail;
@@ -44,17 +42,8 @@ public class ItemListRV extends AppCompatActivity {
         setContentView(R.layout.activity_item_list_rv);
 
         db = FirebaseFirestore.getInstance();
-//        storage = FirebaseStorage.getInstance();
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+        mStorageRef = FirebaseStorage.getInstance().getReference().child("itemImages");
         itemCollection = db.collection("items");
-        /*____________________________________________________________________
-        * Array for keeping the images, need to be changed once the admin module implemented*/
-        imageList = new ArrayList<>();
-        imageList.add(R.drawable.camera);
-        imageList.add(R.drawable.iphone6);
-        imageList.add(R.drawable.galaxy);
-        imageList.add(R.drawable.iphone6);
-        /*____________________________________________________________________*/
         final Date today = new Date();
 
         Intent i = getIntent();
@@ -68,8 +57,7 @@ public class ItemListRV extends AppCompatActivity {
                     int i=0;
                     for(QueryDocumentSnapshot doc: task.getResult()){
                         if(today.before(doc.getTimestamp("requiredBefore").toDate())) {
-
-                            itemListArray.add(new ItemContainer(userEmail, doc.getId(), imageList.get(i), doc.getString("itemId"), doc.getString("itemName"),
+                            itemListArray.add(new ItemContainer(userEmail, doc.getId(), doc.getString("imageURL"), doc.getString("itemId"), doc.getString("itemName"),
                                     doc.getLong("untPrice"), doc.getLong("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
                             i++;
                         }
