@@ -23,7 +23,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,6 +36,8 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SupplyItemDetail extends AppCompatActivity {
 
@@ -53,6 +57,7 @@ public class SupplyItemDetail extends AppCompatActivity {
 
     private FirebaseFirestore mDb;
     private DocumentReference supplyItemDocRef, itemsDocRef;
+    private CollectionReference changeSupplyRequestref;
     private FirebaseStorage storage;
 
 
@@ -136,12 +141,8 @@ public class SupplyItemDetail extends AppCompatActivity {
         if (status.equals("approved")) {
             pendingLL.setVisibility(View.GONE);
             shippedLL.setVisibility(View.GONE);
-//            changeRequestBTN.setEnabled(false);
-//            messageET.setEnabled(false);
-//            cancelSupplyRequestBTN.setEnabled(false);
-//            shippingLableBTN.setEnabled(false);
         }
-        if(status.equals("shipped")){
+        if(status.equals("Shipped")){
             pendingLL.setVisibility(View.GONE);
             newRequestLL.setVisibility(View.GONE);
         }
@@ -234,8 +235,13 @@ public class SupplyItemDetail extends AppCompatActivity {
                 newSupplyAmount = Integer.parseInt(changeSupplyAmountET.getText().toString());
                 message = messageET.getText().toString();
                 if(newSupplyAmount>0 && newSupplyAmount<unitRequired){
-                    // store data in the database
-                    supplyItemDocRef.update("changeRequestMessage", message,"newSupplyAmount",newSupplyAmount);
+
+                    final Map<String, Object> changeRequest = new HashMap<>();
+                    changeRequest.put("changeMessage", message);
+                    changeRequest.put("newAmount", newSupplyAmount);
+                    changeRequest.put("status", "pending");
+                    changeRequest.put("requestDate", new Timestamp(new Date()));
+                    supplyItemDocRef.collection("ChangeRequest").document().set(changeRequest);
                     Toast.makeText(SupplyItemDetail.this, "Sent Request", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -244,8 +250,9 @@ public class SupplyItemDetail extends AppCompatActivity {
         shippedBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                supplyItemDocRef.update("status", "Shipped.");
+                supplyItemDocRef.update("status", "Shipped");
                 statusTV.setText("Status :Shipped.");
+                newRequestLL.setVisibility(View.GONE);
             }
         });
 
