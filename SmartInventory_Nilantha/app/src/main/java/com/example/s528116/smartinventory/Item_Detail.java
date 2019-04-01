@@ -33,7 +33,7 @@ public class Item_Detail extends AppCompatActivity {
     private TextView itemNameTV, priceTV, quntityNeededTV, requiredByTV, detailsTV, cancleRequestTV;
     private EditText supplyAmountET, messageET;
     private Button submitRequestBTN;
-    private String userEmail, docId, itemId, supplyAmount, message;
+    private String userEmail, docId, itemId, supplyAmount, message, imageURL;
     private long unitsRequired, unitPrice, supplyAmt, totalValue;
     private FirebaseFirestore db;
     private DocumentReference itemRef, userRef;
@@ -64,8 +64,9 @@ public class Item_Detail extends AppCompatActivity {
         itemId = i.getStringExtra("itemId");
         unitPrice = i.getLongExtra("unitPrice",0);
         docId = i.getStringExtra("documentId");
+        imageURL = i.getStringExtra("imageURL");
         //imageIV.setImageResource(i.getIntExtra("image",0));
-        Picasso.get().load(i.getStringExtra("imageURL")).into(imageIV);
+        Picasso.get().load(imageURL).into(imageIV);
         itemNameTV.setText(i.getStringExtra("itemName"));
         priceTV.setText("Buying price :$" + i.getLongExtra("unitPrice",0));
         quntityNeededTV.setText("Quntity Needed : " + i.getLongExtra("qntyRequired",0));
@@ -97,10 +98,11 @@ public class Item_Detail extends AppCompatActivity {
                             final Map<String, Object> supplyRequest = new HashMap<>();
                             supplyRequest.put("itemDocId", docId);
                             supplyRequest.put("itemId", itemId);
+                            supplyRequest.put("imageURL", imageURL);
                             supplyRequest.put("message", message);
                             supplyRequest.put("supplyAmount", supplyAmt);
                             supplyRequest.put("paymentStatus", "notSet");
-                            supplyRequest.put("status", "pending");
+                            supplyRequest.put("status", "Pending");
                             supplyRequest.put("unitPrice", unitPrice);
                             supplyRequest.put("totalValue", totalValue);
                             supplyRequest.put("createdDate", new Timestamp(new Date()));
