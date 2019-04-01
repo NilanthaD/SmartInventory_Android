@@ -269,6 +269,20 @@
                 android:layout_height="wrap_content"
                 android:text="Contact Vendor"/>
         </LinearLayout>
+            <LinearLayout
+                android:id="@+id/pendingRequestLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/changeRequesTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#F00"
+                    android:text="Your request is on pending. please give us 24 hours to make the changers"/>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

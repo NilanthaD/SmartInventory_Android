@@ -52,7 +52,7 @@ public class SupplyHistoryRV extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot doc: task.getResult()){
-                        supplyListAL.add(new SupplyHistory(userEmail,R.drawable.iphone6,doc.getString("status"), doc.getString("itemId"), doc.getLong("unitPrice"),
+                        supplyListAL.add(new SupplyHistory(userEmail,doc.getString("imageURL"),doc.getString("status"), doc.getString("itemId"), doc.getLong("unitPrice"),
                                 doc.getLong("supplyAmount"), doc.getDate("createdDate"),doc.getString("message"), doc.getLong("totalValue"),
                                 doc.getString("paymentStatus"), doc.getString("itemDocId"), doc.getId()));
                     }

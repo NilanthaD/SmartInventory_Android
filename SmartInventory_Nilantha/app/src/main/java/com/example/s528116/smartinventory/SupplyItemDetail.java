@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,16 +44,16 @@ import java.util.Map;
 public class SupplyItemDetail extends AppCompatActivity {
 
     private ImageView supplyItemImageIV;
-    private TextView statusTV, itemIDTV, unitPriceTV, numberOfUnitsTV, createdDateTV, totalValueTV;
+    private TextView statusTV, itemIDTV, unitPriceTV, numberOfUnitsTV, createdDateTV, totalValueTV, changeRequesTV;
     private EditText newAmountET;
     private Button submitNewAmountBTN, deleteRequestBTN, shippingLableBTN, contactVendorBTN;
-    private LinearLayout pendingLL, newRequestLL, shippedLL;
+    private LinearLayout pendingLL, newRequestLL, shippedLL, pendingRequestLL;
     //items for send change request
     private EditText messageET, changeSupplyAmountET;
     private Button changeRequestBTN, cancelSupplyRequestBTN, shippedBTN, shippingLabelBTN;
 
     private Intent supplyItemIntent = new Intent();
-    private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated;
+    private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated, imageURL;
     private long supplyAmount, totalValue, unitPrice, unitRequired, newSupplyAmount, newUnitRequired;
     private Date createdDate;
 
@@ -88,11 +90,14 @@ public class SupplyItemDetail extends AppCompatActivity {
         shippedLL = findViewById(R.id.shippedLL);
         contactVendorBTN = findViewById(R.id.contactVendorBTN);
         shippingLableBTN = findViewById(R.id.shippingLabelBTN);
+        pendingRequestLL = findViewById(R.id.pendingRequestLL);
+        changeRequesTV = findViewById(R.id.changeRequesTV);
 
         supplyItemIntent = getIntent();
         userEmail = supplyItemIntent.getStringExtra("userEmail");
         status = supplyItemIntent.getStringExtra("status").trim();
         supplyDocId = supplyItemIntent.getStringExtra("supplyDocId");
+        imageURL = supplyItemIntent.getStringExtra("imageURL");
 
         storage = FirebaseStorage.getInstance();
 
@@ -118,7 +123,8 @@ public class SupplyItemDetail extends AppCompatActivity {
                     unitPrice = supplyDoc.getLong("unitPrice");
 
                     dateCreated = FormatDate.getDate(createdDate);
-                    supplyItemImageIV.setImageResource(R.drawable.iphone6);
+                    Picasso.get().load(imageURL).into(supplyItemImageIV);
+                   // supplyItemImageIV.setImageResource(R.drawable.iphone6);
                     itemIDTV.setText(itemId);
                     statusTV.setText("Status :" + status);
                     createdDateTV.setText("Created :" + dateCreated);
@@ -131,20 +137,28 @@ public class SupplyItemDetail extends AppCompatActivity {
 
         });
 
-        if (status.equals("pending")) {
+        if (status.equals("Pending")) {
             newRequestLL.setVisibility(View.GONE);
             shippedLL.setVisibility(View.GONE);
-            newAmountET.setEnabled(false);
-            submitNewAmountBTN.setEnabled(false);
-            deleteRequestBTN.setEnabled(false);
+            pendingRequestLL.setVisibility(View.GONE);
+//            newAmountET.setEnabled(false);
+//            submitNewAmountBTN.setEnabled(false);
+//            deleteRequestBTN.setEnabled(false);
         }
-        if (status.equals("approved")) {
+        if (status.equals("Approved")) {
             pendingLL.setVisibility(View.GONE);
             shippedLL.setVisibility(View.GONE);
+            pendingRequestLL.setVisibility(View.GONE);
         }
         if(status.equals("Shipped")){
             pendingLL.setVisibility(View.GONE);
             newRequestLL.setVisibility(View.GONE);
+            pendingRequestLL.setVisibility(View.GONE);
+        }
+        if(status.equals("Pending for Changers")){
+            pendingLL.setVisibility(View.GONE);
+            newRequestLL.setVisibility(View.GONE);
+            shippedLL.setVisibility(View.GONE);
         }
 
         itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -239,9 +253,10 @@ public class SupplyItemDetail extends AppCompatActivity {
                     final Map<String, Object> changeRequest = new HashMap<>();
                     changeRequest.put("changeMessage", message);
                     changeRequest.put("newAmount", newSupplyAmount);
-                    changeRequest.put("status", "pending");
+                    changeRequest.put("status", "Pending for changers");
                     changeRequest.put("requestDate", new Timestamp(new Date()));
                     supplyItemDocRef.collection("ChangeRequest").document().set(changeRequest);
+                    supplyItemDocRef.update("status", "Pending for Changers");
                     Toast.makeText(SupplyItemDetail.this, "Sent Request", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -268,27 +283,17 @@ public class SupplyItemDetail extends AppCompatActivity {
         shippingLableBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StorageReference storRef = storage.getReference();
-                StorageReference pathRef = storRef.child("shippingLabels/shippingLabel.pdf");
-
-                try {
-                    File localFile = File.createTempFile("shippingLBL", "pdf");
-                    pathRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(SupplyItemDetail.this, "File Downloaded", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(SupplyItemDetail.this, "Error Occured", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                DownloadManager downloadManager = (DownloadManager) SupplyItemDetail.this.getSystemService(Context.DOWNLOAD_SERVICE);
+                Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/smartinventory-ecd05.appspot.com/o/shippingLabels%2FshippingLabel.pdf?alt=media&token=9f3ef531-23f6-4ca3-82d8-3834c285a735");
+                DownloadManager.Request request = new DownloadManager.Request(uri);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalFilesDir(SupplyItemDetail.this, "My Files/Download"/*(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString())*/, "shippingLabel.pdf");
+                downloadManager.enqueue(request);
+                Toast.makeText(SupplyItemDetail.this, "File Downloaded to the Download folder" , Toast.LENGTH_LONG).show();
+                shippingLableBTN.setEnabled(false);
             }
         });
+
     }
 
     @Override
@@ -323,18 +328,4 @@ public class SupplyItemDetail extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-//    public long downloadFile(Context context, String fileName, String fileExtension, String destinationDirectory, String url) {
-//
-//
-//        DownloadManager downloadmanager = (DownloadManager) context.
-//                getSystemService(Context.DOWNLOAD_SERVICE);
-//        Uri uri = Uri.parse(url);
-//        DownloadManager.Request request = new DownloadManager.Request(uri);
-//
-//        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//        request.setDestinationInExternalFilesDir(context, destinationDirectory, fileName + fileExtension);
-//
-//        return downloadmanager.enqueue(request);
-//    }
 }
