@@ -9,9 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,7 +66,10 @@ public class ContactUs extends AppCompatActivity {
                  Map<String, Object> contactUs = new HashMap<>();
                  contactUs.put("title", title);
                  contactUs.put("message", message);
+                 contactUs.put("status", "sent");
+                 contactUs.put("composed_date", new Timestamp(new Date()));
                 userRef.collection("messages").document().set(contactUs);
+                finish();
                  messageET.setText("");
                  titleET.setText("");
 
@@ -73,6 +78,14 @@ public class ContactUs extends AppCompatActivity {
             }
         });
 
+        cancelBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
     }
+
 }
