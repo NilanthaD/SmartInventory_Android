@@ -169,11 +169,11 @@
                         android:id="@+id/shippedBTN"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#080"
-                        android:textColor="#FFF"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="Mark as items shipped" />
+                        android:background="#080"
+                        android:text="Mark as items shipped"
+                        android:textColor="#FFF" />
 
 
                     <TextView
@@ -248,8 +248,42 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/shippedLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textSize="16dp"
+                android:textColor="#F00"
+                android:text="You have shipped the item.\nOnce we receive the item we will update the status."/>
+
+            <Button
+                android:id="@+id/contactVendorBTN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact Vendor"/>
+        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/pendingRequestLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/changeRequesTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#F00"
+                    android:text="Your request is on pending. please give us 24 hours to make the changers"/>
+
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

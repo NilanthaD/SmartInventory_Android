@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class SupplyHistory {
 
-    private int image;
+    private String imageURL;
     private String status;
     private String itemName;
     private long unitPrice;
@@ -17,9 +17,9 @@ public class SupplyHistory {
     private String itemDocId;
     private String supplyDocId;
 
-    public SupplyHistory(String userEmail, int image, String status, String itemName, long unitPrice, long numberOfUnits, Date requestCreatedDate
+    public SupplyHistory(String userEmail, String imageURL, String status, String itemName, long unitPrice, long numberOfUnits, Date requestCreatedDate
             , String message, long totalValue, String paymentStatus, String itemDocId, String supplyDocId) {
-        this.image = image;
+        this.imageURL = imageURL;
         this.status = status;
         this.itemName = itemName;
         this.unitPrice = unitPrice;
@@ -37,8 +37,8 @@ public class SupplyHistory {
         return userEmail;
     }
 
-    public int getImage() {
-        return image;
+    public String getImageURL() {
+        return imageURL;
     }
 
     public String getStatus() {

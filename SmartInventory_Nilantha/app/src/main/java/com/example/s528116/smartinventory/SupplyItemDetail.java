@@ -1,9 +1,13 @@
 package com.example.s528116.smartinventory;
 
 import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -20,31 +24,44 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SupplyItemDetail extends AppCompatActivity {
 
     private ImageView supplyItemImageIV;
-    private TextView statusTV, itemIDTV, unitPriceTV, numberOfUnitsTV, createdDateTV, totalValueTV;
+    private TextView statusTV, itemIDTV, unitPriceTV, numberOfUnitsTV, createdDateTV, totalValueTV, changeRequesTV;
     private EditText newAmountET;
-    private Button submitNewAmountBTN, deleteRequestBTN, shippingLableBTN;
-    private LinearLayout pendingLL, newRequestLL;
+    private Button submitNewAmountBTN, deleteRequestBTN, shippingLableBTN, contactVendorBTN;
+    private LinearLayout pendingLL, newRequestLL, shippedLL, pendingRequestLL;
     //items for send change request
     private EditText messageET, changeSupplyAmountET;
-    private Button changeRequestBTN, cancelSupplyRequestBTN, shippedBTN;
+    private Button changeRequestBTN, cancelSupplyRequestBTN, shippedBTN, shippingLabelBTN;
 
     private Intent supplyItemIntent = new Intent();
-    private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated;
+    private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated, imageURL;
     private long supplyAmount, totalValue, unitPrice, unitRequired, newSupplyAmount, newUnitRequired;
     private Date createdDate;
 
     private FirebaseFirestore mDb;
     private DocumentReference supplyItemDocRef, itemsDocRef;
+    private CollectionReference changeSupplyRequestref;
+    private FirebaseStorage storage;
+
 
 
     @Override
@@ -70,11 +87,19 @@ public class SupplyItemDetail extends AppCompatActivity {
         shippedBTN = findViewById(R.id.shippedBTN);
         pendingLL = findViewById(R.id.pendingLL);
         newRequestLL = findViewById(R.id.newRequestLL);
+        shippedLL = findViewById(R.id.shippedLL);
+        contactVendorBTN = findViewById(R.id.contactVendorBTN);
+        shippingLableBTN = findViewById(R.id.shippingLabelBTN);
+        pendingRequestLL = findViewById(R.id.pendingRequestLL);
+        changeRequesTV = findViewById(R.id.changeRequesTV);
 
         supplyItemIntent = getIntent();
         userEmail = supplyItemIntent.getStringExtra("userEmail");
         status = supplyItemIntent.getStringExtra("status").trim();
         supplyDocId = supplyItemIntent.getStringExtra("supplyDocId");
+        imageURL = supplyItemIntent.getStringExtra("imageURL");
+
+        storage = FirebaseStorage.getInstance();
 
         mDb = FirebaseFirestore.getInstance();
         supplyItemDocRef = mDb.collection("users").document(userEmail).collection("supplyList").document(supplyDocId);
@@ -98,7 +123,8 @@ public class SupplyItemDetail extends AppCompatActivity {
                     unitPrice = supplyDoc.getLong("unitPrice");
 
                     dateCreated = FormatDate.getDate(createdDate);
-                    supplyItemImageIV.setImageResource(R.drawable.iphone6);
+                    Picasso.get().load(imageURL).into(supplyItemImageIV);
+                   // supplyItemImageIV.setImageResource(R.drawable.iphone6);
                     itemIDTV.setText(itemId);
                     statusTV.setText("Status :" + status);
                     createdDateTV.setText("Created :" + dateCreated);
@@ -111,17 +137,28 @@ public class SupplyItemDetail extends AppCompatActivity {
 
         });
 
-        if (!status.equals("pending")) {
-            pendingLL.setVisibility(View.GONE);
-            newAmountET.setEnabled(false);
-            submitNewAmountBTN.setEnabled(false);
-            deleteRequestBTN.setEnabled(false);
-        } else if (!status.equals("approved")) {
+        if (status.equals("Pending")) {
             newRequestLL.setVisibility(View.GONE);
-            changeRequestBTN.setEnabled(false);
-            messageET.setEnabled(false);
-            cancelSupplyRequestBTN.setEnabled(false);
-            shippingLableBTN.setEnabled(false);
+            shippedLL.setVisibility(View.GONE);
+            pendingRequestLL.setVisibility(View.GONE);
+//            newAmountET.setEnabled(false);
+//            submitNewAmountBTN.setEnabled(false);
+//            deleteRequestBTN.setEnabled(false);
+        }
+        if (status.equals("Approved")) {
+            pendingLL.setVisibility(View.GONE);
+            shippedLL.setVisibility(View.GONE);
+            pendingRequestLL.setVisibility(View.GONE);
+        }
+        if(status.equals("Shipped")){
+            pendingLL.setVisibility(View.GONE);
+            newRequestLL.setVisibility(View.GONE);
+            pendingRequestLL.setVisibility(View.GONE);
+        }
+        if(status.equals("Pending for Changers")){
+            pendingLL.setVisibility(View.GONE);
+            newRequestLL.setVisibility(View.GONE);
+            shippedLL.setVisibility(View.GONE);
         }
 
         itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -164,10 +201,6 @@ public class SupplyItemDetail extends AppCompatActivity {
                 } else {
                     Toast.makeText(SupplyItemDetail.this, "new amount must be greater than 0 and less than units required.", Toast.LENGTH_LONG).show();
                 }
-//                      }
-//                             else {
-//                            Toast.makeText(SupplyItemDetail.this, "Could not update the number of Required items", Toast.LENGTH_SHORT).show();
-//                        }
             }
         });
 
@@ -180,13 +213,6 @@ public class SupplyItemDetail extends AppCompatActivity {
                 builder.setMessage("Are you sure you want to delete this Item Supply Request").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    DocumentSnapshot document = task.getResult();
-//                                    unitRequired = document.getLong("unitRequired");
-
                         supplyItemDocRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -223,8 +249,14 @@ public class SupplyItemDetail extends AppCompatActivity {
                 newSupplyAmount = Integer.parseInt(changeSupplyAmountET.getText().toString());
                 message = messageET.getText().toString();
                 if(newSupplyAmount>0 && newSupplyAmount<unitRequired){
-                    // store data in the database
-                    supplyItemDocRef.update("changeRequestMessage", message,"newSupplyAmount",newSupplyAmount);
+
+                    final Map<String, Object> changeRequest = new HashMap<>();
+                    changeRequest.put("changeMessage", message);
+                    changeRequest.put("newAmount", newSupplyAmount);
+                    changeRequest.put("status", "Pending for changers");
+                    changeRequest.put("requestDate", new Timestamp(new Date()));
+                    supplyItemDocRef.collection("ChangeRequest").document().set(changeRequest);
+                    supplyItemDocRef.update("status", "Pending for Changers");
                     Toast.makeText(SupplyItemDetail.this, "Sent Request", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -233,15 +265,36 @@ public class SupplyItemDetail extends AppCompatActivity {
         shippedBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                supplyItemDocRef.update("status", "Shipped.");
+                supplyItemDocRef.update("status", "Shipped");
                 statusTV.setText("Status :Shipped.");
+                newRequestLL.setVisibility(View.GONE);
             }
         });
+
+        contactVendorBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent contactInt = new Intent(SupplyItemDetail.this, ContactUs.class);
+                contactInt.putExtra("userName", userEmail);
+                startActivity(contactInt);
+            }
+        });
+
+        shippingLableBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DownloadManager downloadManager = (DownloadManager) SupplyItemDetail.this.getSystemService(Context.DOWNLOAD_SERVICE);
+                Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/smartinventory-ecd05.appspot.com/o/shippingLabels%2FshippingLabel.pdf?alt=media&token=9f3ef531-23f6-4ca3-82d8-3834c285a735");
+                DownloadManager.Request request = new DownloadManager.Request(uri);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalFilesDir(SupplyItemDetail.this, "My Files/Download"/*(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString())*/, "shippingLabel.pdf");
+                downloadManager.enqueue(request);
+                Toast.makeText(SupplyItemDetail.this, "File Downloaded to the Download folder" , Toast.LENGTH_LONG).show();
+                shippingLableBTN.setEnabled(false);
+            }
+        });
+
     }
-
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

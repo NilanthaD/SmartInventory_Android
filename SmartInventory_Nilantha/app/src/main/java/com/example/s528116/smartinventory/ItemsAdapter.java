@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder> {
@@ -60,7 +62,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
         final ItemContainer currentItem = itemListArray.get(i);
         final String requiredBy = FormatDate.getDate(currentItem.getRequiredBy());
 
-        itemsViewHolder.itemImage.setImageResource(currentItem.getImage());
+        //itemsViewHolder.itemImage.setImageResource(currentItem.getImage());
+        Picasso.get().load(currentItem.getImage()).into(itemsViewHolder.itemImage);
         itemsViewHolder.itemID.setText(currentItem.getItemID());
         itemsViewHolder.itemName.setText(currentItem.getItemName());
         itemsViewHolder.unitPrice.setText("Buying price :$" + currentItem.getUnitPrice());
@@ -71,7 +74,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemsViewHol
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Item_Detail.class);
-                intent.putExtra("image", currentItem.getImage());
+                intent.putExtra("imageURL", currentItem.getImage());
                 intent.putExtra("userEmail", currentItem.getUserEmail());
                 intent.putExtra("documentId", currentItem.getDocumentId());
                 intent.putExtra("itemId", currentItem.getItemID());

@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdapter.SupplyHistoryViewHoder> {
@@ -61,7 +63,8 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
         final String dateCreated = FormatDate.getDate(currentSupplyItem.getRequestCreatedDate());
 
 // Populate the container with data
-        supplyHistoryViewHoder.itemImageIV.setImageResource(currentSupplyItem.getImage());
+        //supplyHistoryViewHoder.itemImageIV.setImageResource(currentSupplyItem.getImage());
+        Picasso.get().load(currentSupplyItem.getImageURL()).into(supplyHistoryViewHoder.itemImageIV);
         supplyHistoryViewHoder.statusTV.setText("Status :" + currentSupplyItem.getStatus());
         supplyHistoryViewHoder.itemNameTV.setText("Item :" + currentSupplyItem.getItemName());
         supplyHistoryViewHoder.unitPriceTV.setText("Unit Price :$" + currentSupplyItem.getUnitPrice());
@@ -74,6 +77,7 @@ public class SupplyHistoryAdapter extends RecyclerView.Adapter<SupplyHistoryAdap
             public void onClick(View v) {
                 Intent supplyItemDetailIntent = new Intent(context, SupplyItemDetail.class);
                 supplyItemDetailIntent.putExtra("userEmail", currentSupplyItem.getUserEmail());
+                supplyItemDetailIntent.putExtra("imageURL", currentSupplyItem.getImageURL());
                 supplyItemDetailIntent.putExtra("status", currentSupplyItem.getStatus());
                 supplyItemDetailIntent.putExtra("itemDocId", currentSupplyItem.getItemDocId());
                 supplyItemDetailIntent.putExtra("supplyDocId", currentSupplyItem.getSupplyDocId());

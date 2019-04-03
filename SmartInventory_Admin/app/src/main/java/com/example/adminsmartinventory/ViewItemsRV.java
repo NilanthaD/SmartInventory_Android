@@ -1,5 +1,6 @@
 package com.example.adminsmartinventory;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,9 +15,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import io.grpc.Context;
 
 public class ViewItemsRV extends AppCompatActivity {
 
@@ -38,6 +42,8 @@ public class ViewItemsRV extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 //        storage = FirebaseStorage.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference fileRef = mStorageRef.child("tempImages/1553180448816.jpg");
+
         itemCollection = db.collection("items");
         final Date today = new Date();
         final ArrayList<ItemViewContainer> itemListArray = new ArrayList<>();
@@ -47,7 +53,7 @@ public class ViewItemsRV extends AppCompatActivity {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot doc: task.getResult()){
 
-                            itemListArray.add(new ItemViewContainer(userEmail, doc.getId(), R.drawable.iphone6, doc.getString("itemId"), doc.getString("itemName"),
+                            itemListArray.add(new ItemViewContainer(userEmail, doc.getId(), doc.getString("imageURI"), doc.getString("itemId"), doc.getString("itemName"),
                                     doc.getLong("untPrice"), doc.getLong("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
                         }
 

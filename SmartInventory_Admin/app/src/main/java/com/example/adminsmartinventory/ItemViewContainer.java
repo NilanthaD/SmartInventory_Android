@@ -1,10 +1,11 @@
 package com.example.adminsmartinventory;
 
+import java.net.URI;
 import java.util.Date;
 
 public class ItemViewContainer {
 
-    private int image;
+    private String image;
     private String itemID;
     private String itemName;
     private long unitPrice;
@@ -13,7 +14,7 @@ public class ItemViewContainer {
     private String documentId;
     private String userEmail;
 
-    public ItemViewContainer(String userEmail, String documentId,int image, String itemID, String itemName, Long unitPrice, long qntyNeeded, Date requiredBy) {
+    public ItemViewContainer(String userEmail, String documentId,String image, String itemID, String itemName, Long unitPrice, long qntyNeeded, Date requiredBy) {
         this.userEmail = userEmail;
         this.documentId = documentId;
         this.image = image;
@@ -28,7 +29,7 @@ public class ItemViewContainer {
 
     public String getDocumentId() {return documentId; }
 
-    public int getImage() {
+    public String  getImage() {
         return image;
     }
 

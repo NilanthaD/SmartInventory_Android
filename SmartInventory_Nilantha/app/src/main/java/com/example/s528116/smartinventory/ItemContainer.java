@@ -1,9 +1,10 @@
 package com.example.s528116.smartinventory;
 
+import java.net.URL;
 import java.util.Date;
 
 public class ItemContainer {
-    private int image;
+  //  private int image;
     private String itemID;
     private String itemName;
     private long unitPrice;
@@ -11,11 +12,12 @@ public class ItemContainer {
     private Date requiredBy;
     private String documentId;
     private String userEmail;
+    private String imageURL;
 
-    public ItemContainer(String userEmail, String documentId,int image, String itemID, String itemName, Long unitPrice, long qntyNeeded, Date requiredBy) {
+    public ItemContainer(String userEmail, String documentId,String imageURL, String itemID, String itemName, Long unitPrice, long qntyNeeded, Date requiredBy) {
         this.userEmail = userEmail;
         this.documentId = documentId;
-        this.image = image;
+        this.imageURL = imageURL;
         this.itemID = itemID;
         this.itemName = itemName;
         this.unitPrice = unitPrice;
@@ -27,8 +29,8 @@ public class ItemContainer {
 
     public String getDocumentId() {return documentId; }
 
-    public int getImage() {
-        return image;
+    public String getImage() {
+        return imageURL;
     }
 
     public String getItemID() {
