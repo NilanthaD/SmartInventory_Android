@@ -48,7 +48,4 @@ dependencies {
 
 //    implementation 'com.google.firebase:firebase-storage:16.0.4'
     implementation 'com.firebaseui:firebase-ui-storage:4.1.0'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.github.bumptech.glide:glide:4.x'
-    implementation 'com.squareup.picasso:picasso:2.71828'
 }

@@ -93,6 +93,11 @@ public class ItemListRV extends AppCompatActivity {
                 aboutIntent.putExtra("userName", userEmail);
                 startActivity(aboutIntent);
                 break;
+            case R.id.ContactUs:
+                Intent contactIntent = new Intent(this, ContactUs.class);
+                contactIntent.putExtra("userName", userEmail);
+                startActivity(contactIntent);
+                    break;
         }
         return super.onOptionsItemSelected(item);
     }
