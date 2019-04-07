@@ -54,13 +54,9 @@ public class ItemViewAdapter extends RecyclerView.Adapter<ItemViewAdapter.ItemsV
 
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder itemsViewHolder, int i) {
-
-
         final ItemViewContainer currentItem = itemListArray.get(i);
         final String requiredBy = FormatDate.getDate(currentItem.getRequiredBy());
-
-        //itemsViewHolder.itemImage.setImageResource(currentItem.getImage());
-        Picasso.with(context).load(currentItem.getImage()).fit().centerCrop().into(itemsViewHolder.itemImage);
+        Picasso.get().load(currentItem.getImageURL()).into(itemsViewHolder.itemImage);
         itemsViewHolder.itemID.setText(currentItem.getItemID());
         itemsViewHolder.itemName.setText(currentItem.getItemName());
         itemsViewHolder.unitPrice.setText("Buying price :$" + currentItem.getUnitPrice());

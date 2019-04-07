@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ItemViewContainer {
 
-    private String image;
+    private String imageURL;
     private String itemID;
     private String itemName;
     private long unitPrice;
@@ -14,10 +14,10 @@ public class ItemViewContainer {
     private String documentId;
     private String userEmail;
 
-    public ItemViewContainer(String userEmail, String documentId,String image, String itemID, String itemName, Long unitPrice, long qntyNeeded, Date requiredBy) {
+    public ItemViewContainer(String userEmail, String documentId,String imageURL, String itemID, String itemName, Long unitPrice, long qntyNeeded, Date requiredBy) {
         this.userEmail = userEmail;
         this.documentId = documentId;
-        this.image = image;
+        this.imageURL = imageURL;
         this.itemID = itemID;
         this.itemName = itemName;
         this.unitPrice = unitPrice;
@@ -29,8 +29,8 @@ public class ItemViewContainer {
 
     public String getDocumentId() {return documentId; }
 
-    public String  getImage() {
-        return image;
+    public String  getImageURL() {
+        return imageURL;
     }
 
     public String getItemID() {
