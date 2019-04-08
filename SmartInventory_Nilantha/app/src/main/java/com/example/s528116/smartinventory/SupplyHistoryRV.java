@@ -71,7 +71,6 @@ public class SupplyHistoryRV extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.logout:
-
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -90,6 +89,11 @@ public class SupplyHistoryRV extends AppCompatActivity {
                 j.putExtra("userEmail", userEmail);
                 startActivity(j);
                 SupplyHistoryRV.this.finish();
+                break;
+            case R.id.ContactUs:
+                Intent contactIntent = new Intent(this, ContactUs.class);
+                contactIntent.putExtra("userName", userEmail);
+                startActivity(contactIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);

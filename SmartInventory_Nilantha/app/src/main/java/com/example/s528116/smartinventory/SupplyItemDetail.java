@@ -319,6 +319,11 @@ public class SupplyItemDetail extends AppCompatActivity {
                 startActivity(supplyHistoryIntent);
                 SupplyItemDetail.this.finish();
                 break;
+            case R.id.ContactUs:
+                Intent contactIntent = new Intent(this, ContactUs.class);
+                contactIntent.putExtra("userName", userEmail);
+                startActivity(contactIntent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
