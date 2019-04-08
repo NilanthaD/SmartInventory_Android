@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -47,15 +48,16 @@ public class ViewItemsRV extends AppCompatActivity {
         itemCollection = db.collection("items");
         final Date today = new Date();
         final ArrayList<ItemViewContainer> itemListArray = new ArrayList<>();
-        itemCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        //itemCollection.get().
+        itemCollection.orderBy("itemPostedDate", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot doc: task.getResult()){
 
-                            itemListArray.add(new ItemViewContainer(userEmail, doc.getId(), doc.getString("imageURI"), doc.getString("itemId"), doc.getString("itemName"),
-                                    doc.getLong("untPrice"), doc.getLong("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
-                        }
+                        itemListArray.add(new ItemViewContainer(userEmail, doc.getId(), doc.getString("imageURL"), doc.getString("itemId"), doc.getString("itemName"),
+                                doc.getLong("untPrice"), doc.getLong("unitRequired"), doc.getTimestamp("requiredBefore").toDate()));
+                    }
 
 
                     ViewItemsRV = findViewById(R.id.ViewItemsRV);

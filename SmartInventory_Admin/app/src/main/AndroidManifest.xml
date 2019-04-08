@@ -23,7 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity_user_request"></activity>
+        <activity android:name=".activity_user_request" />
+<<<<<<< HEAD
+        <activity android:name=".GenerateLabels"></activity>
+=======
+        <activity android:name=".activity_accept_inventory"></activity>
+>>>>>>> 642693991a139a4a222ba7e9ef89b3824185129d
     </application>
 
 </manifest>
