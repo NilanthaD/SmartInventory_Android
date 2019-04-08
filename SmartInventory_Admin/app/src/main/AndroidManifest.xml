@@ -23,7 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity_user_request"></activity>
+        <activity android:name=".activity_user_request" />
+        <activity android:name=".activity_accept_inventory"></activity>
     </application>
 
 </manifest>
