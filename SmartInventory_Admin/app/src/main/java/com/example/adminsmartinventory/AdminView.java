@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class AdminView extends AppCompatActivity {
 
-    Button addItemBTN, messageBTN, ViewItemBTN;
+    Button addItemBTN, messageBTN, ViewItemBTN, labelBTN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,7 @@ public class AdminView extends AppCompatActivity {
         addItemBTN = findViewById(R.id.addItemBTN);
         messageBTN = findViewById(R.id.messageBTN);
         ViewItemBTN = findViewById(R.id.ViewItemBTN);
+        labelBTN = findViewById(R.id.labelBTN);
 
         ViewItemBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +32,14 @@ public class AdminView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(AdminView.this, AddItems.class);
+                startActivity(in);
+            }
+        });
+
+        labelBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(AdminView.this, GenerateLabels.class);
                 startActivity(in);
             }
         });
