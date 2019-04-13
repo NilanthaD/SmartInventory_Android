@@ -3,6 +3,7 @@ package com.example.s528116.smartinventory;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -14,15 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +45,7 @@ public class Item_Detail extends AppCompatActivity {
     private long unitsRequired, unitPrice, supplyAmt, totalValue;
     private FirebaseFirestore db;
     private DocumentReference itemRef, userRef;
+    private CollectionReference supplyRequstRef;
     private StorageReference imageRef;
 
     @Override
@@ -73,6 +82,7 @@ public class Item_Detail extends AppCompatActivity {
         requiredByTV.setText("Required By :" + i.getStringExtra("requiredBy"));
 //        Get an instance of the items
         itemRef = db.collection("items").document(docId);
+        supplyRequstRef = db.collection("supplyRequests");
         itemRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -108,6 +118,23 @@ public class Item_Detail extends AppCompatActivity {
                             supplyRequest.put("createdDate", new Timestamp(new Date()));
                             userRef = db.collection("users").document(userEmail);
                             userRef.collection("supplyList").document().set(supplyRequest);
+
+                            userRef.collection("supplyList").orderBy("createdDate", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                                            Map<String, Object> supplyMap = new HashMap<>();
+                                            supplyMap.put("user", userEmail);
+                                            supplyMap.put("supplyReqDocId", doc.getId());
+                                            supplyMap.put("requestDate", new Timestamp(new Date()));
+                                            supplyMap.put("itemId", doc.getString("itemId"));
+                                            supplyMap.put("status", "pending");
+                                            supplyRequstRef.document().set(supplyMap);
+                                        }
+                                    }
+                                }
+                            });
 
                             long newQuntyRequired = unitsRequired - supplyAmt;
                             itemRef.update("unitRequired", newQuntyRequired);  // Adjust the number of required units.

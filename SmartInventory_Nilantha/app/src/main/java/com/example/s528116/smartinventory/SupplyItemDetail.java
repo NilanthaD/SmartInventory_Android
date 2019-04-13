@@ -59,7 +59,8 @@ public class SupplyItemDetail extends AppCompatActivity {
 
     private FirebaseFirestore mDb;
     private DocumentReference supplyItemDocRef, itemsDocRef;
-    private CollectionReference changeSupplyRequestref;
+    private CollectionReference supplyRequestRef;
+
     private FirebaseStorage storage;
 
 
@@ -104,6 +105,7 @@ public class SupplyItemDetail extends AppCompatActivity {
         mDb = FirebaseFirestore.getInstance();
         supplyItemDocRef = mDb.collection("users").document(userEmail).collection("supplyList").document(supplyDocId);
         itemsDocRef = mDb.collection("items").document(supplyItemIntent.getStringExtra("itemDocId"));
+        supplyRequestRef = mDb.collection("supplyRequests");
 
         supplyItemDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
