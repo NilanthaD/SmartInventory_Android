@@ -30,6 +30,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -37,6 +40,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,16 +48,16 @@ import java.util.Map;
 public class SupplyItemDetail extends AppCompatActivity {
 
     private ImageView supplyItemImageIV;
-    private TextView statusTV, itemIDTV, unitPriceTV, numberOfUnitsTV, createdDateTV, totalValueTV, changeRequesTV;
+    private TextView statusTV, itemIDTV, unitPriceTV, numberOfUnitsTV, createdDateTV, totalValueTV, changeRequesTV, numOfUnitsTV, untPriceTV, totalTV, cancelReqTV;
     private EditText newAmountET;
-    private Button submitNewAmountBTN, deleteRequestBTN, shippingLableBTN, contactVendorBTN;
-    private LinearLayout pendingLL, newRequestLL, shippedLL, pendingRequestLL;
+    private Button submitNewAmountBTN, deleteRequestBTN, shippingLableBTN, contactVendorBTN, requestPaymentBTN;
+    private LinearLayout pendingLL, newRequestLL, shippedLL, pendingRequestLL, requestPaymentLL;
     //items for send change request
-    private EditText messageET, changeSupplyAmountET;
+    private EditText messageET, changeSupplyAmountET, nameET, bankNameET, accNoET, routingNoET;
     private Button changeRequestBTN, cancelSupplyRequestBTN, shippedBTN, shippingLabelBTN;
 
     private Intent supplyItemIntent = new Intent();
-    private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated, imageURL;
+    private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated, imageURL, supplyReqMsgId, name, accNo, routingNo, bankName;
     private long supplyAmount, totalValue, unitPrice, unitRequired, newSupplyAmount, newUnitRequired;
     private Date createdDate;
 
@@ -70,6 +74,15 @@ public class SupplyItemDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supply_item_detail);
 
+        numOfUnitsTV = findViewById(R.id.numOfUnitTV);
+        untPriceTV = findViewById(R.id.untpriceTV);
+        totalTV = findViewById(R.id.totalTV);
+        cancelReqTV = findViewById(R.id.cancelReqTV);
+        nameET = findViewById(R.id.nameET);
+        bankNameET = findViewById(R.id.bankNameET);
+        accNoET = findViewById(R.id.accNoET);
+        routingNoET = findViewById(R.id.routingNoET);
+        requestPaymentBTN = findViewById(R.id.requestPaymentBTN);
         supplyItemImageIV = findViewById(R.id.supplyItemImageIV);
         statusTV = findViewById(R.id.statusTV);
         itemIDTV = findViewById(R.id.itemIDTV);
@@ -93,6 +106,7 @@ public class SupplyItemDetail extends AppCompatActivity {
         shippingLableBTN = findViewById(R.id.shippingLabelBTN);
         pendingRequestLL = findViewById(R.id.pendingRequestLL);
         changeRequesTV = findViewById(R.id.changeRequesTV);
+        requestPaymentLL = findViewById(R.id.requestPaymentLL);
 
         supplyItemIntent = getIntent();
         userEmail = supplyItemIntent.getStringExtra("userEmail");
@@ -143,6 +157,7 @@ public class SupplyItemDetail extends AppCompatActivity {
             newRequestLL.setVisibility(View.GONE);
             shippedLL.setVisibility(View.GONE);
             pendingRequestLL.setVisibility(View.GONE);
+            requestPaymentLL.setVisibility(View.GONE);
 //            newAmountET.setEnabled(false);
 //            submitNewAmountBTN.setEnabled(false);
 //            deleteRequestBTN.setEnabled(false);
@@ -151,16 +166,25 @@ public class SupplyItemDetail extends AppCompatActivity {
             pendingLL.setVisibility(View.GONE);
             shippedLL.setVisibility(View.GONE);
             pendingRequestLL.setVisibility(View.GONE);
+            requestPaymentLL.setVisibility(View.GONE);
         }
         if(status.equals("Shipped")){
             pendingLL.setVisibility(View.GONE);
             newRequestLL.setVisibility(View.GONE);
             pendingRequestLL.setVisibility(View.GONE);
+            requestPaymentLL.setVisibility(View.GONE);
         }
         if(status.equals("Pending for Changers")){
             pendingLL.setVisibility(View.GONE);
             newRequestLL.setVisibility(View.GONE);
             shippedLL.setVisibility(View.GONE);
+            requestPaymentLL.setVisibility(View.GONE);
+        }
+        if(status.equals("ItemDelivered")){
+            pendingLL.setVisibility(View.GONE);
+            newRequestLL.setVisibility(View.GONE);
+            shippedLL.setVisibility(View.GONE);
+            pendingRequestLL.setVisibility(View.GONE);
         }
 
         itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -295,6 +319,56 @@ public class SupplyItemDetail extends AppCompatActivity {
                 shippingLableBTN.setEnabled(false);
             }
         });
+
+        requestPaymentBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                name = nameET.getText().toString();
+                bankName = bankNameET.getText().toString();
+                accNo =accNoET.getText().toString();
+                routingNo = routingNoET.getText().toString();
+
+                if(name.isEmpty()||bankName.isEmpty()||accNo.isEmpty()||routingNo.isEmpty()){
+                    Toast.makeText(SupplyItemDetail.this, "All the field need to be filed", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    supplyItemDocRef.update("status", "PaymentRequested");
+
+                    Map<String, Object> paymentDetailsMap = new HashMap<>();
+                    paymentDetailsMap.put("name", name);
+                    paymentDetailsMap.put("bankName", bankName);
+                    paymentDetailsMap.put("accNo",Long.parseLong(accNo));
+                    paymentDetailsMap.put("routingNo", Long.parseLong(routingNo));
+                    paymentDetailsMap.put("requestedDate", new Timestamp(new Date()));
+                    supplyItemDocRef.collection("BankInfo").document().set(paymentDetailsMap);
+
+
+                    supplyItemDocRef.collection("BankInfo").orderBy("requestedDate", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for (QueryDocumentSnapshot doc : task.getResult()){
+                                Map<String, Object> paymentReqMsgMap = new HashMap<>();
+                                paymentReqMsgMap.put("requestedDate", new Timestamp(new Date()));
+                                paymentReqMsgMap.put("itemId", itemId);
+                                paymentReqMsgMap.put("noOfUnits", supplyAmount);
+                                paymentReqMsgMap.put("unitPrice", unitPrice);
+                                paymentReqMsgMap.put("totalValue", totalValue);
+                                paymentReqMsgMap.put("userId", userEmail);
+                                paymentReqMsgMap.put("status", "PaymentRequested");
+                                paymentReqMsgMap.put("bankInfoDocId", doc.getId());
+                                paymentReqMsgMap.put("sypplyReqDocId", supplyDocId);
+                                mDb.collection("paymentRequests").document().set(paymentReqMsgMap);
+                                }
+                            }
+                        }
+                    });
+                }
+                finish();
+            }
+
+        });
+
 
     }
 

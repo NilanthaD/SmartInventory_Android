@@ -7,7 +7,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="211dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,8 +101,8 @@
                         android:layout_width="75dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:hint="Amount"
                         android:background="@drawable/back"
+                        android:hint="Amount"
                         android:outlineSpotShadowColor="#000" />
 
                     <Button
@@ -112,27 +114,29 @@
 
 
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="OR" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="If you want to cancel the request click delete request" />
 
-                    <Button
-                        android:id="@+id/deleteRequestBTN"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:background="#F00"
-                        android:textColor="#FFF"
-                        android:layout_margin="10dp"
-                        android:text="Delete Request"
-                        android:padding="4dp"/>
+                <Button
+                    android:id="@+id/deleteRequestBTN"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="#F00"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="Delete Request"
+                    android:textColor="#FFF" />
 
             </LinearLayout>
 
@@ -180,8 +184,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:textColor="#FA3A3A"
-                        android:text="If your request status is approved and if you want to make a change in your request, please make a CHANGE REQUEST bellow" />
+                        android:text="If your request status is approved and if you want to make a change in your request, please make a CHANGE REQUEST bellow"
+                        android:textColor="#FA3A3A" />
 
 
                     <LinearLayout
@@ -200,8 +204,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:hint="Amount"
                             android:background="@drawable/back"
+                            android:hint="Amount"
                             android:inputType="number" />
 
                     </LinearLayout>
@@ -223,52 +227,54 @@
                         android:layout_marginBottom="7dp"
                         android:background="@drawable/back"
                         android:hint="Message" />
+
                     <Button
                         android:id="@+id/changeRequestBTN"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Send change request" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:textColor="#FA3A3A"
-                            android:text="OR \nIf you want to cancel supply Request, click below" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="OR \nIf you want to cancel supply Request, click below"
+                        android:textColor="#FA3A3A" />
 
-                        <Button
-                            android:id="@+id/cancleSupplyRequestBTN"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#F00"
-                            android:textColor="#FFF"
-                            android:layout_margin="10dp"
-                            android:text="Cancel supply request" />
+                    <Button
+                        android:id="@+id/cancleSupplyRequestBTN"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="#F00"
+                        android:text="Cancel supply request"
+                        android:textColor="#FFF" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/shippedLL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/shippedLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textSize="16dp"
-                android:textColor="#F00"
-                android:text="You have shipped the item.\nOnce we receive the item we will update the status."/>
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/contactVendorBTN"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Contact Vendor"/>
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="You have shipped the item.\nOnce we receive the item we will update the status."
+                    android:textColor="#F00"
+                    android:textSize="16dp" />
+
+                <Button
+                    android:id="@+id/contactVendorBTN"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contact Vendor" />
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/pendingRequestLL"
                 android:layout_width="match_parent"
@@ -279,8 +285,156 @@
                     android:id="@+id/changeRequesTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#F00"
-                    android:text="Your request is on pending. please give us 24 hours to make the changers"/>
+                    android:text="Your request is on pending. please give us 24 hours to make the changers"
+                    android:textColor="#F00" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/requestPaymentLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Request payment"
+                    android:textSize="17dp"
+                    android:textColor="#007700"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/numOfUnitTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No of units : "/>
+                <TextView
+                    android:id="@+id/untpriceTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Unit Price : "/>
+                <TextView
+                    android:id="@+id/totalTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total Amount : "/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="Your bank information"
+                    android:textSize="17dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text= "Name on the Account : "
+                        android:gravity="center"/>
+                    <EditText
+                        android:id="@+id/nameET"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/back"
+                        android:hint="Full Name"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text= "Bank Name : "/>
+                    <EditText
+                        android:id="@+id/bankNameET"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/back"
+                        android:hint="Bank Name"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text= "Account Number : "/>
+                    <EditText
+                        android:id="@+id/accNoET"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/back"
+                        android:inputType="number"
+                        android:hint="Account number"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text= "Routing Number : "/>
+                    <EditText
+                        android:id="@+id/routingNoET"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/back"
+                        android:inputType="number"
+                        android:hint="Routing number"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:id="@+id/cancelReqTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cancel"
+                        android:textColor="#00F"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="right">
+
+                        <Button
+                            android:id="@+id/requestPaymentBTN"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text = "Request Payment"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
         </LinearLayout>
