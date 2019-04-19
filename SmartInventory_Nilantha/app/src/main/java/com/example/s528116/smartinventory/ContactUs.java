@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -27,6 +28,7 @@ public class ContactUs extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private DocumentReference userRef;
+    private CollectionReference messageRef;
 
 
 
@@ -57,6 +59,7 @@ public class ContactUs extends AppCompatActivity {
              title = titleET.getText().toString();
              message = messageET.getText().toString();
              userRef = db.collection("users").document(userEmail);
+             messageRef = db.collection("messages");
              if (title.equals("")||message.equals("")){
                  Toast.makeText(ContactUs.this, "Title or Message cannot be empty", Toast.LENGTH_LONG).show();
                  return;
@@ -68,10 +71,17 @@ public class ContactUs extends AppCompatActivity {
                  contactUs.put("message", message);
                  contactUs.put("status", "sent");
                  contactUs.put("composed_date", new Timestamp(new Date()));
-                userRef.collection("messages").document().set(contactUs);
-                finish();
+                 contactUs.put("userId", userEmail);
+                 userRef.collection("messages").document().set(contactUs);
+                 messageRef.document().set(contactUs);
+
                  messageET.setText("");
                  titleET.setText("");
+
+
+
+
+                 finish();
 
              }
 

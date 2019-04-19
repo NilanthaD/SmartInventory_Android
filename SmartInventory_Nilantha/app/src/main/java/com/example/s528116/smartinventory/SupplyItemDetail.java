@@ -363,8 +363,9 @@ public class SupplyItemDetail extends AppCompatActivity {
                             }
                         }
                     });
+                    finish();
                 }
-                finish();
+
             }
 
         });
@@ -386,6 +387,11 @@ public class SupplyItemDetail extends AppCompatActivity {
                 Intent aboutIntent = new Intent(this, Aboutus.class);
                 aboutIntent.putExtra("userName", userEmail);
                 startActivity(aboutIntent);
+                break;
+            case R.id.Messages:
+                Intent messagesIntent = new Intent(this, MessagesRV.class);
+                messagesIntent.putExtra("userEmail", userEmail);
+                startActivity(messagesIntent);
                 break;
             case R.id.SupplyHistory:
             case R.id.back:

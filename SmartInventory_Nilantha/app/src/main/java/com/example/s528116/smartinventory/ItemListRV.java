@@ -78,7 +78,6 @@ public class ItemListRV extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.logout:
-
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 return (true);
@@ -87,6 +86,11 @@ public class ItemListRV extends AppCompatActivity {
                 Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
+                break;
+            case R.id.Messages:
+                Intent messagesIntent = new Intent(this, MessagesRV.class);
+                messagesIntent.putExtra("userEmail", userEmail);
+                startActivity(messagesIntent);
                 break;
             case R.id.about:
                 Intent aboutIntent = new Intent(this, Aboutus.class);

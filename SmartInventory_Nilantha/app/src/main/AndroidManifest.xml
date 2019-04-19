@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContactUs"></activity>
+        <activity android:name=".Message"></activity>
+        <activity android:name=".MessagesRV" />
+        <activity android:name=".ContactUs" />
         <activity android:name=".SupplyItemDetail" />
         <activity android:name=".SupplyHistoryRV" />
         <activity android:name=".Item_Detail" />

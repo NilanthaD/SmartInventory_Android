@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-40:12
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-42:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\s528116\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0.aar\ffcaccce743cf8832af2cd1f04aa9de7\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\s528116\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0.aar\3ee52739a899d3fb0b63b999f332d426\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\s528116\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0.aar\8fc8a08c14ec3c4913283a4c4b468986\AndroidManifest.xml:17:1-22:12
@@ -62,20 +62,20 @@ MERGED from [android.arch.core:runtime:1.1.1] C:\Users\s528116\.gradle\caches\tr
 MERGED from [com.github.bumptech.glide:gifdecoder:4.7.1] C:\Users\s528116\.gradle\caches\transforms-1\files-1.1\gifdecoder-4.7.1.aar\a070af3b163f1c3831da747fb19ce2bf\AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.firebase:protolite-well-known-types:16.0.0] C:\Users\s528116\.gradle\caches\transforms-1\files-1.1\protolite-well-known-types-16.0.0.aar\99ba91778829fc843893f4cdc821fd79\AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] C:\Users\s528116\.gradle\caches\transforms-1\files-1.1\play-services-measurement-base-16.0.3.aar\d99805117d1aad3e619121c4afcfc7db\AndroidManifest.xml:2:1-9:12
-INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-40:12
+INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-42:12
 	package
 		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:3:5-49
 		INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml
 		INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-40:12
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-42:12
 		INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-40:12
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:1-42:12
 		INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:2:11-69
@@ -96,7 +96,7 @@ MERGED from [com.google.firebase:firebase-iid:17.0.3] C:\Users\s528116\.gradle\c
 	android:name
 		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:5:22-64
 application
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:7:5-38:19
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:7:5-40:19
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\s528116\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\746a63bc728bfe61e959a8b86fcf554d\AndroidManifest.xml:9:5-20
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\s528116\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.3.aar\746a63bc728bfe61e959a8b86fcf554d\AndroidManifest.xml:9:5-20
 MERGED from [com.google.firebase:firebase-core:16.0.4] C:\Users\s528116\.gradle\caches\transforms-1\files-1.1\firebase-core-16.0.4.aar\5d1dd274cb4f7daff23dc0ac52604b03\AndroidManifest.xml:7:5-20
@@ -159,64 +159,72 @@ MERGED from [com.google.android.gms:play-services-measurement-base:16.0.3] C:\Us
 		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:8:9-35
 	android:theme
 		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:13:9-40
+activity#com.example.s528116.smartinventory.Message
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:14:9-54
+	android:name
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:14:19-42
+activity#com.example.s528116.smartinventory.MessagesRV
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:15:9-48
+	android:name
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:15:19-45
 activity#com.example.s528116.smartinventory.ContactUs
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:14:9-56
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:16:9-47
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:14:19-44
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:16:19-44
 activity#com.example.s528116.smartinventory.SupplyItemDetail
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:15:9-54
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:17:9-54
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:15:19-51
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:17:19-51
 activity#com.example.s528116.smartinventory.SupplyHistoryRV
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:16:9-53
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:18:9-53
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:16:19-50
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:18:19-50
 activity#com.example.s528116.smartinventory.Item_Detail
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:17:9-49
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:19:9-49
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:17:19-46
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:19:19-46
 activity#com.example.s528116.smartinventory.ItemListRV
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:18:9-48
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:20:9-48
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:18:19-45
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:20:19-45
 activity#com.example.s528116.smartinventory.MainActivity
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:19:9-27:20
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:21:9-29:20
 	android:theme
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:21:13-69
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:23:13-69
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:20:13-41
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:22:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:22:13-26:29
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:24:13-28:29
 action#android.intent.action.MAIN
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:23:17-69
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:25:17-69
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:23:25-66
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:25:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:25:17-77
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:27:17-77
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:25:27-74
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:27:27-74
 activity#com.example.s528116.smartinventory.Signup
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:28:9-30:72
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:30:9-32:72
 	android:theme
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:30:13-69
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:32:13-69
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:29:13-35
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:31:13-35
 activity#com.example.s528116.smartinventory.SecQuestion
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:31:9-33:72
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:33:9-35:72
 	android:theme
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:33:13-69
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:35:13-69
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:32:13-40
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:34:13-40
 activity#com.example.s528116.smartinventory.PasswordRecover
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:34:9-36:72
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:36:9-38:72
 	android:theme
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:36:13-69
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:38:13-69
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:35:13-44
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:37:13-44
 activity#com.example.s528116.smartinventory.Aboutus
-ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:37:9-45
+ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:39:9-45
 	android:name
-		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:37:19-42
+		ADDED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml:39:19-42
 uses-sdk
 INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\SmartInventory\SmartInventory_Nilantha\app\src\main\AndroidManifest.xml

@@ -82,7 +82,16 @@ public class SupplyHistoryRV extends AppCompatActivity {
                 aboutIntent.putExtra("userName", userEmail);
                 startActivity(aboutIntent);
                 break;
-
+            case R.id.Messages:
+                Intent messagesIntent = new Intent(this, MessagesRV.class);
+                messagesIntent.putExtra("userEmail", userEmail);
+                startActivity(messagesIntent);
+                break;
+            case R.id.SupplyHistory:
+                Intent supplyHistoryIntent = new Intent(this, SupplyHistoryRV.class);
+                supplyHistoryIntent.putExtra("userEmail", userEmail);
+                startActivity(supplyHistoryIntent);
+                break;
             case R.id.back:
                 Intent j = new Intent(this, ItemListRV.class);
                 j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

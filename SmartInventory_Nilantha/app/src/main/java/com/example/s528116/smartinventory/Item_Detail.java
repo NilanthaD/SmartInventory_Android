@@ -186,6 +186,11 @@ public class Item_Detail extends AppCompatActivity {
                 supplyHistoryIntent.putExtra("userEmail", userEmail);
                 startActivity(supplyHistoryIntent);
                 break;
+            case R.id.Messages:
+                Intent messagesIntent = new Intent(this, MessagesRV.class);
+                messagesIntent.putExtra("userEmail", userEmail);
+                startActivity(messagesIntent);
+                break;
             case R.id.back:
                 Intent j = new Intent(this, ItemListRV.class);
                 j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
