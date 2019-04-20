@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Message">
+    tools:context=".ReplyMessage">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,42 +16,40 @@
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/back"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back"
+                android:orientation="vertical"
+                android:layout_margin="10dp">
 
-            <TextView
-                android:id="@+id/titleTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Title :"
-                />
-            <TextView
-                android:id="@+id/fromTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="From : "
-                />
-            <TextView
-                android:id="@+id/dateTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Date : "/>
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/titleET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Title :"
+                    />
+                <TextView
+                    android:id="@+id/toTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="to : "
+                    />
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/back"
                 android:layout_margin="10dp">
 
-                <TextView
-                    android:id="@+id/messageTV"
+                <EditText
+                    android:id="@+id/messageET"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:text="message"/>
+                    android:layout_height="300dp"
+                    android:text="message"
+                    android:scrollbars="vertical"
+                    android:gravity="top"/>
 
             </LinearLayout>
             <LinearLayout
@@ -61,13 +59,14 @@
                 android:layout_margin="10dp">
 
                 <Button
-                    android:id="@+id/replyBTN"
+                    android:id="@+id/sendBTN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Reply"/>
+                    android:text="Send"/>
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 
 </android.support.constraint.ConstraintLayout>

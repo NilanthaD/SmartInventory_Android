@@ -186,6 +186,13 @@ public class SupplyItemDetail extends AppCompatActivity {
             shippedLL.setVisibility(View.GONE);
             pendingRequestLL.setVisibility(View.GONE);
         }
+        if(status.equals("PaymentRequested")){
+            pendingLL.setVisibility(View.GONE);
+            newRequestLL.setVisibility(View.GONE);
+            shippedLL.setVisibility(View.GONE);
+            pendingRequestLL.setVisibility(View.GONE);
+            requestPaymentLL.setVisibility(View.GONE);
+        }
 
         itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

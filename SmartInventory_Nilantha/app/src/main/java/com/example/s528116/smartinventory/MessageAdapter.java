@@ -49,7 +49,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.Messages
     @Override
     public void onBindViewHolder(@NonNull MessagesViewHolder messagesViewHolder, int i) {
         final MessageContainer currentMessage = messageListArray.get(i);
-        String dateComposed = FormatDate.getDate(currentMessage.getComposeDate());
+        final String dateComposed = FormatDate.getDate(currentMessage.getComposeDate());
 
         messagesViewHolder.titleTV.setText("Title : "+ currentMessage.getTitle());
         messagesViewHolder.senderTV.setText("Sender : "+ currentMessage.getSender());
@@ -60,9 +60,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.Messages
             public void onClick(View v) {
                 Intent in = new Intent(context, Message.class);
                 in.putExtra("userEmail", currentMessage.getSender());
-                in.putExtra("composedDate", currentMessage.getComposeDate());
+                in.putExtra("composedDate", dateComposed);
                 in.putExtra("message", currentMessage.getMessage());
                 in.putExtra("title", currentMessage.getTitle());
+                in.putExtra("msgDocId", currentMessage.getMessageDocId());
                 context.startActivity(in);
             }
         });

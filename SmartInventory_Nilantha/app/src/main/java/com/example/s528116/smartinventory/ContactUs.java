@@ -72,6 +72,8 @@ public class ContactUs extends AppCompatActivity {
                  contactUs.put("status", "sent");
                  contactUs.put("composed_date", new Timestamp(new Date()));
                  contactUs.put("userId", userEmail);
+                 contactUs.put("from", userEmail);
+                 contactUs.put("to", "Admin");
                  userRef.collection("messages").document().set(contactUs);
                  messageRef.document().set(contactUs);
 
