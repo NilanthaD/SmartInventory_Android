@@ -58,7 +58,7 @@ public class UploadShippingLabel extends AppCompatActivity {
 
 
 
-    }
+        }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -89,5 +89,5 @@ public class UploadShippingLabel extends AppCompatActivity {
         }
     }
 
-}
+    }
 
