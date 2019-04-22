@@ -43,7 +43,7 @@ public class SupplyRequestAdapter extends RecyclerView.Adapter<SupplyRequestAdap
     @NonNull
     @Override
     public SupplyRequestViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.supply_request_container, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_supply_request_container, viewGroup, false);
         SupplyRequestViewHolder supplyRequestVH = new SupplyRequestViewHolder(v);
         return  supplyRequestVH;
     }
@@ -65,7 +65,7 @@ public class SupplyRequestAdapter extends RecyclerView.Adapter<SupplyRequestAdap
         supplyRequestViewHolder.supplyRequestLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent requestActionIntent = new Intent(context, RequestAction.class);
+                Intent requestActionIntent = new Intent(context, com.example.adminsmartinventory.RequestAction.class);
                 requestActionIntent.putExtra("supplyReqDocId", currentRequest.getSupplyReqDocId());
                 requestActionIntent.putExtra("userEmail", currentRequest.getFrom());
                 requestActionIntent.putExtra("status", currentRequest.getStatus());
