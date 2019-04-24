@@ -52,7 +52,6 @@ public class SupplyItemDetail extends AppCompatActivity {
     private EditText newAmountET;
     private Button submitNewAmountBTN, deleteRequestBTN, shippingLableBTN, contactVendorBTN, requestPaymentBTN;
     private LinearLayout pendingLL, newRequestLL, shippedLL, pendingRequestLL, requestPaymentLL;
-    //items for send change request
     private EditText messageET, changeSupplyAmountET, nameET, bankNameET, accNoET, routingNoET;
     private Button changeRequestBTN, cancelSupplyRequestBTN, shippedBTN, shippingLabelBTN;
 
@@ -137,6 +136,7 @@ public class SupplyItemDetail extends AppCompatActivity {
                     supplyAmount = supplyDoc.getLong("supplyAmount");
                     totalValue = supplyDoc.getLong("totalValue");
                     unitPrice = supplyDoc.getLong("unitPrice");
+                    supplyReqMsgId = supplyDoc.getString("supplyReqMsgId");
 
                     dateCreated = FormatDate.getDate(createdDate);
                     Picasso.get().load(imageURL).into(supplyItemImageIV);
@@ -223,7 +223,7 @@ public class SupplyItemDetail extends AppCompatActivity {
                             totalValueTV.setText("Total Value :$" + totalValue);
                             newAmountET.setText("");
                         }
-                    }).setNegativeButton("canclel", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
@@ -246,6 +246,7 @@ public class SupplyItemDetail extends AppCompatActivity {
                 builder.setMessage("Are you sure you want to delete this Item Supply Request").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        mDb.collection("supplyRequests").document(supplyReqMsgId).delete();
                         supplyItemDocRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -292,6 +293,7 @@ public class SupplyItemDetail extends AppCompatActivity {
                     supplyItemDocRef.update("status", "Pending for Changers");
                     Toast.makeText(SupplyItemDetail.this, "Sent Request", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -299,6 +301,22 @@ public class SupplyItemDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 supplyItemDocRef.update("status", "Shipped");
+                mDb.collection("supplyRequests").document(supplyReqMsgId).update("status", "Shipped");
+
+                supplyItemDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) { supplyItemDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+
+                                DocumentSnapshot supplyDoc = task.getResult();
+                                final String supplyReqMsgID = supplyDoc.getString("itemDocId");
+                            }
+                        }
+                    });
+                    }
+                });
                 statusTV.setText("Status :Shipped.");
                 newRequestLL.setVisibility(View.GONE);
             }
@@ -340,6 +358,7 @@ public class SupplyItemDetail extends AppCompatActivity {
                 }
                 else{
                     supplyItemDocRef.update("status", "PaymentRequested");
+                    mDb.collection("supplyRequests").document(supplyReqMsgId).update("status", "PaymentRequested");
 
                     Map<String, Object> paymentDetailsMap = new HashMap<>();
                     paymentDetailsMap.put("name", name);
@@ -370,7 +389,11 @@ public class SupplyItemDetail extends AppCompatActivity {
                             }
                         }
                     });
-                    finish();
+                    Intent supplyHistoryIntent = new Intent(SupplyItemDetail.this, SupplyHistoryRV.class);
+                    supplyHistoryIntent.putExtra("userEmail", userEmail);
+                    supplyHistoryIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(supplyHistoryIntent);
+                    SupplyItemDetail.this.finish();
                 }
 
             }
@@ -410,7 +433,7 @@ public class SupplyItemDetail extends AppCompatActivity {
                 break;
             case R.id.ContactUs:
                 Intent contactIntent = new Intent(this, ContactUs.class);
-                contactIntent.putExtra("userName", userEmail);
+                contactIntent.putExtra("userEmail", userEmail);
                 startActivity(contactIntent);
                 break;
         }

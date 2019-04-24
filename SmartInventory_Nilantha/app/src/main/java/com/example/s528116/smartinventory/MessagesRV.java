@@ -45,7 +45,7 @@ public class MessagesRV extends AppCompatActivity {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot doc: task.getResult()){
                         if(doc.getString("userId").equals(userEmail)) {
-                            messageArrayList.add(new MessageContainer(doc.getString("title"), doc.getString("userId"), doc.getDate("composed_date"),
+                            messageArrayList.add(new MessageContainer(doc.getString("title"), doc.getString("from"), doc.getString("to"), doc.getDate("composed_date"),
                                     doc.getId(), doc.getString("message")));
                         }
                     }

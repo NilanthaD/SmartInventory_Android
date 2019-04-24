@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class Message extends AppCompatActivity {
 
-    private TextView titleTV, fromTV, dateTV, messageTV;
+    private TextView titleTV, fromTV,toTV, dateTV, messageTV, closeTV;
     private Button replyBTN;
 
     private FirebaseFirestore db;
@@ -33,10 +33,13 @@ public class Message extends AppCompatActivity {
         dateTV = findViewById(R.id.dateTV);
         messageTV = findViewById(R.id.messageTV);
         replyBTN = findViewById(R.id.replyBTN);
+        toTV = findViewById(R.id.toTV);
+        closeTV = findViewById(R.id.closeTV);
 
         final Intent messageIn = getIntent();
         titleTV.setText("Title : "+messageIn.getStringExtra("title"));
-        fromTV.setText("From : "+messageIn.getStringExtra("userEmail"));
+        fromTV.setText("From : "+messageIn.getStringExtra("from"));
+        toTV.setText("To : "+messageIn.getStringExtra("to"));
         dateTV.setText("Date : "+messageIn.getStringExtra("composedDate"));
         messageTV.setText(messageIn.getStringExtra("message"));
         
@@ -50,6 +53,13 @@ public class Message extends AppCompatActivity {
                 replyInt.putExtra("msgDocId", messageIn.getStringExtra("msgDocId"));
                 startActivity(replyInt);
 
+           }
+       });
+
+       closeTV.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               finish();
            }
        });
 

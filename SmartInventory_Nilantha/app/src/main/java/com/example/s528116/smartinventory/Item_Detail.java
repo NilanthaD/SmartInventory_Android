@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +42,7 @@ public class Item_Detail extends AppCompatActivity {
     private TextView itemNameTV, priceTV, quntityNeededTV, requiredByTV, detailsTV, cancleRequestTV;
     private EditText supplyAmountET, messageET;
     private Button submitRequestBTN;
-    private String userEmail, docId, itemId, supplyAmount, message, imageURL;
+    private String userEmail, docId, itemId, supplyAmount, message, imageURL, supplyRequestMsgId, supplyReqDocId;
     private long unitsRequired, unitPrice, supplyAmt, totalValue;
     private FirebaseFirestore db;
     private DocumentReference itemRef, userRef;
@@ -102,7 +103,8 @@ public class Item_Detail extends AppCompatActivity {
                 if (supplyAmt > 0 && supplyAmt<= unitsRequired) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Item_Detail.this);
                     builder.setTitle("Conformation..")
-                            .setMessage("Make a request to supply "+supplyAmount+" items.\n\nAdmin will response to this request within one business day").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            .setMessage("Make a request to supply "+supplyAmount+" items.\n\nAdmin will response to this request within one business day")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             final Map<String, Object> supplyRequest = new HashMap<>();
@@ -119,22 +121,42 @@ public class Item_Detail extends AppCompatActivity {
                             userRef = db.collection("users").document(userEmail);
                             userRef.collection("supplyList").document().set(supplyRequest);
 
-                            userRef.collection("supplyList").orderBy("createdDate", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            userRef.collection("supplyList").orderBy("createdDate", Query.Direction.DESCENDING).limit(1).get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot doc : task.getResult()) {
                                             Map<String, Object> supplyMap = new HashMap<>();
                                             supplyMap.put("user", userEmail);
-                                            supplyMap.put("supplyReqDocId", doc.getId());
+                                            supplyReqDocId = doc.getId();
+                                            supplyMap.put("supplyReqDocId", supplyReqDocId);
                                             supplyMap.put("requestDate", new Timestamp(new Date()));
                                             supplyMap.put("itemId", doc.getString("itemId"));
                                             supplyMap.put("status", "pending");
                                             supplyRequstRef.document().set(supplyMap);
+
+                                            db.collection("supplyRequests").orderBy("requestDate", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        for (QueryDocumentSnapshot doc : task.getResult()){
+                                                            supplyRequestMsgId = doc.getId();
+                                                            db.collection("users").document(userEmail).collection("supplyList")
+                                                                    .document(supplyReqDocId).update("supplyReqMsgId", supplyRequestMsgId);
+                                                        }
+                                                    }
+                                                }
+                                            });
                                         }
                                     }
                                 }
                             });
+
+
+
+//                            db.collection("users").document(userEmail).collection("supplyList")
+//                                    .document(supplyReqDocId).update("supplyReqMsgId", supplyRequestMsgId);
 
                             long newQuntyRequired = unitsRequired - supplyAmt;
                             itemRef.update("unitRequired", newQuntyRequired);  // Adjust the number of required units.

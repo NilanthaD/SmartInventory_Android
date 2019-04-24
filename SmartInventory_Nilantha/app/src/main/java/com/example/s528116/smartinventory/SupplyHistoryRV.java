@@ -30,7 +30,7 @@ public class SupplyHistoryRV extends AppCompatActivity {
     private RecyclerView.Adapter supplyHistoryAdapter;
     private RecyclerView.LayoutManager supplyHistryLayoutManager;
 
-    private Intent supplyHistoryIntent = new Intent();
+   // private Intent supplyHistoryIntent = new Intent();
     private String userEmail;
     private FirebaseFirestore db;
     private DocumentReference supplyItemDocRef;
@@ -41,7 +41,7 @@ public class SupplyHistoryRV extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supply_history_rv);
         db = FirebaseFirestore.getInstance();
-        supplyHistoryIntent = getIntent();
+        Intent supplyHistoryIntent = getIntent();
         userEmail = supplyHistoryIntent.getStringExtra("userEmail");
         supplyItemsCollection = db.collection("users").document(userEmail).collection("supplyList");
 

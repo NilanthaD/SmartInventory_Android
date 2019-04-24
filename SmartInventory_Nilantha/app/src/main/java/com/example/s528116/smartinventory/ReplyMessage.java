@@ -28,8 +28,8 @@ public class ReplyMessage extends AppCompatActivity {
     private String from, message, status, title, to, userId;
     private Date composed_date;
 
-    private EditText titleET, fromET, messageET;
-    private TextView toTV;
+    private EditText titleET, messageET;
+    private TextView toTV, fromTV, closeTV;
     private Button sendBTN;
 
     private FirebaseFirestore db;
@@ -44,10 +44,13 @@ public class ReplyMessage extends AppCompatActivity {
         user = repInt.getStringExtra("userEmail");
         msgDocId = repInt.getStringExtra("msgDocId");
 
+
         titleET = findViewById(R.id.titleET);
         toTV = findViewById(R.id.toTV);
+        closeTV = findViewById(R.id.closeTV);
         messageET = findViewById(R.id.messageET);
         sendBTN = findViewById(R.id.sendBTN);
+        fromTV = findViewById(R.id.fromTV);
 
         db = FirebaseFirestore.getInstance();
         messageDocRef = db.collection("messages").document(msgDocId);
@@ -61,6 +64,7 @@ public class ReplyMessage extends AppCompatActivity {
                     String date = FormatDate.getDate(doc.getDate("composed_date"));
                     title ="Re: "+doc.getString("title");
                     titleET.setText("Title : Re: "+ doc.getString("title"));
+                    fromTV.setText("From : "+ doc.getString("userId"));
                     toTV.setText("To : Admin");
                     messageET.setText("\n\n\nFrom : "+doc.getString("from")+"\nTo :"+doc.getString("to")+"\nDate :"+date+"\n"+doc.getString("message"));
                 }
@@ -88,8 +92,15 @@ public class ReplyMessage extends AppCompatActivity {
             }
         });
 
-
-
-
+        closeTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent messageIntent = new Intent(ReplyMessage.this, MessagesRV.class);
+                messageIntent.putExtra("userEmail", user);
+                messageIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(messageIntent);
+                ReplyMessage.this.finish();
+            }
+        });
     }
 }

@@ -5,11 +5,12 @@ import android.widget.TextView;
 import java.util.Date;
 
 public class MessageContainer {
-    private String title, sender, messageDocId, message;
+    private String title, from, to, messageDocId, message;
     private Date composeDate;
-    public MessageContainer(String title, String sender, Date composeDate, String messageDocId, String message){
+    public MessageContainer(String title, String from, String to, Date composeDate, String messageDocId, String message){
         this.title = title;
-        this. sender = sender;
+        this. from = from;
+        this.to = to;
         this.composeDate = composeDate;
         this.messageDocId = messageDocId;
         this.message = message;
@@ -17,10 +18,6 @@ public class MessageContainer {
 
     public String getTitle() {
         return title;
-    }
-
-    public String getSender() {
-        return sender;
     }
 
     public String getMessageDocId() {
@@ -33,5 +30,13 @@ public class MessageContainer {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public String getTo() {
+        return to;
     }
 }

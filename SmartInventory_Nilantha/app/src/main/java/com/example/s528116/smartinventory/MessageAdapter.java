@@ -23,7 +23,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.Messages
 
 
     public static class MessagesViewHolder extends RecyclerView.ViewHolder {
-        public TextView titleTV, senderTV, sendDateTV;
+        public TextView titleTV, fromTV, toTV, sendDateTV;
         public LinearLayout messagesLL;
 
 
@@ -31,8 +31,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.Messages
             super(itemView);
 
             titleTV = itemView.findViewById(R.id.titleTV);
-            senderTV = itemView.findViewById(R.id.senderTV);
+            fromTV = itemView.findViewById(R.id.fromTV);
+            toTV = itemView.findViewById(R.id.toTV);
             sendDateTV = itemView.findViewById(R.id.sendDateTV);
+
             messagesLL = itemView.findViewById(R.id.messagesLL);
 
         }
@@ -52,18 +54,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.Messages
         final String dateComposed = FormatDate.getDate(currentMessage.getComposeDate());
 
         messagesViewHolder.titleTV.setText("Title : "+ currentMessage.getTitle());
-        messagesViewHolder.senderTV.setText("Sender : "+ currentMessage.getSender());
+        messagesViewHolder.fromTV.setText("Sender : "+ currentMessage.getFrom());
+        messagesViewHolder.toTV.setText("To : "+ currentMessage.getTo());
         messagesViewHolder.sendDateTV.setText(("Date : "+ dateComposed));
 
         messagesViewHolder.messagesLL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(context, Message.class);
-                in.putExtra("userEmail", currentMessage.getSender());
+                in.putExtra("from", currentMessage.getFrom());
+                in.putExtra("to", currentMessage.getTo());
                 in.putExtra("composedDate", dateComposed);
                 in.putExtra("message", currentMessage.getMessage());
                 in.putExtra("title", currentMessage.getTitle());
                 in.putExtra("msgDocId", currentMessage.getMessageDocId());
+                in.putExtra("userEmail", currentMessage.getFrom());
                 context.startActivity(in);
             }
         });
