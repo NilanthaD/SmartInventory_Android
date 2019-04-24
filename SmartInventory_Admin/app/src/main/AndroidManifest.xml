@@ -24,8 +24,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity_user_request" />
-        <activity android:name=".activity_supply_request_rv" />
-        <activity android:name=".supply_request_container"></activity>
+        <activity android:name=".activity_accept_inventory" />
+        <activity android:name=".SupplyRequestRV" />
+        <activity android:name=".SupplyRequestContainer"></activity>
     </application>
 
 </manifest>
