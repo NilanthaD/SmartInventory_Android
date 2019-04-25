@@ -433,8 +433,28 @@
                     </LinearLayout>
 
                 </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/conformLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="15dp"
+                android:layout_gravity="center_horizontal">
 
+                <Button
+                    android:id="@+id/downloadReceiptBTN"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Download Payment Receipt"
 
+                    />
+                <Button
+                    android:id="@+id/conformBTN"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Conform Money Received"
+                    android:background="#090"/>
 
             </LinearLayout>
         </LinearLayout>

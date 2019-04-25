@@ -42,7 +42,7 @@ public class Item_Detail extends AppCompatActivity {
     private TextView itemNameTV, priceTV, quntityNeededTV, requiredByTV, detailsTV, cancleRequestTV;
     private EditText supplyAmountET, messageET;
     private Button submitRequestBTN;
-    private String userEmail, docId, itemId, supplyAmount, message, imageURL, supplyRequestMsgId, supplyReqDocId;
+    private String userEmail, docId, itemId, supplyAmount, message, imageURL, supplyRequestMsgId, supplyReqDocId, itemName;
     private long unitsRequired, unitPrice, supplyAmt, totalValue;
     private FirebaseFirestore db;
     private DocumentReference itemRef, userRef;
@@ -89,6 +89,7 @@ public class Item_Detail extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 detailsTV.setText(documentSnapshot.get("itemDetails").toString());
                 unitsRequired = documentSnapshot.getLong("unitRequired");
+                itemName = documentSnapshot.getString("itemName");
             }
         });
 
@@ -117,6 +118,7 @@ public class Item_Detail extends AppCompatActivity {
                             supplyRequest.put("status", "Pending");
                             supplyRequest.put("unitPrice", unitPrice);
                             supplyRequest.put("totalValue", totalValue);
+                            supplyRequest.put("itemName", itemName);
                             supplyRequest.put("createdDate", new Timestamp(new Date()));
                             userRef = db.collection("users").document(userEmail);
                             userRef.collection("supplyList").document().set(supplyRequest);
@@ -134,6 +136,7 @@ public class Item_Detail extends AppCompatActivity {
                                             supplyMap.put("requestDate", new Timestamp(new Date()));
                                             supplyMap.put("itemId", doc.getString("itemId"));
                                             supplyMap.put("status", "pending");
+                                            supplyMap.put("itemName", itemName);
                                             supplyRequstRef.document().set(supplyMap);
 
                                             db.collection("supplyRequests").orderBy("requestDate", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

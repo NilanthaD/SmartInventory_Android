@@ -50,13 +50,14 @@ public class SupplyItemDetail extends AppCompatActivity {
     private ImageView supplyItemImageIV;
     private TextView statusTV, itemIDTV, unitPriceTV, numberOfUnitsTV, createdDateTV, totalValueTV, changeRequesTV, numOfUnitsTV, untPriceTV, totalTV, cancelReqTV;
     private EditText newAmountET;
-    private Button submitNewAmountBTN, deleteRequestBTN, shippingLableBTN, contactVendorBTN, requestPaymentBTN;
-    private LinearLayout pendingLL, newRequestLL, shippedLL, pendingRequestLL, requestPaymentLL;
+    private Button submitNewAmountBTN, deleteRequestBTN, shippingLableBTN, contactVendorBTN, requestPaymentBTN, conformBTN, downloadPaymentReceiptBTN;
+    private LinearLayout pendingLL, newRequestLL, shippedLL, pendingRequestLL, requestPaymentLL, conformLL;
     private EditText messageET, changeSupplyAmountET, nameET, bankNameET, accNoET, routingNoET;
     private Button changeRequestBTN, cancelSupplyRequestBTN, shippedBTN, shippingLabelBTN;
 
     private Intent supplyItemIntent = new Intent();
-    private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated, imageURL, supplyReqMsgId, name, accNo, routingNo, bankName;
+    private String userEmail, supplyDocId, itemDocId, itemId, message, paymentStatus, status, dateCreated, imageURL, supplyReqMsgId, name,
+            accNo, routingNo, bankName, paymentReceiptURL,shippingLabelURL, paymentReqMsgId;
     private long supplyAmount, totalValue, unitPrice, unitRequired, newSupplyAmount, newUnitRequired;
     private Date createdDate;
 
@@ -106,6 +107,9 @@ public class SupplyItemDetail extends AppCompatActivity {
         pendingRequestLL = findViewById(R.id.pendingRequestLL);
         changeRequesTV = findViewById(R.id.changeRequesTV);
         requestPaymentLL = findViewById(R.id.requestPaymentLL);
+        conformLL = findViewById(R.id.conformLL);
+        conformBTN = findViewById(R.id.conformBTN);
+        downloadPaymentReceiptBTN = findViewById(R.id.downloadReceiptBTN);
 
         supplyItemIntent = getIntent();
         userEmail = supplyItemIntent.getStringExtra("userEmail");
@@ -158,6 +162,7 @@ public class SupplyItemDetail extends AppCompatActivity {
             shippedLL.setVisibility(View.GONE);
             pendingRequestLL.setVisibility(View.GONE);
             requestPaymentLL.setVisibility(View.GONE);
+            conformLL.setVisibility(View.GONE);
 //            newAmountET.setEnabled(false);
 //            submitNewAmountBTN.setEnabled(false);
 //            deleteRequestBTN.setEnabled(false);
@@ -167,24 +172,28 @@ public class SupplyItemDetail extends AppCompatActivity {
             shippedLL.setVisibility(View.GONE);
             pendingRequestLL.setVisibility(View.GONE);
             requestPaymentLL.setVisibility(View.GONE);
+            conformLL.setVisibility(View.GONE);
         }
         if(status.equals("Shipped")){
             pendingLL.setVisibility(View.GONE);
             newRequestLL.setVisibility(View.GONE);
             pendingRequestLL.setVisibility(View.GONE);
             requestPaymentLL.setVisibility(View.GONE);
+            conformLL.setVisibility(View.GONE);
         }
-        if(status.equals("Pending for Changers")){
+        if(status.equals("Pending for Change")){
             pendingLL.setVisibility(View.GONE);
             newRequestLL.setVisibility(View.GONE);
             shippedLL.setVisibility(View.GONE);
             requestPaymentLL.setVisibility(View.GONE);
+            conformLL.setVisibility(View.GONE);
         }
         if(status.equals("ItemDelivered")){
             pendingLL.setVisibility(View.GONE);
             newRequestLL.setVisibility(View.GONE);
             shippedLL.setVisibility(View.GONE);
             pendingRequestLL.setVisibility(View.GONE);
+            conformLL.setVisibility(View.GONE);
         }
         if(status.equals("PaymentRequested")){
             pendingLL.setVisibility(View.GONE);
@@ -192,6 +201,22 @@ public class SupplyItemDetail extends AppCompatActivity {
             shippedLL.setVisibility(View.GONE);
             pendingRequestLL.setVisibility(View.GONE);
             requestPaymentLL.setVisibility(View.GONE);
+            conformLL.setVisibility(View.GONE);
+        }
+        if(status.equals("PaymentCompleted")){
+            pendingLL.setVisibility(View.GONE);
+            newRequestLL.setVisibility(View.GONE);
+            shippedLL.setVisibility(View.GONE);
+            pendingRequestLL.setVisibility(View.GONE);
+            requestPaymentLL.setVisibility(View.GONE);
+        }
+        if(status.equals("TransactionCompleted")){
+            pendingLL.setVisibility(View.GONE);
+            newRequestLL.setVisibility(View.GONE);
+            shippedLL.setVisibility(View.GONE);
+            pendingRequestLL.setVisibility(View.GONE);
+            requestPaymentLL.setVisibility(View.GONE);
+            conformLL.setVisibility(View.GONE);
         }
 
         itemsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -290,8 +315,15 @@ public class SupplyItemDetail extends AppCompatActivity {
                     changeRequest.put("status", "Pending for changers");
                     changeRequest.put("requestDate", new Timestamp(new Date()));
                     supplyItemDocRef.collection("ChangeRequest").document().set(changeRequest);
-                    supplyItemDocRef.update("status", "Pending for Changers");
+                    supplyItemDocRef.update("status", "Pending for Change");
+                    mDb.collection("supplyRequests").document(supplyReqMsgId).update("status", "Pending for Change");
+
                     Toast.makeText(SupplyItemDetail.this, "Sent Request", Toast.LENGTH_SHORT).show();
+                    Intent supplyHistoryIntent = new Intent(SupplyItemDetail.this, SupplyHistoryRV.class);
+                    supplyHistoryIntent.putExtra("userEmail", userEmail);
+                    supplyHistoryIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(supplyHistoryIntent);
+                    SupplyItemDetail.this.finish();
                 }
 
             }
@@ -334,14 +366,24 @@ public class SupplyItemDetail extends AppCompatActivity {
         shippingLableBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DownloadManager downloadManager = (DownloadManager) SupplyItemDetail.this.getSystemService(Context.DOWNLOAD_SERVICE);
-                Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/smartinventory-ecd05.appspot.com/o/shippingLabels%2FshippingLabel.pdf?alt=media&token=9f3ef531-23f6-4ca3-82d8-3834c285a735");
-                DownloadManager.Request request = new DownloadManager.Request(uri);
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalFilesDir(SupplyItemDetail.this, "My Files/Download"/*(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString())*/, "shippingLabel.pdf");
-                downloadManager.enqueue(request);
-                Toast.makeText(SupplyItemDetail.this, "File Downloaded to the Download folder" , Toast.LENGTH_LONG).show();
-                shippingLableBTN.setEnabled(false);
+                supplyItemDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot doc = task.getResult();
+                            shippingLabelURL = doc.getString("shippingLabelURL");
+                            DownloadManager downloadManager = (DownloadManager) SupplyItemDetail.this.getSystemService(Context.DOWNLOAD_SERVICE);
+                            Uri uri = Uri.parse(shippingLabelURL);
+                            DownloadManager.Request request = new DownloadManager.Request(uri);
+                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                            request.setDestinationInExternalFilesDir(SupplyItemDetail.this, "My Files/Download"/*(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString())*/, "shippingLabel.pdf");
+                            downloadManager.enqueue(request);
+                            Toast.makeText(SupplyItemDetail.this, "File Downloaded to the Download folder" , Toast.LENGTH_LONG).show();
+                            shippingLableBTN.setEnabled(false);
+                        }
+                    }
+                });
+
             }
         });
 
@@ -400,8 +442,43 @@ public class SupplyItemDetail extends AppCompatActivity {
 
         });
 
+        downloadPaymentReceiptBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supplyItemDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot document = task.getResult();
+                            paymentReceiptURL = document.getString("paymentReceiptURL");
+                            DownloadManager downloadManager = (DownloadManager) SupplyItemDetail.this.getSystemService(Context.DOWNLOAD_SERVICE);
+                            Uri uri = Uri.parse(paymentReceiptURL);
+                            DownloadManager.Request request = new DownloadManager.Request(uri);
+                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                            request.setDestinationInExternalFilesDir(SupplyItemDetail.this, "My Files/Download"/*(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString())*/, "shippingLabel.pdf");
+                            downloadManager.enqueue(request);
+                            Toast.makeText(SupplyItemDetail.this, "File Downloaded to the Download folder" , Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
-    }
+            }
+        });
+
+        conformBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supplyItemDocRef.update("status", "TransactionCompleted");
+                mDb.collection("supplyRequests").document(supplyReqMsgId).update("status","TransactionCompleted");
+                Intent supplyHistoryIntent = new Intent(SupplyItemDetail.this, SupplyHistoryRV.class);
+                supplyHistoryIntent.putExtra("userEmail", userEmail);
+                supplyHistoryIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(supplyHistoryIntent);
+                SupplyItemDetail.this.finish();
+            }
+        });
+
+        }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
